@@ -137,7 +137,9 @@ namespace Mapbox.MapboxSdkCs.UnitTest
 					return;
 #endif
 
+#pragma warning disable CS0162 // Unreachable code detected
 					Assert.IsTrue(res.HasError);
+#pragma warning restore CS0162 // Unreachable code detected
 
 #if UNITY_5_6_OR_NEWER
 					Assert.IsNotNull(res.Exceptions[0]);
