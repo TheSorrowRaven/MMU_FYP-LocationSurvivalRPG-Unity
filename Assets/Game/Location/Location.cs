@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Mapbox.Utils;
 
 public class Location
 {
-    private static LocationProvider LocationProvider => LocationProvider.Instance;
+    private static GLocationService GLocationProvider => GLocationService.Instance;
     private static GameSettings GameSettings => GameSettings.Instance;
 
     private double x;
@@ -14,7 +11,7 @@ public class Location
     private double actualX;
     private double actualY;
 
-    public bool smoothen = false;
+    public bool smoothen = true;
 
     public Location(double x, double y)
     {
@@ -49,13 +46,18 @@ public class Location
             actualY = value;
         }
     }
+    public double ActualX => actualX;
+    public double ActualY => actualY;
 
     public void Update()
     {
-        if (LocationProvider.TryGetLocation(false, out double currentX, out double currentY))
+        if (GLocationProvider.IsInitialized)
         {
-            actualX = currentX;
-            actualY = currentY;
+            if (GLocationProvider.TryGetLocation(false, out double currentX, out double currentY))
+            {
+                actualX = currentX;
+                actualY = currentY;
+            }
         }
 
         if (smoothen)
