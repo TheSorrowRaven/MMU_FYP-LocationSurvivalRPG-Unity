@@ -8,7 +8,7 @@ public class GameSettings : MonoBehaviour
     public static GameSettings Instance => instance;
 
 
-    [field: SerializeField] public float LocationRequestHardLimit { get; private set; } = 0.5f;
+    [field: SerializeField] public float LocationRequestTimeHardLimit { get; private set; } = 0.5f;
     [field: SerializeField] public float LocationAccuracyInMeters { get; private set; } = 5f;
     [field: SerializeField] public float LocationUpdateDistanceInMeters { get; private set; } = 5f;
 

@@ -17,6 +17,11 @@ public class G : MonoBehaviour
 
     public TextMeshProUGUI lastUpdate;
 
+    #region UI
+    public Joystick MovementJoystick;
+
+    #endregion
+
     private void Awake()
     {
         instance = this;

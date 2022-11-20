@@ -49,7 +49,7 @@ public class LocationProvider
             longitude = 0;
             return false;
         }
-        if ((lastFetchedTime - Time.time) >= GameSettings.LocationRequestHardLimit)
+        if ((lastFetchedTime - Time.time) >= GameSettings.LocationRequestTimeHardLimit)
         {
             //Update newest location
             FetchLatestLocation();
