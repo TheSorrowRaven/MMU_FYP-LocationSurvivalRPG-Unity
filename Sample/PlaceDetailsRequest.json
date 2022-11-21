@@ -1,0 +1,296 @@
+{
+    "html_attributions": [],
+    "result": {
+        "address_components": [
+            {
+                "long_name": "Persiaran Multimedia",
+                "short_name": "Persiaran Multimedia",
+                "types": [
+                    "route"
+                ]
+            },
+            {
+                "long_name": "Cyberjaya",
+                "short_name": "Cyberjaya",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Selangor",
+                "short_name": "Selangor",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "Malaysia",
+                "short_name": "MY",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "63100",
+                "short_name": "63100",
+                "types": [
+                    "postal_code"
+                ]
+            }
+        ],
+        "adr_address": "\u003cspan class=\"street-address\"\u003ePersiaran Multimedia\u003c/span\u003e, \u003cspan class=\"postal-code\"\u003e63100\u003c/span\u003e \u003cspan class=\"locality\"\u003eCyberjaya\u003c/span\u003e, \u003cspan class=\"region\"\u003eSelangor\u003c/span\u003e, \u003cspan class=\"country-name\"\u003eMalaysia\u003c/span\u003e",
+        "business_status": "OPERATIONAL",
+        "formatted_address": "Persiaran Multimedia, 63100 Cyberjaya, Selangor, Malaysia",
+        "formatted_phone_number": "1-300-80-0668",
+        "geometry": {
+            "location": {
+                "lat": 2.9277715,
+                "lng": 101.6419004
+            },
+            "viewport": {
+                "northeast": {
+                    "lat": 2.93744685,
+                    "lng": 101.64391055
+                },
+                "southwest": {
+                    "lat": 2.917867450000001,
+                    "lng": 101.64094475
+                }
+            }
+        },
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+        "icon_background_color": "#7B9EB0",
+        "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/school_pinlet",
+        "international_phone_number": "+60 1-300-80-0668",
+        "name": "Multimedia University - MMU Cyberjaya",
+        "opening_hours": {
+            "open_now": false,
+            "periods": [
+                {
+                    "close": {
+                        "day": 1,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 1,
+                        "time": "0900"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 2,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 2,
+                        "time": "0900"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 3,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 3,
+                        "time": "0900"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 4,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 4,
+                        "time": "0900"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 5,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 5,
+                        "time": "0900"
+                    }
+                }
+            ],
+            "weekday_text": [
+                "Monday: 9:00 am – 5:00 pm",
+                "Tuesday: 9:00 am – 5:00 pm",
+                "Wednesday: 9:00 am – 5:00 pm",
+                "Thursday: 9:00 am – 5:00 pm",
+                "Friday: 9:00 am – 5:00 pm",
+                "Saturday: Closed",
+                "Sunday: Closed"
+            ]
+        },
+        "photos": [
+            {
+                "height": 4608,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/101232885005712004909\"\u003eRogaiyah Hanafi\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRir62s3hMO1XbV3ljdBuV1lPijRkuZGaYGlfQJIp7U4gH6CZAr6t80t7tG1d_ynr6Ub21H6gcm6-aI3xagj9fh0dZc2s-srREGgr2JOYowcHvAIPqEDKLSA4tdu027I6a-aI0Lpkb4NqoXrlhXQA6fkkPPvzslTZP0XL8niFV_5Zk7T",
+                "width": 3456
+            },
+            {
+                "height": 2736,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/117542515666956469446\"\u003eJohnson Pau\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRg3iMrjo_aaOUeSnVgw-O8AxZgTDrgT2y374h38QVDMiNqR1EtkK7rGf1QFFWnmXvkanjklt6kQnWovgrX5pHleMfQzAZnDP_RapuGbtFz8V4OPzFdwhCTSCcrc7voaLZnazLyit6aZ0cktjM0vj5gC-gU0cE0SYNxLmD-EqcdwRCBR",
+                "width": 3648
+            },
+            {
+                "height": 2322,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/107744875148165823807\"\u003eamanda fang\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRgPhv6PQbwzYxTPdbS3qe2rvGo1EXwy2MkNFXdccSJRre3QtecUbCvAzpizo9GO0r5x1UETR-b5cs08SvcxegNDBO_SfSds1TQNe6GQ6oEVaIVt8mGgY9o_8H1MA-6WN8SkrTCTr-Fc-yJ0KZ45JnCzNI6or6DRuVAlxmDbd30HPTys",
+                "width": 4128
+            },
+            {
+                "height": 3120,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/106549150037282002785\"\u003eAzmi HASIM\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRgrpBkBOxwnTuxHFTzK1ajf2C-thX40AwJ2bPJgcyLmNTBNwBQ57t1YMdAbpckAc-bJLfbFztesbpzIpPMfNezBUtQB2TTYgqD5fVcQJIVPz4NbJAWGlYcqsDcSszffAHjmaq_qY1Gr5E8-SaUeFZHskdED9zoQ4Ma22is_q--SBI0f",
+                "width": 4160
+            },
+            {
+                "height": 3060,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/106945336624068125113\"\u003eQiGenius (Qi Genius)\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRikrGX_o9MkuyA7_fu8bLmQfdx5BCnGgcBxNR2oJxL9eae-4aw13Iw6Otm0Y9Waijzp9eN0g81ngXqh8i8zDaxG61YZ11LES_HtGJcKzTrFDLJRk8vI9SfCQDY_SFHXGwA4RpzWqbcO_vfZG4JF60-MMoRoHDby9dte95ZVWqoIg0mY",
+                "width": 4080
+            },
+            {
+                "height": 3376,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/101878855358374090041\"\u003eJasmin Lambert\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRi--FGAxMCIwoGL8eoGPRGDlUZODX0r0EHBKDtJwZE79fzU678A8Zwzk5DIE3gWQ7hPJheHPrqIlQ3k2ftzEzlMG0Q2l5U3vF5Tw_gzCo4eDDnFfUMd9zboZd8LLCLBmEMei0G4cjAX2lvwK4KFevqD9MhBRh-GCvyG8WeQ1QTY3NJ7",
+                "width": 6000
+            },
+            {
+                "height": 1836,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/105800732299452501112\"\u003eSiti Kholifatul Rizkiah\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRhQhjwMoNlrw3gTeTk03Se_yXQAvrJBUQpE6amrzkJKp5oLcHcWrgggZRw_7QxJ1-CQE57zhWmbT5M6GsghyamZfR4R3Oe7q9Xvz8X_COzbgJ43raPXsu1gOAyEfrjs3yjqSJiJtlIlqNXOpcQZguNcOFzo-MMQdO5ax7kpyqwt_yrt",
+                "width": 3264
+            },
+            {
+                "height": 1836,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/106245127605576114332\"\u003eZaini Kamarol Zaman\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRgCzbE8WRUoVGTdjgCaeFrQCoavuR6QdoZHwp718xtCbNGpxTNDZ2Wie-uoZC4E8npMRw2u_SNFwpeJ4XOPBPNhtpMQLoT5pXIrAbFdr3e91QOeIsXeKpWTIaLoBRp7cFyV1fVxsttZkiwUpFwxqwC7udT4WnDhgx6ILp9gR5LNhHo",
+                "width": 3264
+            },
+            {
+                "height": 4032,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/102340920768471516679\"\u003e&#39;Aamil Aamil\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRhSoY5U6kqJEQyJkVRVKjcnawpC4APjRSDl7Aw-u1QdCDxCpwvs3A4ROTJjZ7JywqO3see--DaIss7PYKXcb3VwfvLExo-0iqniZUwaYo2pnlBQHvWaLwjOd0XpML-2GqKHZ9100x4esN_UF5hvVp7JHl-mrHB3jazwQG1iMdXUgiW6",
+                "width": 3024
+            },
+            {
+                "height": 2976,
+                "html_attributions": [
+                    "\u003ca href=\"https://maps.google.com/maps/contrib/106245127605576114332\"\u003eZaini Kamarol Zaman\u003c/a\u003e"
+                ],
+                "photo_reference": "AcYSjRhK5Z2bVADi_3333Pw_7BQseM-Q8SuHpkUsewN2NDAQORL8iANsvS4YM79X9A_FePgR6Y56tLkw0YUSozei-B4xZAjvTYK8UQhQGHitx7LuOqN8lBpGMdTC-AbYycQ8f3zFBmZDI14w_5roPzRMklAPsQLM3-c-apeHGLR-uzMz27U",
+                "width": 3968
+            }
+        ],
+        "place_id": "ChIJobfTqeS2zTERKREP0YpO99A",
+        "plus_code": {
+            "compound_code": "WJHR+4Q Cyberjaya, Selangor, Malaysia",
+            "global_code": "6PJ3WJHR+4Q"
+        },
+        "rating": 4.4,
+        "reference": "ChIJobfTqeS2zTERKREP0YpO99A",
+        "reviews": [
+            {
+                "author_name": "Mohammed Naeem Qureshi",
+                "author_url": "https://www.google.com/maps/contrib/114062695570081501523/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a-/AFdZucqR-TgStbiXoNgjTQa7IyXIduRJCT4ncDRioZDs1pQ=s128-c0x00000000-cc-rp-mo-ba3",
+                "rating": 5,
+                "relative_time_description": "6 months ago",
+                "text": "I love running in MMU Cyberjaya’s (Track and Field).\n\nThere is small pond beside university with beautiful scenery. You can either sit around or jog.\n\nI think University doesn’t stop anyone going near pond but if you are not student then better check with guard before entering football ground / running track !\n\nThanks",
+                "time": 1646203654,
+                "translated": false
+            },
+            {
+                "author_name": "Danny Ng",
+                "author_url": "https://www.google.com/maps/contrib/109282541819541054223/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a-/AFdZucq9TuZs38s3J7komGeiLrxH6EbsI1nGG_4Usd0O0UQ=s128-c0x00000000-cc-rp-mo-ba4",
+                "rating": 5,
+                "relative_time_description": "a year ago",
+                "text": "The vaccination centre is well organized and systematic.\n\nFrom parking, there's clear sign to indicate the directions to the vaccination spot. The volunteers are very friendly and patience to explain all needed to know info about vaccination.\n\nBravo and good work to the organizer and all the volunteers !",
+                "time": 1631254391,
+                "translated": false
+            },
+            {
+                "author_name": "Mujadillah M.",
+                "author_url": "https://www.google.com/maps/contrib/109515625286292335631/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a-/AFdZucrKDWl7rcv8Q5qCT7MmqVoyG-PoSjofge-mGxRoeA=s128-c0x00000000-cc-rp-mo-ba3",
+                "rating": 5,
+                "relative_time_description": "a year ago",
+                "text": "Went there for my 2nd dose vaccination appointment on 2nd September, 2:00pm. All volunteers, staff, frontliners were so helpful. No long que, the flow for vaccination so smooth. Lot of carpark available. Have few food truck where you can buy some refreshments. Nice place! 👍😁",
+                "time": 1630811353,
+                "translated": false
+            },
+            {
+                "author_name": "Love To God Pooja",
+                "author_url": "https://www.google.com/maps/contrib/108168618125463038228/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a-/AFdZucpSFvOYRzhzXTYFyeqqrPCdrbnS-IWNGHdxusTE5Q=s128-c0x00000000-cc-rp-mo-ba2",
+                "rating": 5,
+                "relative_time_description": "a year ago",
+                "text": "WALK IN (PZIFER) 1st dose\n28/8/2021 time taken 2 hours(usually 1hours)\n\nSmooth , perfect please go earlier.\nBest time 9-11am(11am consider late)\n\nFood stall available for your to eat.\nDrink more water and take your breakfast.",
+                "time": 1631000127,
+                "translated": false
+            },
+            {
+                "author_name": "Zammy Azman",
+                "author_url": "https://www.google.com/maps/contrib/116934711264113905562/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a/AItbvmkenRHNPfwwRpQHAiFYTxX4tdMsZcdR2upvacgh=s128-c0x00000000-cc-rp-mo-ba5",
+                "rating": 4,
+                "relative_time_description": "a month ago",
+                "text": "Went to MMU Stadium for SAS Sport Day.\n\nTrack & football field in great condition. Parking also very convenient.",
+                "time": 1658674053,
+                "translated": false
+            }
+        ],
+        "types": [
+            "university",
+            "point_of_interest",
+            "establishment"
+        ],
+        "url": "https://maps.google.com/?cid=15057590237256421673",
+        "user_ratings_total": 1154,
+        "utc_offset": 480,
+        "vicinity": "Persiaran Multimedia, Cyberjaya",
+        "website": "https://www.mmu.edu.my/"
+    },
+    "status": "OK"
+}

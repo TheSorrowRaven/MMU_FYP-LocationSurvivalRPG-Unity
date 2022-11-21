@@ -32,11 +32,4 @@ public class Player : MonoBehaviour
         lastPos = currentPos;
     }
 
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(ThisTR.forward * 10, 1);
-    }
-
 }

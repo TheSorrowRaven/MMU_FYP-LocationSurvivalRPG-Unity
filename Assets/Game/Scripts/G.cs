@@ -12,6 +12,7 @@ public class G : MonoBehaviour
     public static G Instance => instance;
 
     private static GLocationService GLocationProvider => GLocationService.Instance;
+    private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
 
     [field: SerializeField] public AbstractMap Mapbox { get; private set; }
 
@@ -39,6 +40,8 @@ public class G : MonoBehaviour
     private void Start()
     {
         InitializeServices();
+
+        GGoogleMapsService.Set();
 
         Mapbox.Initialize(Location, 18);
         Mapbox.UpdateMap(18f);
