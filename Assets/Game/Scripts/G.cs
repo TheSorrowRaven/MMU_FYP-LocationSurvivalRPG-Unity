@@ -1,8 +1,10 @@
 using Mapbox.Unity.Map;
+using Mapbox.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Mapbox.Unity.Constants.GUI;
 
 public class G : MonoBehaviour
 {
@@ -17,8 +19,14 @@ public class G : MonoBehaviour
 
     public TextMeshProUGUI lastUpdate;
 
+    public TextMeshProUGUI coords;
+
+    public Camera MainCamera;
+    public Transform MainCameraTR;
+
     #region UI
-    public Joystick MovementJoystick;
+    public GJoystick MovementJoystick;
+    public GToggle GPSToggle;
 
     #endregion
 
@@ -44,6 +52,7 @@ public class G : MonoBehaviour
         if (GLocationService.Instance.IsInitialized)
         {
             Location.Update();
+            coords.SetText("COORDS: " + Location);
             Mapbox.UpdateMap(Location);
         }
     }
@@ -51,6 +60,19 @@ public class G : MonoBehaviour
     private void InitializeServices()
     {
         GLocationProvider.Initialize();
+    }
+
+    public Vector3 CoordToWorld(double latitude, double longitude)
+    {
+        return CoordToWorld(new(latitude, longitude));
+    }
+    public Vector3 CoordToWorld(Vector2d geoCoord)
+    {
+        return Mapbox.GeoToWorldPosition(geoCoord);
+    }
+    public Vector2d WorldToCoord(Vector3 world)
+    {
+        return Mapbox.WorldToGeoPosition(world);
     }
 
 }

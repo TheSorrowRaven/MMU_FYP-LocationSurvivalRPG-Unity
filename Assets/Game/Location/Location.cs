@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Mapbox.Utils;
+using System;
 using UnityEngine;
 
 public class Location
@@ -54,23 +55,25 @@ public class Location
     public double ActualX => actualX;
     public double ActualY => actualY;
 
+    [System.NonSerialized] private Vector2 joystickMovement;
+
+
+
+    /// <summary>
+    /// Disables GPS Location. Opposite to EnableLocationProvider
+    /// </summary>
     public void EnableJoystickMovement()
     {
-        if (UseJoystickMovement)
-        {
-            return;
-        }
         UseJoystickMovement = true;
 
         //TODO update button/indicator/toggle
         ActivateMovementJoystickObject(true);
     }
+    /// <summary>
+    /// Disables Joystick Movement. Opposite to EnableJoystickMovement
+    /// </summary>
     public void EnableLocationProvider()
     {
-        if (!UseJoystickMovement)
-        {
-            return;
-        }
         UseJoystickMovement = false;
 
         //TODO Initialize LocationProvider?
@@ -91,12 +94,14 @@ public class Location
     {
         if (!UseJoystickMovement)
         {
+            //This will ask for location permission again (unless device says no)
             if (SetLocationBasedOnLocationProvider())
             {
+                ForceEnableGPSToggle();
                 return;
             }
             Debug.LogError("Location Provider Denied, Switching to Joystick");
-            EnableJoystickMovement();
+            ForceDisableGPSToggle();
         }
 
         SetLocationBasedOnJoystickMovement();
@@ -137,7 +142,45 @@ public class Location
 
     private void SetLocationBasedOnJoystickMovement()
     {
+        //joystickMovement = Vector2.zero;
 
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    joystickMovement.y += 1;
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    joystickMovement.y += -1;
+        //}
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    joystickMovement.x += -1;
+        //}
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    joystickMovement.x += 1;
+        //}
+
+        if (joystickMovement.x == 0 && joystickMovement.y == 0)
+        {
+            return;
+        }
+        //joystickMovement.Normalize();
+
+        double rotation = (G.MainCameraTR.localRotation.eulerAngles.y) * Mathf.Deg2Rad;
+        //y and x is swapped because Geo coordinates start with latitude (y) then longitude (x)
+        double xChange = joystickMovement.y * GameSettings.MovementSpeed;
+        double yChange = joystickMovement.x * GameSettings.MovementSpeed;
+
+        double xRotated = xChange * Math.Cos(rotation) - yChange * Math.Sin(rotation);
+        double yRotated = xChange * Math.Sin(rotation) + yChange * Math.Cos(rotation);
+
+        actualX += xRotated;
+        actualY += yRotated;
+
+        Snap();
+
+        joystickMovement = Vector2.zero;
     }
 
 
@@ -149,10 +192,32 @@ public class Location
 
     public void PlayerReportJoystickMovment(Vector2 movementDelta)
     {
-        Debug.Log("Player Moving: " + movementDelta);
+        joystickMovement = movementDelta;
     }
 
-
+    public void UIReportGPSToggle(bool gpsOn)
+    {
+        if (gpsOn)
+        {
+            EnableLocationProvider();
+        }
+        else
+        {
+            EnableJoystickMovement();
+        }
+    }
+    private void ForceDisableGPSToggle()
+    {
+        G.GPSToggle.ThisToggle.isOn = false;
+    }
+    private void ForceEnableGPSToggle()
+    {
+        if (G.GPSToggle.ThisToggle.isOn)
+        {
+            return;
+        }
+        G.GPSToggle.ThisToggle.isOn = true;
+    }
 
 
 

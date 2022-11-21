@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Joystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class GJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
 
     [SerializeField] private RectTransform thisRT;
