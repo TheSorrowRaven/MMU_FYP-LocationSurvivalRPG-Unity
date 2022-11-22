@@ -139,6 +139,8 @@ public class GGoogleMapsPOI
 
     #endregion
 
+    public bool IsDetailed = false;
+
     [JsonProperty("name")]
     public string Name { get; set; }
     [JsonProperty("place_id")]

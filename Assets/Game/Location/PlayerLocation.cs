@@ -3,7 +3,7 @@ using Mapbox.Utils;
 using System;
 using UnityEngine;
 
-public class Location
+public class PlayerLocation
 {
     private static G G => G.Instance;
     private static GLocationService GLocationProvider => GLocationService.Instance;
@@ -19,14 +19,14 @@ public class Location
 
     [field: SerializeField] public bool UseJoystickMovement { get; private set; }
 
-    public Location(double x, double y)
+    public PlayerLocation(double x, double y)
     {
         this.x = x;
         this.y = y;
         actualX = x;
         actualY = y;
     }
-    public Location() : this(0, 0)
+    public PlayerLocation() : this(0, 0)
     {
     }
 
@@ -55,7 +55,8 @@ public class Location
     public double ActualX => actualX;
     public double ActualY => actualY;
 
-    [System.NonSerialized] private Vector2 joystickMovement;
+    private Vector2 joystickMovement;
+    private bool usedWASD;
 
 
 
@@ -142,24 +143,39 @@ public class Location
 
     private void SetLocationBasedOnJoystickMovement()
     {
-        //joystickMovement = Vector2.zero;
 
-        //if (Input.GetKey(KeyCode.W))
-        //{
-        //    joystickMovement.y += 1;
-        //}
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    joystickMovement.y += -1;
-        //}
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    joystickMovement.x += -1;
-        //}
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    joystickMovement.x += 1;
-        //}
+        Vector2 keyboardMovement = Vector2.zero;
+        if (Input.GetKey(KeyCode.W))
+        {
+            keyboardMovement.y += 1;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            keyboardMovement.y += -1;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            keyboardMovement.x += -1;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            keyboardMovement.x += 1;
+        }
+        if (keyboardMovement.x != 0 || keyboardMovement.y != 0)
+        {
+            usedWASD = true;
+            keyboardMovement.Normalize();
+            joystickMovement = keyboardMovement;
+            G.MovementJoystick.ExternalJoystickControl(keyboardMovement);
+        }
+        else
+        {
+            if (usedWASD)
+            {
+                G.MovementJoystick.ExternalJoystickControl();
+                usedWASD = false;
+            }
+        }
 
         if (joystickMovement.x == 0 && joystickMovement.y == 0)
         {
@@ -169,8 +185,13 @@ public class Location
 
         double rotation = (G.MainCameraTR.localRotation.eulerAngles.y) * Mathf.Deg2Rad;
         //y and x is swapped because Geo coordinates start with latitude (y) then longitude (x)
-        double xChange = joystickMovement.y * GameSettings.MovementSpeed;
-        double yChange = joystickMovement.x * GameSettings.MovementSpeed;
+        double movementSpeed = GameSettings.MovementSpeed;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            movementSpeed *= GameSettings.MovementSpeedMultiplier;
+        }
+        double xChange = joystickMovement.y * movementSpeed;
+        double yChange = joystickMovement.x * movementSpeed;
 
         double xRotated = xChange * Math.Cos(rotation) - yChange * Math.Sin(rotation);
         double yRotated = xChange * Math.Sin(rotation) + yChange * Math.Cos(rotation);
@@ -227,11 +248,11 @@ public class Location
 
 
 
-    public static implicit operator Vector2d(Location location)
+    public static implicit operator Vector2d(PlayerLocation location)
     {
         return new(location.x, location.y);
     }
-    public static implicit operator Location(Vector2d vector2d)
+    public static implicit operator PlayerLocation(Vector2d vector2d)
     {
         return new(vector2d.x, vector2d.y);
     }

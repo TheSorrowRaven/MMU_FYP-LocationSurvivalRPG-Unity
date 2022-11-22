@@ -80,4 +80,9 @@ public class GJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         joystickRT.anchoredPosition = delta;
     }
 
+    public void ExternalJoystickControl(Vector2 delta = default)
+    {
+        joystickRT.anchoredPosition = delta * size;
+    }
+
 }

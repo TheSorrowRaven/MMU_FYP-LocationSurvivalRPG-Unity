@@ -44,4 +44,27 @@ public class GGoogleMapsResponses
 
     }
 
+    [Serializable]
+    public class NearbySearchResponse
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("results")]
+        public List<GGoogleMapsPOI> Results { get; set; }
+
+        [JsonProperty("next_page_token")]
+        public string NextPageToken { get; set; }
+
+        [JsonProperty("error_message")]
+        public string ErrorMessage { get; set; }
+
+        [JsonProperty("info_messages")]
+        public List<string> InfoMessages { get; set; }
+
+        [JsonProperty("html_attributions")]
+        public List<string> HTMLAttributions { get; set; }
+    }
+
+
 }

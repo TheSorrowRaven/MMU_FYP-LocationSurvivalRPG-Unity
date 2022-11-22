@@ -16,7 +16,7 @@ public class G : MonoBehaviour
 
     [field: SerializeField] public AbstractMap Mapbox { get; private set; }
 
-    public Location Location { get; private set; }
+    public PlayerLocation Location { get; private set; }
 
     public TextMeshProUGUI lastUpdate;
 
@@ -60,9 +60,16 @@ public class G : MonoBehaviour
         }
     }
 
+    [ContextMenu("TestGoogleMapsAPI")]
+    public void TestGoogleMapsAPI()
+    {
+        GGoogleMapsService.MakeNearbyPlacesRequest(Location.X, Location.Y);
+    }
+
     private void InitializeServices()
     {
         GLocationProvider.Initialize();
+        GGoogleMapsService.Initialize();
     }
 
     public Vector3 CoordToWorld(double latitude, double longitude)
