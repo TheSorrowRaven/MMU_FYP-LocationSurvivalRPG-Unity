@@ -41,7 +41,7 @@ public class GGoogleMapsService
 
     [System.NonSerialized] private readonly string[] PlaceDetailsAttributes = new string[]
     {
-        "name", "geometry", "types", "photos", "rating", "user_ratings_total", "reviews", "formatted_address", "url", "address_components"
+        "photos", "reviews", "url", "address_components"
     };
     private string PlaceDetailsLink;
 

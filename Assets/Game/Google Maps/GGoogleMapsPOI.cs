@@ -156,14 +156,13 @@ public class GGoogleMapsPOI
     public List<Photo> Photos { get; set; }
 
     [JsonProperty("rating")]
-    public decimal Rating { get; set; }
+    public decimal? Rating { get; set; }
     [JsonProperty("user_ratings_total")]
-    public int TotalUserRatings { get; set; }
+    public int? TotalUserRatings { get; set; }
     [JsonProperty("reviews")]
     public List<Review> Reviews { get; set; }
 
-    [JsonProperty("formatted_address")]
-    public string FullAddress { get; set; }
+
 
     [JsonProperty("url")]   //Google URL
     public string URL { get; set; }
@@ -173,6 +172,9 @@ public class GGoogleMapsPOI
 
 
     //Below are properties requestable but currently ignored (There are more in https://developers.google.com/maps/documentation/places/web-service/details)
+    
+    //[JsonProperty("formatted_address")]
+    //public string FullAddress { get; set; }
 
     //[JsonProperty("website")]   //POI's website
     //public string WebsiteURL { get; set; }
