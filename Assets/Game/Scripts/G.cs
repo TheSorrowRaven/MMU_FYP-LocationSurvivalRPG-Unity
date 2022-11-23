@@ -25,6 +25,8 @@ public class G : MonoBehaviour
     public Camera MainCamera;
     public Transform MainCameraTR;
 
+    public POIManager POIManager;
+
     #region UI
     public GJoystick MovementJoystick;
     public GToggle GPSToggle;
@@ -41,29 +43,23 @@ public class G : MonoBehaviour
     {
         InitializeServices();
 
-        GGoogleMapsService.Set();
-
         Mapbox.Initialize(Location, 18);
         Mapbox.UpdateMap(18f);
 
-        //string loc = Location.ActualX + "%2C" + Location.ActualY;
-        //GMaps.Instance.MakeRequest($"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={loc}&radius=100&key=AIzaSyBb9FmWLtnQwQu2IAfvVsSOUkqadHZTeMk");
     }
 
     private void Update()
     {
-        if (GLocationService.Instance.IsInitialized)
-        {
-            Location.Update();
-            coords.SetText("COORDS: " + Location);
-            Mapbox.UpdateMap(Location);
-        }
     }
+
+    private double TestLat = 2.92040777778856;
+    private double TestLon = 101.636452902552;
 
     [ContextMenu("TestGoogleMapsAPI")]
     public void TestGoogleMapsAPI()
     {
-        GGoogleMapsService.MakeNearbyPlacesRequest(Location.X, Location.Y);
+        //GGoogleMapsService.MakeNearbyPlacesRequest(Location.X, Location.Y);
+        GGoogleMapsService.MakeNearbyPlacesRequest(TestLat, TestLon);
     }
 
     private void InitializeServices()
@@ -72,15 +68,15 @@ public class G : MonoBehaviour
         GGoogleMapsService.Initialize();
     }
 
-    public Vector3 CoordToWorld(double latitude, double longitude)
+    public Vector3 GeoToWorld(double latitude, double longitude)
     {
-        return CoordToWorld(new(latitude, longitude));
+        return GeoToWorld(new(latitude, longitude));
     }
-    public Vector3 CoordToWorld(Vector2d geoCoord)
+    public Vector3 GeoToWorld(Vector2d geoCoord)
     {
         return Mapbox.GeoToWorldPosition(geoCoord);
     }
-    public Vector2d WorldToCoord(Vector3 world)
+    public Vector2d WorldToGeo(Vector3 world)
     {
         return Mapbox.WorldToGeoPosition(world);
     }

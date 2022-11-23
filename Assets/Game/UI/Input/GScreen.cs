@@ -16,6 +16,7 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
     [System.NonSerialized] private Vector2 lastPos;
 
     [SerializeField] private bool suppressZero;
+    [SerializeField] private bool reportScreenPosition;
     [SerializeField] private UnityEvent<Vector2> InputAction;
 
     public void OnPointerDown(PointerEventData eventData)
@@ -46,6 +47,11 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
 
     private void ReportInput()
     {
+        if (reportScreenPosition)
+        {
+            InputAction.Invoke(currentPos);
+            return;
+        }
         Vector2 delta = currentPos - lastPos;
         lastPos = currentPos;
 

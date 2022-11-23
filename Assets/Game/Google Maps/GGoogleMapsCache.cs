@@ -6,6 +6,8 @@ using UnityEngine;
 public class GGoogleMapsCache
 {
 
+    private static G G => G.Instance;
+
     public Dictionary<string, GGoogleMapsPOI> GoogleMapPOIs = new();
 
     public void PopulateWithNearbySearchResponse(GGoogleMapsResponses.NearbySearchResponse nearby)
@@ -14,8 +16,20 @@ public class GGoogleMapsCache
         {
             GGoogleMapsPOI poi = nearby.Results[i];
             poi.IsDetailed = false;
-            GoogleMapPOIs[poi.PlaceID] = poi;
-            Debug.Log($"{poi.Name} ({poi.PlaceID})");
+            string placeID = poi.PlaceID;
+            if (GoogleMapPOIs.ContainsKey(poi.PlaceID))
+            {
+                GoogleMapPOIs[placeID] = poi;
+            }
+            else
+            {
+                GoogleMapPOIs.Add(placeID, poi);
+
+                Debug.Log($"{poi.Name} ({poi.PlaceID})");
+                //test only
+                G.POIManager.SpawnPOI(poi);
+            }
+
         }
     }
 

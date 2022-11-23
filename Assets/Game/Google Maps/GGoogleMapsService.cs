@@ -2,6 +2,7 @@ using Mapbox.Utils;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -119,6 +120,36 @@ public class GGoogleMapsService
         }
 
         Debug.Log($"NearbyPlaces Success with Status OK (URL: {url}) - {res}");
+
+
+        #region CONSISTENCY TEST
+
+        string wFile = "Test";
+        DirectoryInfo d = new("D:/MMU/FYP-LocationSurvivalRPG/Sample/Consistency Test/");
+
+        FileInfo[] Files = d.GetFiles("*.json"); //Getting Text files
+        string str = "";
+        int max = 0;
+        foreach (FileInfo file in Files)
+        {
+            string fName = file.Name;
+            string val = fName.Substring(4, fName.Length - 9);
+            Debug.Log(val);
+            int vl = int.Parse(val);
+            if (vl > max)
+            {
+                max = vl;
+            }
+            str = str + ", " + file.Name;
+        }
+        Debug.Log(str);
+
+        File.WriteAllText("D:/MMU/FYP-LocationSurvivalRPG/Sample/Consistency Test/" + wFile + (max + 1) + ".json", res);
+
+        #endregion
+
+
+
         Cache.PopulateWithNearbySearchResponse(nearbySearchResponse);
 
         //Next page
@@ -198,13 +229,5 @@ public class GGoogleMapsService
         }
 
     }
-
-
-    public void Set()
-    {
-        Debug.Log("Making Request...");
-        MakeRequest("https://catfact.ninja/fact");  //API test
-    }
-
 
 }

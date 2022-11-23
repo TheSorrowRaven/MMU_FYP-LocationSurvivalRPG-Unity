@@ -5,14 +5,28 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     private static G G => G.Instance;
     private static GameSettings GameSettings => GameSettings.Instance;
 
+    private static PlayerLocation Location => G.Location;
+
     public Transform ThisTR;
+
+    [SerializeField] private LineRenderer RadiusLR;
+    [SerializeField] private float radius;
+    [SerializeField] private int radiusDetail;
+
 
     [System.NonSerialized] private Vector2d lastPos;
 
+    [System.NonSerialized] private double lastLat;
+    [System.NonSerialized] private double lastLon;
+
+    private void Awake()
+    {
+        lastLat = double.MinValue;
+        lastLon = double.MinValue;
+    }
 
     //Unity Event Referenced
     public void ReceiveJoystickMovement(Vector2 movementDelta)
@@ -23,6 +37,37 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        Map_Update();
+    }
+
+    private void Map_Update()
+    {
+        Map_PositionUpdate();
+        Map_RotationUpdate();
+    }
+
+    private void Map_PositionUpdate()
+    {
+        if (!GLocationService.Instance.IsInitialized)
+        {
+            return;
+        }
+        Location.Update();
+
+        if (Location.X == lastLat && Location.Y == lastLon)
+        {
+            //Skip Update (No change in position)
+            return;
+        }
+        G.coords.SetText("COORDS: " + Location);
+        G.Mapbox.UpdateMap(Location);
+
+        lastLat = Location.X;
+        lastLon = Location.Y;
+    }
+
+    private void Map_RotationUpdate()
+    {
         Vector2d currentPos = new(G.Instance.Location.Y, G.Instance.Location.X);
         Vector2d direction = (currentPos - lastPos) / GameSettings.MovementSpeed;
 
@@ -30,6 +75,18 @@ public class Player : MonoBehaviour
         ThisTR.LookAt(lookAt, Vector3.up);
 
         lastPos = currentPos;
+    }
+
+    [ContextMenu("Draw Player Radius")]
+    public void DrawPlayerRadius()
+    {
+        RadiusLR.positionCount = radiusDetail + 1;
+        for (int i = 0; i <= radiusDetail; i++)
+        {
+            float angle = 360f / radiusDetail * i * Mathf.Deg2Rad;
+            Vector3 pos = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle)) * radius;
+            RadiusLR.SetPosition(i, pos);
+        }
     }
 
 }
