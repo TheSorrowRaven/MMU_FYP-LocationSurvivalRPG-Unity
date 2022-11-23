@@ -25,7 +25,7 @@ public class GGoogleMapsCache
             {
                 GoogleMapPOIs.Add(placeID, poi);
 
-                Debug.Log($"{poi.Name} ({poi.PlaceID})");
+                Debug.Log($"D:{G.Haversine(G.Location.X, G.Location.Y, poi.Geometry.Location.Latitude, poi.Geometry.Location.Longitude)} {poi.Name} ({poi.PlaceID})");
                 //test only
                 G.POIManager.SpawnPOI(poi);
             }

@@ -79,7 +79,7 @@ public class GGoogleMapsService
 
     public void MakeNearbyPlacesRequest(double latitude, double longitude)
     {
-        string url = NearbyPlacesLink + $"{GameSettings.InteractableRadius}&location={latitude}%2C{longitude}";
+        string url = NearbyPlacesLink + $"{GameSettings.POIRadius}&location={latitude}%2C{longitude}";
         Debug.Log($"> NearbySearch: {url}");
         G.StartCoroutine(RequestNearbyPlaces(url));
     }
@@ -128,21 +128,17 @@ public class GGoogleMapsService
         DirectoryInfo d = new("D:/MMU/FYP-LocationSurvivalRPG/Sample/Consistency Test/");
 
         FileInfo[] Files = d.GetFiles("*.json"); //Getting Text files
-        string str = "";
         int max = 0;
         foreach (FileInfo file in Files)
         {
             string fName = file.Name;
             string val = fName.Substring(4, fName.Length - 9);
-            Debug.Log(val);
             int vl = int.Parse(val);
             if (vl > max)
             {
                 max = vl;
             }
-            str = str + ", " + file.Name;
         }
-        Debug.Log(str);
 
         File.WriteAllText("D:/MMU/FYP-LocationSurvivalRPG/Sample/Consistency Test/" + wFile + (max + 1) + ".json", res);
 

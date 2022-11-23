@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System;
+using Mapbox.Utils;
+using Unity.VisualScripting;
 
 [Serializable]
 public class GGoogleMapsPOI
@@ -29,9 +31,14 @@ public class GGoogleMapsPOI
         public class Coord
         {
             [JsonProperty("lat")]
-            public double Latitiude { get; set; }
+            public double Latitude { get; set; }
             [JsonProperty("lng")]
             public double Longitude { get; set; }
+
+            public static implicit operator Vector2d(Coord coord)
+            {
+                return new(coord.Latitude, coord.Longitude);
+            }
         }
         [Serializable]
         public class CoordRect

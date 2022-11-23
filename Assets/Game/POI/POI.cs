@@ -37,7 +37,7 @@ public class POI : MonoBehaviour
 
     private void UpdatePosition()
     {
-        Vector3 pos = G.GeoToWorld(gPOI.Geometry.Location.Latitiude, gPOI.Geometry.Location.Longitude);
+        Vector3 pos = G.GeoToWorld(gPOI.Geometry.Location.Latitude, gPOI.Geometry.Location.Longitude);
         ThisTR.localPosition = pos;
     }
 

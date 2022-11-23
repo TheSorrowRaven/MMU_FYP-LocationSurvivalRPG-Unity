@@ -17,11 +17,19 @@ public class GameSettings : MonoBehaviour
     [field: SerializeField] public float LocationSmoothingTime { get; private set; } = 0.05f;
 
     //In meters
-    [field: SerializeField] public int InteractableRadius { get; private set; }
+    [field: SerializeField] public int POIRadius { get; private set; } = 25;
+    [field: SerializeField] public double MetersTravelledBeforePOIQuery { get; set; } = 25;
+    //In seconds
+    [field: SerializeField] public float DelayBeforePOIQuery { get; set; } = 2f;
+
 
     [field: SerializeField] public float PlayerMapOrbitalCameraSpeed { get; private set; } = 1f;
     [field: SerializeField] public double MovementSpeed { get; private set; } = 0.000001;
     [field: SerializeField] public double MovementSpeedMultiplier { get; private set; } = 3.0;
+
+    
+
+
 
     [field: SerializeField] public float GoogleNearbyPlacesNextPageRequestDelay { get; private set; }
     [field: SerializeField] public int WebRequestRetryMax { get; private set; }

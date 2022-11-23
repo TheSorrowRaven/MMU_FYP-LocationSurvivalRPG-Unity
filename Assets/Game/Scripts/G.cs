@@ -1,10 +1,10 @@
 using Mapbox.Unity.Map;
 using Mapbox.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static Mapbox.Unity.Constants.GUI;
 
 public class G : MonoBehaviour
 {
@@ -27,6 +27,8 @@ public class G : MonoBehaviour
 
     public POIManager POIManager;
 
+    [NonSerialized] public double PhysicalMetersPerUnityUnits;
+
     #region UI
     public GJoystick MovementJoystick;
     public GToggle GPSToggle;
@@ -46,12 +48,15 @@ public class G : MonoBehaviour
         Mapbox.Initialize(Location, 18);
         Mapbox.UpdateMap(18f);
 
+        PhysicalMetersPerUnityUnits = Haversine(WorldToGeo(Vector3.zero), WorldToGeo(Vector3.right));
     }
 
     private void Update()
     {
+
     }
 
+    //Test one more time tomorrow! MAKE SURE to change the Interactable Radius to 100!
     private double TestLat = 2.92040777778856;
     private double TestLon = 101.636452902552;
 
@@ -79,6 +84,36 @@ public class G : MonoBehaviour
     public Vector2d WorldToGeo(Vector3 world)
     {
         return Mapbox.WorldToGeoPosition(world);
+    }
+
+    public static double Haversine(Vector2d pos1, Vector2d pos2)
+    {
+        return Haversine(pos1.x, pos1.y, pos2.x, pos2.y);
+    }
+
+    /// <summary>
+    /// Returns the distance between 2 geo coordinates in meters
+    /// </summary>
+    public static double Haversine(double lat1, double lon1, double lat2, double lon2)
+    {
+        const double p = Math.PI / 180;
+        lat1 *= p;
+        lon1 *= p;
+        lat2 *= p;
+        lon2 *= p;
+
+        return HaversineRad(lat1, lon1, lat2, lon2);
+    }
+
+    public static double HaversineRad(double lat1, double lon1, double lat2, double lon2)
+    {
+        const double m = 6371000; // Meters constant multiplier (Radius of Earth)
+
+        double sLat = Math.Sin((lat2 - lat1) / 2);
+        double sLon = Math.Sin((lon2 - lon1) / 2);
+        double val = 2 * m * Math.Asin(Math.Sqrt(sLat * sLat + Math.Cos(lat1) * Math.Cos(lat2) * sLon * sLon));
+
+        return val;
     }
 
 }

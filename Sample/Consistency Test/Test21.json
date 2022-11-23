@@ -1,0 +1,70 @@
+{
+   "html_attributions" : [],
+   "results" : [
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 2.921802812929299,
+               "lng" : 101.638939573333
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.923204880291502,
+                  "lng" : 101.64036885
+               },
+               "southwest" : {
+                  "lat" : 2.920506919708498,
+                  "lng" : 101.63748065
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Persiaran Multimedia",
+         "place_id" : "ChIJmRvKUOe2zTERFbg4ckhJTA8",
+         "reference" : "ChIJmRvKUOe2zTERFbg4ckhJTA8",
+         "scope" : "GOOGLE",
+         "types" : [ "route" ],
+         "vicinity" : "Cyberjaya"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9114867,
+               "lng" : 101.6442225
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.924446993789514,
+                  "lng" : 101.6701998885404
+               },
+               "southwest" : {
+                  "lat" : 2.894416941522482,
+                  "lng" : 101.6276899456944
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Cyberjaya",
+         "photos" : [
+            {
+               "height" : 3120,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/112377721292348267009\"\u003eLia\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDxST7i3W1WUUbn4c-WEzS5hbWU7h_53X7G2x78kESo26OPybGhE-qwnuRpM02fFk71Xr-TRPHehV1piEUUyUAu_EHCvHh9SSSptor2CqqZLjiCA0a0ALSQ98atWLJnwQDfoQ8YW7AOaTUYWgm5aZuBt5-jAIiBb2Gaaf8Os3TfbIhyW",
+               "width" : 4160
+            }
+         ],
+         "place_id" : "ChIJU2JeJBu3zTERTePHnzNJs58",
+         "reference" : "ChIJU2JeJBu3zTERTePHnzNJs58",
+         "scope" : "GOOGLE",
+         "types" : [ "sublocality_level_1", "sublocality", "political" ],
+         "vicinity" : "Cyberjaya"
+      }
+   ],
+   "status" : "OK"
+}

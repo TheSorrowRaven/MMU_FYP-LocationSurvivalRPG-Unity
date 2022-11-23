@@ -1,0 +1,840 @@
+{
+   "html_attributions" : [],
+   "next_page_token" : "AW30NDyV40dAq0ZT3lksiMiQRsHFkoNpYXHtF3vvfI4WGuqIsaHZWvfJCaWUYNHac9YW3SAarGU51KXw_tBRCDDeGNRNWEMECC4W2v95Z4pK0JTIkx5Xsw50591zJ4By8_ZhEDuSWAN4WCtJSapS_6wlllgkxCCLPduYoSBsQAEWWAJ_h0mFimPwqwKnfGtGHvp0PvtPp5ce9pl5B7JACrt6nvrYJQ9A_DG4SHnwsSdZiPv5gsIqd6sY_NKH-OI-dFMFmpaiMY7DrSy4PsNR6mPHgdffpayY2_rwaAnyI7k59zawIrtSwQaGucdg98knmCN3adx6GYAkRba8hnyIzdVkAB0ytQMrgy5GWo7CSKb8G5cs1b9iEaFddA7a1NoaIuHM55buIoFSpIOJrPDtrYWcHxSh26ibCRRmfxBSekUdLMaV",
+   "results" : [
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9114867,
+               "lng" : 101.6442225
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.924446993789514,
+                  "lng" : 101.6701998885404
+               },
+               "southwest" : {
+                  "lat" : 2.894416941522482,
+                  "lng" : 101.6276899456944
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Cyberjaya",
+         "photos" : [
+            {
+               "height" : 3120,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/112377721292348267009\"\u003eLia\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDzUKo20fvURvtbAbUbeXR6-SvJLbsPV_IeusqWWA0z8AGcwfWs8q2WMgjvh5unotqo1uVHX8pdNAa86yqYgrRQv2Za5DtcUzYiCpZSJrf8Snx2wEXY1C8neKsVuuSWEdmov-cB7kRlzFWKFOtM3GUfHG2g6WodN7PDqESAQaUeMu5bQ",
+               "width" : 4160
+            }
+         ],
+         "place_id" : "ChIJU2JeJBu3zTERTePHnzNJs58",
+         "reference" : "ChIJU2JeJBu3zTERTePHnzNJs58",
+         "scope" : "GOOGLE",
+         "types" : [ "sublocality_level_1", "sublocality", "political" ],
+         "vicinity" : "Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9207434,
+               "lng" : 101.6366082
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922180430291501,
+                  "lng" : 101.6379537302915
+               },
+               "southwest" : {
+                  "lat" : 2.919482469708497,
+                  "lng" : 101.6352557697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "iTools Sdn Bhd",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 3024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/105413981866566492667\"\u003eMohamad Yusri\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDy65-omqbX2nganGCMCSwS6K6F37AdTXacZ9yy9q6RxRknqcKzFUjL4EMea50q1CBCC0Eu9LKVYmiMGnvrQaYwJVFBTss5DQGnejiZQRN-vM88FKabGQ1C5ejvjbvJAtxw6nPC8yaz0UYIOzK7VKg-eywB1NYTMjDx_NmVZ3lYzz6pH",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJR_JQNla2zTERgkm4kRwyswk",
+         "plus_code" : {
+            "compound_code" : "WJCP+7J Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+7J"
+         },
+         "rating" : 5,
+         "reference" : "ChIJR_JQNla2zTERgkm4kRwyswk",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 1,
+         "vicinity" : "A-02-09 Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9207069,
+               "lng" : 101.6368161
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922053580291502,
+                  "lng" : 101.6382459302915
+               },
+               "southwest" : {
+                  "lat" : 2.919355619708498,
+                  "lng" : 101.6355479697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Peers Consult (M) Sdn. Bhd.",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 590,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/114361522269685609646\"\u003epeers consult\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDxiQiR5DhQrj4hnPUv9H6ZqMr_-L66I2RWXKSSIAxD6DzUUnJPZJCiTd9n4LR3E7jN_WUwvkouAj9D5Xd6Gbwwg33p_KnzIFc7hycJI6ybTBkiXeIa9Bss1ctMWJYVaME9iNoFTGwZzf34C90OkkAx0QSRoqP8wIakPlahbfeW-fy34",
+               "width" : 1280
+            }
+         ],
+         "place_id" : "ChIJl2wd3luxzTER1AywL6GxowM",
+         "plus_code" : {
+            "compound_code" : "WJCP+7P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+7P"
+         },
+         "rating" : 5,
+         "reference" : "ChIJl2wd3luxzTER1AywL6GxowM",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 2,
+         "vicinity" : "D2, 06-11, Persiaran Multimedia, Tamarind Square, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9206146,
+               "lng" : 101.6365745
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922115280291501,
+                  "lng" : 101.6379175302915
+               },
+               "southwest" : {
+                  "lat" : 2.919417319708498,
+                  "lng" : 101.6352195697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "IX Telecom Sdn Bhd",
+         "place_id" : "ChIJYc6Xl2e3zTERQMlKt04WEEQ",
+         "plus_code" : {
+            "compound_code" : "WJCP+6J Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6J"
+         },
+         "reference" : "ChIJYc6Xl2e3zTERQMlKt04WEEQ",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "vicinity" : "D1-04-10 Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9204873,
+               "lng" : 101.6366747
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921838180291502,
+                  "lng" : 101.6381727302915
+               },
+               "southwest" : {
+                  "lat" : 2.919140219708498,
+                  "lng" : 101.6354747697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "RunCloud",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 540,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/106494375179819366159\"\u003eRunCloud\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDwVrg99DctHBBeLmmujhY091Zb873-A7AnhVdT8mOrZ9TOiTRIaXd-CcMRyn8mG6OUGrYGCqsMF7cm6qdp-McJ-eY-F12xTohUZuOXfAQlBu5mWE_BzyBa6AxnOS-eN6t4Pt2VL0m80sfVRUD-dR7p4AkIk7Hj3D6H8T2bF3bDyzspP",
+               "width" : 960
+            }
+         ],
+         "place_id" : "ChIJ0cHcRZ-3zTERZ-k3h3TuZQc",
+         "plus_code" : {
+            "compound_code" : "WJCP+5M Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+5M"
+         },
+         "rating" : 3.6,
+         "reference" : "ChIJ0cHcRZ-3zTERZ-k3h3TuZQc",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 20,
+         "vicinity" : "D2-04-09 Tamarind Square, Persiaran Multimedia, Cyber 10, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9204874,
+               "lng" : 101.6366935
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921838130291502,
+                  "lng" : 101.6381821302915
+               },
+               "southwest" : {
+                  "lat" : 2.919140169708498,
+                  "lng" : 101.6354841697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
+         "icon_background_color" : "#4B96F3",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/shopping_pinlet",
+         "name" : "VOLTRA SDN BHD",
+         "place_id" : "ChIJpWutHfW3zTERnFVYp-br1qM",
+         "plus_code" : {
+            "compound_code" : "WJCP+5M Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+5M"
+         },
+         "reference" : "ChIJpWutHfW3zTERnFVYp-br1qM",
+         "scope" : "GOOGLE",
+         "types" : [ "clothing_store", "store", "point_of_interest", "establishment" ],
+         "vicinity" : "GP5-04, PINNACLE UNIT TAMARIND SQUARE, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.920526600000001,
+               "lng" : 101.6367748
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921872430291502,
+                  "lng" : 101.6382226802915
+               },
+               "southwest" : {
+                  "lat" : 2.919174469708498,
+                  "lng" : 101.6355247197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png",
+         "icon_background_color" : "#FF9E67",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
+         "name" : "San Francisco Coffee Tamarind Square",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 4032,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/104500535062564320698\"\u003eZakaria Sidek\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDyUmRpAvp8vEyuHL1apgAmOn1kitFZnMY1gMItlsYVcGEvZIS_Ls_mKEGC8U8ZBXOEjgI-qnvSpWVJIHJSNuFsJlZKlVPZrLmguEZxykGUKZEB5UxA_A5SQ_BcdzLLBkX82vwjmWcp_Z2g56-db0OH2i_PvH_uS_O14LlvUDtX-5cEa",
+               "width" : 3024
+            }
+         ],
+         "place_id" : "ChIJLb-a42C3zTERueUarwZuMcs",
+         "plus_code" : {
+            "compound_code" : "WJCP+6P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6P"
+         },
+         "price_level" : 2,
+         "rating" : 4.3,
+         "reference" : "ChIJLb-a42C3zTERueUarwZuMcs",
+         "scope" : "GOOGLE",
+         "types" : [ "cafe", "food", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 198,
+         "vicinity" : "D2-03-03, Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9205282,
+               "lng" : 101.6365055
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922070630291502,
+                  "lng" : 101.6378469302915
+               },
+               "southwest" : {
+                  "lat" : 2.919372669708498,
+                  "lng" : 101.6351489697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Chamrun Digital",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 1024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/115774779335023921223\"\u003eChamrun Digital\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDxaj7weCSQguJS9aLEqcIaREbcOAvjZb-zTfgole79nCLt1mIplY0ea9gUQqwNX9POx05zVrDzoRG6XeUtDTREmNADF3RphHEZjCquZTQoBjKGYdY5iTtBlDjhj3nZPxsO0QlCUIjXRIbgS7IQcSB1Zre6zC9sS3KtfXCUtKbCIvXMX",
+               "width" : 1536
+            }
+         ],
+         "place_id" : "ChIJd7X23dG3zTERs9sCyyUPu3Q",
+         "plus_code" : {
+            "compound_code" : "WJCP+6J Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6J"
+         },
+         "rating" : 4.9,
+         "reference" : "ChIJd7X23dG3zTERs9sCyyUPu3Q",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 59,
+         "vicinity" : "D2-05-05 Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.920522999999999,
+               "lng" : 101.6365067
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922068080291501,
+                  "lng" : 101.6378480302915
+               },
+               "southwest" : {
+                  "lat" : 2.919370119708498,
+                  "lng" : 101.6351500697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png",
+         "icon_background_color" : "#FF9E67",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
+         "name" : "Tealive Tamarind Square Cyberjaya",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 3024,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/104437098013308271197\"\u003eM.Hamza Arslan\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDyzSMNxIdH1iPSsfaCjcNhttbAQYvZ7awnvgDuiDTFzGXfYeoNpD26KSmz1GF3K2V9BFOhqVzz6bfmWYEAr87BveP44pANgg6PC_u9V2otYjfBXRzHbEyR2oxj5EHWztFfhEd_KrYN4iWJXGa6739gfzNpIBHsVnetay2NNH3EDsjXa",
+               "width" : 4032
+            }
+         ],
+         "place_id" : "ChIJyy3CTFO3zTERgqqrrdJahO0",
+         "plus_code" : {
+            "compound_code" : "WJCP+6J Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6J"
+         },
+         "price_level" : 2,
+         "rating" : 4,
+         "reference" : "ChIJyy3CTFO3zTERgqqrrdJahO0",
+         "scope" : "GOOGLE",
+         "types" : [ "cafe", "food", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 146,
+         "vicinity" : "Unit GP05.03, Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9204267,
+               "lng" : 101.6366666
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921777630291502,
+                  "lng" : 101.6381690802915
+               },
+               "southwest" : {
+                  "lat" : 2.919079669708498,
+                  "lng" : 101.6354711197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
+         "icon_background_color" : "#4B96F3",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/shopping_pinlet",
+         "name" : "Diqih Aqua Studio",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 1470,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/106650910805137315818\"\u003eMohd Auji Maarof\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDx73RraWsb6Q5PsrnR0368oGt2HtqiGEisveK2I_ZUGTdN-FcnZzmLw71zn6LNKSkSxK8_HxQTDUDbAFHbTVEU9uDM61wblHSI0dd38qPMbUOr6bniF0EDtAgnX2JEuPgT5YhFbUfUZ7tAV9-x3mZcxHyU7RDutj5og7pT7sdwZEPgJ",
+               "width" : 3264
+            }
+         ],
+         "place_id" : "ChIJVQdREjC3zTER0c0PRxtMrgE",
+         "plus_code" : {
+            "compound_code" : "WJCP+5M Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+5M"
+         },
+         "rating" : 4.9,
+         "reference" : "ChIJVQdREjC3zTER0c0PRxtMrgE",
+         "scope" : "GOOGLE",
+         "types" : [ "pet_store", "store", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 11,
+         "vicinity" : "GP5.04 Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9207243,
+               "lng" : 101.6365933
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922170580291501,
+                  "lng" : 101.6379384802915
+               },
+               "southwest" : {
+                  "lat" : 2.919472619708498,
+                  "lng" : 101.6352405197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
+         "icon_background_color" : "#4B96F3",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/shopping_pinlet",
+         "name" : "The Ciks",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 1584,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/115086251303754706419\"\u003eThe Ciks\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDwkApVueBE9mPIqJiaGn1ykBsJHMY0Jy0CCTd3xj4zNRu_HjZcbb1WOBVoB4AJ8kqMZhWSWvYVMNIYYcUU6QKSOe6ZX9V_bPfIiljQc0V2uFo_p-55xV6HPzp2X-ukZWF_rtOcbYp7x0VONUCotLr-a_kHJqRWDgMJLEiZRAlRtNk0",
+               "width" : 1284
+            }
+         ],
+         "place_id" : "ChIJZ1iKnBC3zTERM41OBgn1QhU",
+         "plus_code" : {
+            "compound_code" : "WJCP+7J Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+7J"
+         },
+         "rating" : 4.8,
+         "reference" : "ChIJZ1iKnBC3zTERM41OBgn1QhU",
+         "scope" : "GOOGLE",
+         "types" : [ "clothing_store", "store", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 6,
+         "vicinity" : "D1-04-09 Tamarind Square, Persiaran Multimedia, Cyber 10, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.920595800000001,
+               "lng" : 101.6368011
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921942280291502,
+                  "lng" : 101.6382368802915
+               },
+               "southwest" : {
+                  "lat" : 2.919244319708499,
+                  "lng" : 101.6355389197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png",
+         "icon_background_color" : "#FF9E67",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
+         "name" : "Mildura Lane Coffee",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 4032,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/108810468787943216011\"\u003eLifestyle Geek\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDxCVuhIzYCBxVvobtdaP0ej96x-oyfSfSGF1hIq10STRQ2RG9Flmuf4w_gVaPimQzZew2k-HlIottCXlssw1WNHYMQq45P51C8vZL4YdscEjTYfqG_LU6fszSiYnmbI9oJ_HcM15rnrIwd10hWceAfoCqaHACYxU6ksmKvNmG7Vo9gJ",
+               "width" : 3024
+            }
+         ],
+         "place_id" : "ChIJv47F76y3zTER5OvtZI8TmTY",
+         "plus_code" : {
+            "compound_code" : "WJCP+6P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6P"
+         },
+         "rating" : 4.4,
+         "reference" : "ChIJv47F76y3zTER5OvtZI8TmTY",
+         "scope" : "GOOGLE",
+         "types" : [ "cafe", "food", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 82,
+         "vicinity" : "D-02-03-02, Tamarind Square Cyber 10, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.920633699999999,
+               "lng" : 101.6367933
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921980080291502,
+                  "lng" : 101.6382334802915
+               },
+               "southwest" : {
+                  "lat" : 2.919282119708498,
+                  "lng" : 101.6355355197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Axis Intertrade Sdn Bhd",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "place_id" : "ChIJg9izLZy3zTER8PROkH5oEL8",
+         "plus_code" : {
+            "compound_code" : "WJCP+7P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+7P"
+         },
+         "reference" : "ChIJg9izLZy3zTER8PROkH5oEL8",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "vicinity" : "D.E, B-05-02 Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9205017,
+               "lng" : 101.6367866
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921851830291502,
+                  "lng" : 101.6382286302915
+               },
+               "southwest" : {
+                  "lat" : 2.919153869708498,
+                  "lng" : 101.6355306697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/shopping-71.png",
+         "icon_background_color" : "#4B96F3",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/shopping_pinlet",
+         "name" : "Arminaz",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 404,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/115480221416572542450\"\u003eArminaz\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDzPgAZaQKpAjO0hkwMnN60mal5C64TbPduQzDrUt7KzO_2uZd8KpG1jkjvYYM1vutb_WMtN57pmrEL2uv_0QqgnstGvo1rpoWANF5T817R8ik-9YpCp_1Jr-CvgqeN8kOsc3REko0Vlnw9Zxy-szmeXA3gm1KCt2WONliHPMkNdraiJ",
+               "width" : 704
+            }
+         ],
+         "place_id" : "ChIJ0Xg1nOi3zTERacAaBn8ff-s",
+         "plus_code" : {
+            "compound_code" : "WJCP+6P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6P"
+         },
+         "rating" : 4.9,
+         "reference" : "ChIJ0Xg1nOi3zTERacAaBn8ff-s",
+         "scope" : "GOOGLE",
+         "types" : [
+            "beauty_salon",
+            "clothing_store",
+            "store",
+            "point_of_interest",
+            "establishment"
+         ],
+         "user_ratings_total" : 14,
+         "vicinity" : "D1-03-07, Tamarind Square, Persiaran Multimedia, Cyber 11, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.920624699999999,
+               "lng" : 101.6368013
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921970030291502,
+                  "lng" : 101.6382373302915
+               },
+               "southwest" : {
+                  "lat" : 2.919272069708498,
+                  "lng" : 101.6355393697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Hellbent Corporation",
+         "place_id" : "ChIJ2xJmgrS3zTERj_tZMK71xvQ",
+         "plus_code" : {
+            "compound_code" : "WJCP+6P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6P"
+         },
+         "rating" : 5,
+         "reference" : "ChIJ2xJmgrS3zTERj_tZMK71xvQ",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 1,
+         "vicinity" : "D2-04-01, TAMARIND SQUARE, Persiaran Multimedia, CYBER 10, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9204647,
+               "lng" : 101.6367746
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921814930291502,
+                  "lng" : 101.6382228302915
+               },
+               "southwest" : {
+                  "lat" : 2.919116969708498,
+                  "lng" : 101.6355248697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "nois.space",
+         "place_id" : "ChIJHdZbovK3zTERmP-iAl0MDT4",
+         "plus_code" : {
+            "compound_code" : "WJCP+5P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+5P"
+         },
+         "reference" : "ChIJHdZbovK3zTERmP-iAl0MDT4",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "vicinity" : "D2-05-03A, Tamarind Square, Persiaran Multimedia, Cyber 10, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9205299,
+               "lng" : 101.6368275
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.921876530291502,
+                  "lng" : 101.6382490802915
+               },
+               "southwest" : {
+                  "lat" : 2.919178569708498,
+                  "lng" : 101.6355511197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "NET CLUSTER SDN BHD",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "place_id" : "ChIJdZFZ1-a3zTER9NAyBkc7uhY",
+         "plus_code" : {
+            "compound_code" : "WJCP+6P Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6P"
+         },
+         "reference" : "ChIJdZFZ1-a3zTER9NAyBkc7uhY",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "vicinity" : "B-04-04 TAMARlND SQUARE, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9204753,
+               "lng" : 101.6364803
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922043680291502,
+                  "lng" : 101.6378206802915
+               },
+               "southwest" : {
+                  "lat" : 2.919345719708498,
+                  "lng" : 101.6351227197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/school_pinlet",
+         "name" : "Garuda Elite Academy - Virtual School",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "place_id" : "ChIJ511Fmg23zTERRcU3P3kNh74",
+         "plus_code" : {
+            "compound_code" : "WJCP+5H Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+5H"
+         },
+         "rating" : 5,
+         "reference" : "ChIJ511Fmg23zTERRcU3P3kNh74",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 1,
+         "vicinity" : "C-04-02, Level 4 Block C, Tamarind Square, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9205785,
+               "lng" : 101.6364492
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922094730291501,
+                  "lng" : 101.6377916302915
+               },
+               "southwest" : {
+                  "lat" : 2.919396769708498,
+                  "lng" : 101.6350936697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "ARABIAN GATEWAY TECHNOLOGY SDN BHD.",
+         "photos" : [
+            {
+               "height" : 4928,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/105610780379811130023\"\u003eAlharamain Academy\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDxhbEenm1KNQnV0Mm6I--pEbDe1RNaEW6CfEDX27PoSfwnV9f6rAX_2fV0-JoPR6qFaaJ43AhjpnRUnHEMwEbSf8yx_xb8b5FK-doMmty-DtTA8FZVWTIHw0oul8DKbyoDLw0bHAcGEi2vwZf5jFQxitwLZRGoXOCY0XWHrFE2wpu9-",
+               "width" : 4928
+            }
+         ],
+         "place_id" : "ChIJeSx8WJG3zTERIUNiNl4lU9A",
+         "plus_code" : {
+            "compound_code" : "WJCP+6H Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCP+6H"
+         },
+         "rating" : 3,
+         "reference" : "ChIJeSx8WJG3zTERIUNiNl4lU9A",
+         "scope" : "GOOGLE",
+         "types" : [ "point_of_interest", "establishment" ],
+         "user_ratings_total" : 2,
+         "vicinity" : "C-05-02 (Unit No. 7) & C-04-02 TAMARIND SQUARE, Persiaran Multimedia, Cyberjaya"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 2.921318,
+               "lng" : 101.6559349
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.96553587004874,
+                  "lng" : 101.6750452399033
+               },
+               "southwest" : {
+                  "lat" : 2.894416941522482,
+                  "lng" : 101.6224600236942
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Cyberjaya",
+         "photos" : [
+            {
+               "height" : 1872,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/111569876109282899838\"\u003eMD sobuj\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDwleWv-oZ4EVPDQd3WzxN7tvsY6yl0hTIF1LYazrTiBSq_cJt3577VhtRpKW0xL47QvwdjaoHYS-96pgaOx9LnUe32ClNh4yTgtZSwlhQxn_gUpqC0r39oIK3Ip7IfrJeLaD5Xfqrl7Hue5PyYUShFBYylzpl_0sAmIfMQkYNu7fl84",
+               "width" : 4160
+            }
+         ],
+         "place_id" : "ChIJ45NqN-62zTERzrxIC_u7HiQ",
+         "reference" : "ChIJ45NqN-62zTERzrxIC_u7HiQ",
+         "scope" : "GOOGLE",
+         "types" : [ "locality", "political" ],
+         "vicinity" : "Cyberjaya"
+      }
+   ],
+   "status" : "OK"
+}

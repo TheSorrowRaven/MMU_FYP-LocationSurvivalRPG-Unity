@@ -1,12 +1,14 @@
 using Mapbox.Utils;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private static G G => G.Instance;
     private static GameSettings GameSettings => GameSettings.Instance;
+    private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
 
     private static PlayerLocation Location => G.Location;
 
@@ -21,6 +23,12 @@ public class Player : MonoBehaviour
 
     [System.NonSerialized] private double lastLat;
     [System.NonSerialized] private double lastLon;
+
+    [System.NonSerialized] private double lastPOIQueryLat;
+    [System.NonSerialized] private double lastPOIQueryLon;
+    [System.NonSerialized] private Vector2d lastPOIQueryPos;
+    [System.NonSerialized] private float lastPOIQueryTime;
+
 
     private void Awake()
     {
@@ -44,6 +52,7 @@ public class Player : MonoBehaviour
     {
         Map_PositionUpdate();
         Map_RotationUpdate();
+        Map_POIUpdate();
     }
 
     private void Map_PositionUpdate()
@@ -75,6 +84,32 @@ public class Player : MonoBehaviour
         ThisTR.LookAt(lookAt, Vector3.up);
 
         lastPos = currentPos;
+    }
+
+    private void Map_POIUpdate()
+    {
+        float now = Time.time;
+        if (now - lastPOIQueryTime < GameSettings.DelayBeforePOIQuery)
+        {
+            return;
+        }
+        lastPOIQueryTime = now;
+
+        Vector2d playerLocation = Location;
+        double distanceFromLastCoord = G.Haversine(playerLocation, lastPOIQueryPos);
+        if (distanceFromLastCoord < GameSettings.MetersTravelledBeforePOIQuery)
+        {
+            return;
+        }
+        lastPOIQueryPos = playerLocation;
+
+        //Query
+        QueryPOI();
+    }
+
+    private void QueryPOI()
+    {
+        GGoogleMapsService.MakeNearbyPlacesRequest(Location.X, Location.Y);
     }
 
     [ContextMenu("Draw Player Radius")]

@@ -1,0 +1,174 @@
+{
+   "html_attributions" : [],
+   "results" : [
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9114867,
+               "lng" : 101.6442225
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.924446993789514,
+                  "lng" : 101.6701998885404
+               },
+               "southwest" : {
+                  "lat" : 2.894416941522482,
+                  "lng" : 101.6276899456944
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Cyberjaya",
+         "photos" : [
+            {
+               "height" : 3120,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/112377721292348267009\"\u003eLia\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDyE9PM9bee2SKjYKox0lsowypucotRGASQvtUj_qvzUL1VZbq-hi_e4m6_MIbeG_QJ1uShZ_oq_zRvwVETdbVxjUls6TfuhnhGxOFOfvV7dfoD86mlCf2hOrXjTMJqGiPIp6i06r8Avnn9up60EMkMnH45lhI-0Yf14HOaz3_86NbZo",
+               "width" : 4160
+            }
+         ],
+         "place_id" : "ChIJU2JeJBu3zTERTePHnzNJs58",
+         "reference" : "ChIJU2JeJBu3zTERTePHnzNJs58",
+         "scope" : "GOOGLE",
+         "types" : [ "sublocality_level_1", "sublocality", "political" ],
+         "vicinity" : "Cyberjaya"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9211079,
+               "lng" : 101.6381636
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922490080291502,
+                  "lng" : 101.6395128302915
+               },
+               "southwest" : {
+                  "lat" : 2.919792119708498,
+                  "lng" : 101.6368148697085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/school_pinlet",
+         "name" : "Sekolah Rendah Islam Al Hafiz",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 809,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/107417889961207547382\"\u003eSEKOLAH RENDAH ISLAM AL-HAFIZ\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDwoE5hnH16Wh9uvICqmMKKfi3EoGizpNgLk-3nddRhh2v_ym883dD2vKcvWdVPQh0x1B8gnWEOTgBj5Z_m2UlPO79teEhBaoMAoH6uOHZ0KpHC3MjWJ63NtLodMJSUW_lAGDiRCdUlr-U6lH7QfEAB8eeIDN4XZvFJMpTKe7Kz9vksY",
+               "width" : 1440
+            }
+         ],
+         "place_id" : "ChIJh2D5wti2zTERtLGc8kAagK8",
+         "plus_code" : {
+            "compound_code" : "WJCQ+C7 Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCQ+C7"
+         },
+         "rating" : 4.5,
+         "reference" : "ChIJh2D5wti2zTERtLGc8kAagK8",
+         "scope" : "GOOGLE",
+         "types" : [ "school", "point_of_interest", "establishment" ],
+         "user_ratings_total" : 2,
+         "vicinity" : "NO 1 NADAYU SQUARE PERSIARAN BESTARI CYBER 9,NADAYU 99 CYBERJAYA, SEPANG"
+      },
+      {
+         "business_status" : "OPERATIONAL",
+         "geometry" : {
+            "location" : {
+               "lat" : 2.9211099,
+               "lng" : 101.6381548
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.922491080291501,
+                  "lng" : 101.6395039802915
+               },
+               "southwest" : {
+                  "lat" : 2.919793119708498,
+                  "lng" : 101.6368060197085
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+         "icon_background_color" : "#FF9E67",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+         "name" : "Nasi Daging Pongsu Seribu, Cyberjaya",
+         "opening_hours" : {
+            "open_now" : false
+         },
+         "photos" : [
+            {
+               "height" : 1280,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/116656326252314377852\"\u003eNasi Daging Pongsu Seribu, Cyberjaya\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDza5KW76fmGdSMKXZW0-KjchAKPbMyyqiqAd6vCy8LeT7J6Pf7_CCPwV6lE6-Zx31khbQI6m9UqM6RZcULpLDeQvQkW-SqvBHDae6DZZiMuJ5UMU4MU24TBZzYWg4Bu-SgbnWERWu9wlQRoGKtza2HGeYS6h4k4gDYWYGMlAcf25oV_",
+               "width" : 958
+            }
+         ],
+         "place_id" : "ChIJtzNsLGW3zTERqU7tWTPkJ1Q",
+         "plus_code" : {
+            "compound_code" : "WJCQ+C7 Cyberjaya, Selangor, Malaysia",
+            "global_code" : "6PJ3WJCQ+C7"
+         },
+         "rating" : 4.2,
+         "reference" : "ChIJtzNsLGW3zTERqU7tWTPkJ1Q",
+         "scope" : "GOOGLE",
+         "types" : [ "restaurant", "point_of_interest", "food", "establishment" ],
+         "user_ratings_total" : 104,
+         "vicinity" : "No 1-G Nadayu Square Nadayu 99, Cyber 9, Cyberjaya"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : 2.921318,
+               "lng" : 101.6559349
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 2.96553587004874,
+                  "lng" : 101.6750452399033
+               },
+               "southwest" : {
+                  "lat" : 2.894416941522482,
+                  "lng" : 101.6224600236942
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+         "icon_background_color" : "#7B9EB0",
+         "icon_mask_base_uri" : "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+         "name" : "Cyberjaya",
+         "photos" : [
+            {
+               "height" : 1872,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/111569876109282899838\"\u003eMD sobuj\u003c/a\u003e"
+               ],
+               "photo_reference" : "AW30NDyzMfL_jDhb4G-MT-6i6yZzClEHE29qDQkyyM_FY0-vBq-AfXSSXWzkqSafdzFnaVw6GkJXFwFo1F4iSUZGeCS3bKPUZbWCt_waJppMP7C9ZDUMwl3E3PNdD-A7Pgw95_UbDzc8R5KlI0mRenkd4JD6sIfUUFmKfMxUiJiwx9Mq5tQg",
+               "width" : 4160
+            }
+         ],
+         "place_id" : "ChIJ45NqN-62zTERzrxIC_u7HiQ",
+         "reference" : "ChIJ45NqN-62zTERzrxIC_u7HiQ",
+         "scope" : "GOOGLE",
+         "types" : [ "locality", "political" ],
+         "vicinity" : "Cyberjaya"
+      }
+   ],
+   "status" : "OK"
+}
