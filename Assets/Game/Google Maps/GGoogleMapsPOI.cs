@@ -6,6 +6,9 @@ using System;
 using Mapbox.Utils;
 using Unity.VisualScripting;
 
+/// <summary>
+/// Is a processed POI location fetched from Google Maps API
+/// </summary>
 [Serializable]
 public class GGoogleMapsPOI
 {

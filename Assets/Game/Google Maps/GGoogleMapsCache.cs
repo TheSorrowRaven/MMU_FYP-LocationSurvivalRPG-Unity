@@ -10,6 +10,8 @@ public class GGoogleMapsCache
 
     public Dictionary<string, GGoogleMapsPOI> GoogleMapPOIs = new();
 
+    public Dictionary<decimal, GGoogleMapsQueryLocation> LocationToQueryLocation = new();
+
     public void PopulateWithNearbySearchResponse(GGoogleMapsResponses.NearbySearchResponse nearby)
     {
         for (int i = 0; i < nearby.Results.Count; i++)

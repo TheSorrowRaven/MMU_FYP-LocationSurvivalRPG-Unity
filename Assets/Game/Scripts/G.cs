@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Mapbox.Unity.Map;
 using Mapbox.Utils;
 using System;
@@ -5,12 +6,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class G : MonoBehaviour
 {
     private static G instance;
     public static G Instance => instance;
 
+    private static GameSettings GameSettings => GameSettings.Instance;
     private static GLocationService GLocationProvider => GLocationService.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
 
@@ -90,6 +93,25 @@ public class G : MonoBehaviour
     {
         return Haversine(pos1.x, pos1.y, pos2.x, pos2.y);
     }
+
+
+
+    public Vector2d[] GetQueryLocationsFromPosition(Vector2d coord)
+    {
+        double minX = coord.x - (coord.x % GameSettings.LatLonDistanceQueryRadius);
+        double minY = coord.y - (coord.y % GameSettings.LatLonDistanceQueryRadius);
+        double maxX = minX + GameSettings.LatLonDistanceQueryRadius;
+        double maxY = minY + GameSettings.LatLonDistanceQueryRadius;
+        return new Vector2d[]
+        {
+            new Vector2d(minX, minY),
+            new Vector2d(minX, maxY),
+            new Vector2d(maxX, minY),
+            new Vector2d(maxX, maxY),
+        };
+    }
+
+
 
     /// <summary>
     /// Returns the distance between 2 geo coordinates in meters

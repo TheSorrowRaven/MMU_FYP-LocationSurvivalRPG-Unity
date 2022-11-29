@@ -35,6 +35,19 @@ public class GameSettings : MonoBehaviour
     [field: SerializeField] public int WebRequestRetryMax { get; private set; }
     [field: SerializeField] public float WebRequestFailLinearDelay { get; private set; }
 
+
+    [field: SerializeField] public double LatLonDistanceQueryRadius { get; private set; }
+    [field: SerializeField] public double MetersDistanceQueryRadius { get; private set; }
+
+
+
+    private void OnValidate()
+    {
+        MetersDistanceQueryRadius = G.Haversine(new(0, 0), new(0, LatLonDistanceQueryRadius));
+    }
+
+
+
     private void Awake()
     {
         instance = this;
