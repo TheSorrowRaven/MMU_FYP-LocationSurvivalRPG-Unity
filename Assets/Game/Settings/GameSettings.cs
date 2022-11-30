@@ -38,7 +38,7 @@ public class GameSettings : MonoBehaviour
 
     [field: SerializeField] public double LatLonDistanceQueryRadius { get; private set; }
     [field: SerializeField] public double MetersDistanceQueryRadius { get; private set; }
-
+    [field: SerializeField] public double UnityUnitsDistanceQueryRadius { get; private set; }
 
 
     private void OnValidate()
@@ -51,6 +51,11 @@ public class GameSettings : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    public void GSetUnityUnitsDistanceQueryRadius(double value)
+    {
+        UnityUnitsDistanceQueryRadius = value;
     }
 
 

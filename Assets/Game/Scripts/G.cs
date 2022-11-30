@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using static UnityEditor.Progress;
 
 public class G : MonoBehaviour
 {
@@ -52,11 +53,14 @@ public class G : MonoBehaviour
         Mapbox.UpdateMap(18f);
 
         PhysicalMetersPerUnityUnits = Haversine(WorldToGeo(Vector3.zero), WorldToGeo(Vector3.right));
+        GameSettings.GSetUnityUnitsDistanceQueryRadius(GameSettings.MetersDistanceQueryRadius / PhysicalMetersPerUnityUnits);
+
     }
+
+    private Vector2d[] posBuffer;
 
     private void Update()
     {
-
     }
 
     //Test one more time tomorrow! MAKE SURE to change the Interactable Radius to 100!
@@ -94,22 +98,6 @@ public class G : MonoBehaviour
         return Haversine(pos1.x, pos1.y, pos2.x, pos2.y);
     }
 
-
-
-    public Vector2d[] GetQueryLocationsFromPosition(Vector2d coord)
-    {
-        double minX = coord.x - (coord.x % GameSettings.LatLonDistanceQueryRadius);
-        double minY = coord.y - (coord.y % GameSettings.LatLonDistanceQueryRadius);
-        double maxX = minX + GameSettings.LatLonDistanceQueryRadius;
-        double maxY = minY + GameSettings.LatLonDistanceQueryRadius;
-        return new Vector2d[]
-        {
-            new Vector2d(minX, minY),
-            new Vector2d(minX, maxY),
-            new Vector2d(maxX, minY),
-            new Vector2d(maxX, maxY),
-        };
-    }
 
 
 

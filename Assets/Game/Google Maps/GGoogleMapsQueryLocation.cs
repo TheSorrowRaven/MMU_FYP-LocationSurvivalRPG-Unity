@@ -1,3 +1,4 @@
+using Mapbox.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine;
 public class GGoogleMapsQueryLocation
 {
 
+    public Vector2d Location;
     public List<GGoogleMapsPOI> POIs = new();
 
 }

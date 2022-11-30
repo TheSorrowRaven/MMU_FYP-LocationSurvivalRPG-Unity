@@ -1763,6 +1763,7 @@ MonoBehaviour:
   <WebRequestFailLinearDelay>k__BackingField: 0.3
   <LatLonDistanceQueryRadius>k__BackingField: 0.00017986432118374611
   <MetersDistanceQueryRadius>k__BackingField: 20
+  <UnityUnitsDistanceQueryRadius>k__BackingField: 13.1143833571658
 --- !u!114 &1055705022
 MonoBehaviour:
   m_ObjectHideFlags: 0

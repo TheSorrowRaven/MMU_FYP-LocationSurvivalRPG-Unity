@@ -1,6 +1,7 @@
 using Mapbox.Utils;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
@@ -24,11 +25,10 @@ public class Player : MonoBehaviour
     [System.NonSerialized] private double lastLat;
     [System.NonSerialized] private double lastLon;
 
-    [System.NonSerialized] private double lastPOIQueryLat;
-    [System.NonSerialized] private double lastPOIQueryLon;
-    [System.NonSerialized] private Vector2d lastPOIQueryPos;
     [System.NonSerialized] private float lastPOIQueryTime;
-
+    [System.NonSerialized] private Vector2d lastQueryLocation;
+    [System.NonSerialized] private Vector2d[] queryLocationsBuffer = new Vector2d[4];
+    [System.NonSerialized] private Vector2d[] lastQueryLocations = new Vector2d[4];
 
     private void Awake()
     {
@@ -93,22 +93,64 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        lastPOIQueryTime = now;
 
-        Vector2d playerLocation = Location;
-        double distanceFromLastCoord = G.Haversine(playerLocation, lastPOIQueryPos);
-        if (distanceFromLastCoord < GameSettings.MetersTravelledBeforePOIQuery)
+        Vector2d loc = Location;
+        if (loc.x == lastQueryLocation.x && loc.y == lastQueryLocation.y)
         {
+            //Location didn't change
             return;
         }
-        lastPOIQueryPos = playerLocation;
+        lastQueryLocation = loc;
+
+        GGoogleMapsQueryGrid.GetQueryLocationsFromPosition(Location, queryLocationsBuffer);
+        Debug.DrawLine(G.GeoToWorld(queryLocationsBuffer[0]), G.GeoToWorld(queryLocationsBuffer[3]), Color.blue);
+        for (int i = 1; i < queryLocationsBuffer.Length; i++)
+        {
+            Debug.DrawLine(G.GeoToWorld(queryLocationsBuffer[i]), G.GeoToWorld(queryLocationsBuffer[i - 1]), Color.blue);
+        }
+
+        if (QueryLocationEqualToLastQueryLocations())
+        {
+            //In the same cell
+            return;
+        }
+        Debug.Log("Different!, Querying");
+        //In a different cell
+        UpdateLastQueryLocations();
+        lastPOIQueryTime = now;
 
         //Query
         QueryPOI();
     }
 
+    private void UpdateLastQueryLocations()
+    {
+        for (int i = 0; i < queryLocationsBuffer.Length; i++)
+        {
+            lastQueryLocations[i] = queryLocationsBuffer[i];
+        }
+    }
+
+    private bool QueryLocationEqualToLastQueryLocations()
+    {
+        for (int i = 0; i < queryLocationsBuffer.Length; i++)
+        {
+            if (lastQueryLocations[i].x != queryLocationsBuffer[i].x)
+            {
+                return false;
+            }
+            if (lastQueryLocations[i].y != queryLocationsBuffer[i].y)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void QueryPOI()
     {
+        //GGoogleMapsQueryCluster queryCluster = new();
+        //queryCluster.PrepareQueryCluster(queryLocationsBuffer);
         GGoogleMapsService.MakeNearbyPlacesRequest(Location.X, Location.Y);
     }
 
