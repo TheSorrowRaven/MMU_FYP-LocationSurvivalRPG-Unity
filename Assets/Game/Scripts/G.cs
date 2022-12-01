@@ -31,6 +31,8 @@ public class G : MonoBehaviour
 
     public POIManager POIManager;
 
+    public GameObject DebugCube;
+
     [NonSerialized] public double PhysicalMetersPerUnityUnits;
 
     #region UI

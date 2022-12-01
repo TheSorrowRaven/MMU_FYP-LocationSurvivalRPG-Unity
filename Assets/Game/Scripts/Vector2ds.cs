@@ -13,6 +13,9 @@ public struct Vector2ds : IEqualityComparer<Vector2ds>
     public double x;
     public double y;
 
+    public decimal Xdc => (decimal)Math.Round(x, 5);
+    public decimal Ydc => (decimal)Math.Round(y, 5);
+
     public Vector2ds(double x, double y)
     {
         this.x = x;
@@ -21,7 +24,8 @@ public struct Vector2ds : IEqualityComparer<Vector2ds>
 
     public bool Equals(Vector2ds a, Vector2ds b)
     {
-        return a.x == b.x && a.y == b.y;
+        //Debug.LogWarning($"{a.Xdc}&{b.Xdc}={a.Xdc == b.Xdc}, {a.Ydc}&{b.Ydc}={a.Ydc == b.Ydc}");
+        return a.Xdc == b.Xdc && a.Ydc == b.Ydc;
     }
 
     public int GetHashCode(Vector2ds obj)
@@ -31,7 +35,7 @@ public struct Vector2ds : IEqualityComparer<Vector2ds>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(x, y);
+        return HashCode.Combine(Xdc, Ydc);
     }
 
     public override bool Equals(object obj)
@@ -46,6 +50,11 @@ public struct Vector2ds : IEqualityComparer<Vector2ds>
     public static implicit operator Vector2ds(Vector2d vector2d)
     {
         return new(vector2d.x, vector2d.y);
+    }
+
+    public override string ToString()
+    {
+        return $"{x}, {y}";
     }
 
 }

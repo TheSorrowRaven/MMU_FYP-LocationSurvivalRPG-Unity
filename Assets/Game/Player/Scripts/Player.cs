@@ -166,6 +166,9 @@ public class Player : MonoBehaviour
                 GGoogleMapsPOI poi = location.POIs[i];
                 G.POIManager.SpawnPOI(poi);
             }
+            var o = Instantiate(G.DebugCube, G.GeoToWorld(location.Location), Quaternion.identity);
+            o.name = location.Location.ToString();
+            (o.GetComponent<GTest2>()).location = location.Location;
         }
     }
 

@@ -60,6 +60,7 @@ public class GGoogleMapsCache
     {
         if (LocationToQueryLocation.TryGetValue(location, out GGoogleMapsQueryLocation queryLocation))
         {
+            Debug.Log("Cache hit");
             return queryLocation;
         }
         if (PendingQueryLocations.TryGetValue(location, out Task<GGoogleMapsQueryLocation> queryLocationTask))
