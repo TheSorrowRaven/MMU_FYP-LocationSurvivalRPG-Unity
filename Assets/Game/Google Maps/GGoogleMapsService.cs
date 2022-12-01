@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 
 using static GGoogleMapsResponses;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class GGoogleMapsService
 {
@@ -162,6 +163,8 @@ public class GGoogleMapsService
         APIFailed,  //not "OK"
         ContinueNextPage,
         Completed,
+
+        DelaySuccessful,
     }
     //TASK
     private async Task<GGoogleMapsQueryLocation> RequestNearbyPlacesHandler(GGoogleMapsQueryLocation queryLocation, string urlParams)
@@ -175,12 +178,23 @@ public class GGoogleMapsService
             {
                 case NearbyPlacesStatus.NetworkFailed:
                 case NearbyPlacesStatus.APIFailed:
-                    status = await NearbyPlacesRetry(urlParams, queryLocation, retryCount);
-                    break;
+                    status = await DelayRetryOrFail(urlParams, retryCount);
+                    if (status == NearbyPlacesStatus.DelaySuccessful)
+                    {
+                        status = await RequestNearbyPlaces(urlParams, queryLocation, retryCount);
+                        break;
+                    }
+                    continue;   //Failed
                 case NearbyPlacesStatus.ContinueNextPage:
                     retryCount = 0;
-                    status = await MakeNearbyPlacesNextPageRequest(queryLocation.nextPageToken, queryLocation, retryCount);
-                    break;
+                    urlParams = CreateNearbyPlacesNextPageRequestURL(queryLocation.nextPageToken);
+                    status = await DelayRetryOrFail(urlParams, retryCount);
+                    if (status == NearbyPlacesStatus.DelaySuccessful)
+                    {
+                        status = await RequestNearbyPlaces(urlParams, queryLocation, retryCount);
+                        break;
+                    }
+                    continue;   //Failed
                 case NearbyPlacesStatus.Completed:
                     breakOut = true;
                     break;
@@ -240,24 +254,24 @@ public class GGoogleMapsService
     }
 
     //TASK
-    private async Task<NearbyPlacesStatus> NearbyPlacesRetry(string urlParams, GGoogleMapsQueryLocation queryLocation, int retryCount)
+    private async Task<NearbyPlacesStatus> DelayRetryOrFail(string urlParams, int retryCount)
     {
         if (retryCount <= GameSettings.WebRequestRetryMax)
         {
             //If within the max retries limit, make request again
             await Task.Delay((int)((GameSettings.GoogleNearbyPlacesNextPageRequestDelay + retryCount * GameSettings.WebRequestFailLinearDelay) * 1000));
-            return await RequestNearbyPlaces(urlParams, queryLocation, retryCount);
+            return NearbyPlacesStatus.DelaySuccessful;
         }
         Debug.LogError($"NearbyPlaces failed to retrieve!!! URL: {urlParams}");
         return NearbyPlacesStatus.Failed;
     }
 
     //TASK
-    private async Task<NearbyPlacesStatus> MakeNearbyPlacesNextPageRequest(string nextPageToken, GGoogleMapsQueryLocation queryLocation, int retryCount)
+    private string CreateNearbyPlacesNextPageRequestURL(string nextPageToken)
     {
         string urlParams = NearbyPlacesNextPageURLParameters + nextPageToken;
-        Debug.Log($"> NearbySearch_NextPage: {urlParams}");
-        return await RequestNearbyPlaces(urlParams, queryLocation, retryCount);
+        Debug.Log($"TASK> NearbySearch_NextPage: {urlParams}");
+        return urlParams;
     }
 
     //private IEnumerator RequestNearbyPlaces(string url, int retryCount = 0)

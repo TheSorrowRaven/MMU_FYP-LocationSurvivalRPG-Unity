@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         }
         lastQueryLocation = loc;
 
-        GGoogleMapsQueryGrid.GetQueryLocationsFromPosition(Location, queryLocationsBuffer);
+        Bounds2d bounds = GGoogleMapsQueryGrid.GetQueryLocationsFromPosition(Location, queryLocationsBuffer);
         Debug.DrawLine(G.GeoToWorld(queryLocationsBuffer[0]), G.GeoToWorld(queryLocationsBuffer[3]), Color.blue);
         for (int i = 1; i < queryLocationsBuffer.Length; i++)
         {
@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
         lastPOIQueryTime = now;
 
         //Query
-        QueryPOI();
+        QueryPOI(bounds);
     }
 
     private void UpdateLastQueryLocations()
@@ -148,11 +148,10 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    private void QueryPOI()
+    private void QueryPOI(Bounds2d bounds)
     {
-        //TODO Change to Cluster call, remove action null
         GGoogleMapsQueryCluster cluster = new();
-        cluster.PrepareQueryCluster(queryLocationsBuffer);
+        cluster.PrepareQueryCluster(bounds, queryLocationsBuffer);
         cluster.QueryAllLocations(ClusterCompleteAction);
     }
     private void ClusterCompleteAction(GGoogleMapsQueryCluster cluster)
@@ -164,7 +163,15 @@ public class Player : MonoBehaviour
             for (int i = 0; i < location.POIs.Count; i++)
             {
                 GGoogleMapsPOI poi = location.POIs[i];
-                G.POIManager.SpawnPOI(poi);
+                if (cluster.QueryBounds.Within(poi.Geometry.Location))
+                {
+                    //Debug.Log("Within: {poi.Name} ({poi.PlaceID})");
+                    G.POIManager.SpawnPOI(poi);
+                }
+                else
+                {
+                    //Debug.Log($"Not Within: {poi.Name} ({poi.PlaceID})");
+                }
             }
             var o = Instantiate(G.DebugCube, G.GeoToWorld(location.Location), Quaternion.identity);
             o.name = location.Location.ToString();

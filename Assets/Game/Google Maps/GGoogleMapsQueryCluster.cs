@@ -18,6 +18,7 @@ public class GGoogleMapsQueryCluster
     public GGoogleMapsQueryLocation Location4;
 
     public Vector2d[] QueryLocations;
+    public Bounds2d QueryBounds;
 
     public IEnumerable<GGoogleMapsQueryLocation> Locations()
     {
@@ -46,9 +47,10 @@ public class GGoogleMapsQueryCluster
         Location4 = null;
     }
 
-    public void PrepareQueryCluster(Vector2d[] queryLocations)
+    public void PrepareQueryCluster(Bounds2d queryBounds, Vector2d[] queryLocations)
     {
         ClearCluster();
+        QueryBounds = queryBounds;
         QueryLocations = queryLocations;
     }
 

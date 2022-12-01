@@ -26,7 +26,7 @@ public class GGoogleMapsQueryGrid
         };
     }
 
-    public static void GetQueryLocationsFromPosition(Vector2d coord, Vector2d[] buffer)
+    public static Bounds2d GetQueryLocationsFromPosition(Vector2d coord, Vector2d[] buffer)
     {
         double diameter = GameSettings.LatLonDistanceQueryRadius * 2;
         double minX = coord.x - (coord.x % diameter);
@@ -37,5 +37,6 @@ public class GGoogleMapsQueryGrid
         buffer[1] = new Vector2d(minX, maxY);
         buffer[2] = new Vector2d(maxX, maxY);
         buffer[3] = new Vector2d(maxX, minY);
+        return new(minX, maxX, minY, maxY);
     }
 }
