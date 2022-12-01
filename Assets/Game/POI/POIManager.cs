@@ -23,6 +23,10 @@ public class POIManager : MonoBehaviour
 
     public void SpawnPOI(GGoogleMapsPOI gPOI)
     {
+        if (POIs.ContainsKey(gPOI.PlaceID))
+        {
+            return;
+        }
         POI poi = Instantiate(POIPrefab, POIContainer).GetComponent<POI>();
         poi.ActivatePOI(gPOI);
 

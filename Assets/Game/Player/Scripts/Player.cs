@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -149,9 +150,23 @@ public class Player : MonoBehaviour
 
     private void QueryPOI()
     {
-        //GGoogleMapsQueryCluster queryCluster = new();
-        //queryCluster.PrepareQueryCluster(queryLocationsBuffer);
-        GGoogleMapsService.MakeNearbyPlacesRequest(Location.X, Location.Y);
+        //TODO Change to Cluster call, remove action null
+        GGoogleMapsQueryCluster cluster = new();
+        cluster.PrepareQueryCluster(queryLocationsBuffer);
+        cluster.QueryAllLocations(ClusterCompleteAction);
+    }
+    private void ClusterCompleteAction(GGoogleMapsQueryCluster cluster)
+    {
+        Debug.Log("Cluster complete!");
+        //Spawn all
+        foreach (GGoogleMapsQueryLocation location in cluster.Locations())
+        {
+            for (int i = 0; i < location.POIs.Count; i++)
+            {
+                GGoogleMapsPOI poi = location.POIs[i];
+                G.POIManager.SpawnPOI(poi);
+            }
+        }
     }
 
     [ContextMenu("Draw Player Radius")]

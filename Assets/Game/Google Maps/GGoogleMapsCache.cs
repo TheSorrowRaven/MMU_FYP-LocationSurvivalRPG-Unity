@@ -1,5 +1,6 @@
 using Mapbox.Utils;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,30 +10,36 @@ public class GGoogleMapsCache
 
     private static G G => G.Instance;
 
-    public Dictionary<string, GGoogleMapsPOI> PlaceIDToGoogleMapPOI = new();
+    public ConcurrentDictionary<string, GGoogleMapsPOI> PlaceIDToGoogleMapPOI = new();
 
-    public Dictionary<Vector2ds, GGoogleMapsQueryLocation> LocationToQueryLocation = new();
-    public Dictionary<Vector2ds, Task<GGoogleMapsQueryLocation>> PendingQueryLocations = new();
+    public ConcurrentDictionary<Vector2ds, GGoogleMapsQueryLocation> LocationToQueryLocation = new();
+    public ConcurrentDictionary<Vector2ds, Task<GGoogleMapsQueryLocation>> PendingQueryLocations = new();
 
-    public void PopulateWithNearbySearchResponse(GGoogleMapsResponses.NearbySearchResponse nearby)
+
+    //TASK
+    public void PopulatePOIsWithQueryLocation(GGoogleMapsQueryLocation queryLocation)
     {
-        for (int i = 0; i < nearby.Results.Count; i++)
+
+        for (int i = 0; i < queryLocation.POIs.Count; i++)
         {
-            GGoogleMapsPOI poi = nearby.Results[i];
-            poi.IsDetailed = false;
+            GGoogleMapsPOI poi = queryLocation.POIs[i];
             string placeID = poi.PlaceID;
             if (PlaceIDToGoogleMapPOI.ContainsKey(poi.PlaceID))
             {
+                //Was added in previous request, Update it
                 PlaceIDToGoogleMapPOI[placeID] = poi;
+                continue;
             }
-            else
+            if (!PlaceIDToGoogleMapPOI.TryAdd(placeID, poi))
             {
-                PlaceIDToGoogleMapPOI.Add(placeID, poi);
-
-                Debug.Log($"D:{G.Haversine(G.Location.X, G.Location.Y, poi.Geometry.Location.Latitude, poi.Geometry.Location.Longitude)} {poi.Name} ({poi.PlaceID})");
-                //test only
-                G.POIManager.SpawnPOI(poi);
+                //Added at the same time (concurrency), Update with (latest?)
+                PlaceIDToGoogleMapPOI[placeID] = poi;
+                continue;
             }
+
+            //Debug.Log($"D:{G.Haversine(G.Location.X, G.Location.Y, poi.Geometry.Location.Latitude, poi.Geometry.Location.Longitude)} {poi.Name} ({poi.PlaceID})");
+            //test only
+            //G.POIManager.SpawnPOI(poi);
 
         }
     }
@@ -45,6 +52,7 @@ public class GGoogleMapsCache
         }
     }
 
+    //TASK
     /// <summary>
     /// If this returns null, it is not cached/querying
     /// </summary>
@@ -56,19 +64,33 @@ public class GGoogleMapsCache
         }
         if (PendingQueryLocations.TryGetValue(location, out Task<GGoogleMapsQueryLocation> queryLocationTask))
         {
+            //If this fails (FinishQueryLocationTaskWithFailure) it will return null
             return await queryLocationTask;
         }
         return null;
     }
 
+    //TASK
     public void AddQueryLocationTask(Vector2ds location, Task<GGoogleMapsQueryLocation> queryLocation)
     {
-        PendingQueryLocations.Add(location, queryLocation);
+        if (!PendingQueryLocations.TryAdd(location, queryLocation))
+        {
+            PendingQueryLocations[location] = queryLocation;
+        }
     }
+    //TASK
     public void FinishQueryLocationTask(Vector2ds location, GGoogleMapsQueryLocation queryLocation)
     {
-        PendingQueryLocations.Remove(location);
-        LocationToQueryLocation.Add(location, queryLocation);
+        PendingQueryLocations.TryRemove(location, out _);
+        if (!LocationToQueryLocation.TryAdd(location, queryLocation))
+        {
+            LocationToQueryLocation[location] = queryLocation;
+        }
+    }
+    //TASK
+    public void FinishQueryLocationTaskWithFailure(Vector2ds location)
+    {
+        PendingQueryLocations.TryRemove(location, out _);
     }
 
 }

@@ -64,15 +64,21 @@ public class G : MonoBehaviour
     }
 
     //Test one more time tomorrow! MAKE SURE to change the Interactable Radius to 100!
-    private double TestLat = 2.92040777778856;
-    private double TestLon = 101.636452902552;
+    //private double TestLat = 2.92040777778856;
+    //private double TestLon = 101.636452902552;
 
-    [ContextMenu("TestGoogleMapsAPI")]
-    public void TestGoogleMapsAPI()
-    {
-        //GGoogleMapsService.MakeNearbyPlacesRequest(Location.X, Location.Y);
-        GGoogleMapsService.MakeNearbyPlacesRequest(TestLat, TestLon);
-    }
+    //[ContextMenu("TestGoogleMapsAPI")]
+    //public void TestGoogleMapsAPI()
+    //{
+    //    GGoogleMapsService.StartNearbyQueryLocation(new(TestLat, TestLon), (res) =>
+    //    {
+    //        for (int i = 0; i < res.POIs.Count; i++)
+    //        {
+    //            GGoogleMapsPOI poi = res.POIs[i];
+    //            Debug.Log($"D:{Haversine(TestLat, TestLon, poi.Geometry.Location.Latitude, poi.Geometry.Location.Longitude)} {poi.Name} ({poi.PlaceID})");
+    //        }
+    //    });
+    //}
 
     private void InitializeServices()
     {

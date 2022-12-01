@@ -1,5 +1,6 @@
 using Mapbox.Utils;
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Video;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+using static GGoogleMapsResponses;
 
 public class GGoogleMapsService
 {
@@ -27,14 +32,14 @@ public class GGoogleMapsService
 
     public void Initialize()
     {
-        BuildLinks();
+        Build();
         Cache = new();
     }
 
-    private void BuildLinks()
+    private void Build()
     {
-        BuildPlaceDetailsLink();
-        BuildNearbyPlacesLink();
+        BuildPlaceDetails();
+        BuildNearbyPlaces();
     }
 
 
@@ -48,7 +53,7 @@ public class GGoogleMapsService
     };
     private string PlaceDetailsLink;
 
-    private void BuildPlaceDetailsLink()
+    private void BuildPlaceDetails()
     {
         PlaceDetailsLink = "https://maps.googleapis.com/maps/api/place/details/json?fields=";
         int i = 0;
@@ -70,116 +75,190 @@ public class GGoogleMapsService
     //Nearby Search
     //https://developers.google.com/maps/documentation/places/web-service/search-nearby
 
-    private string NearbyPlacesLink;
-    private string NearbyPlacesNextPageLink;
+    private HttpClient NearbyPlacesHttpClient;
 
-    private void BuildNearbyPlacesLink()
+    private const string NearbyPlacesURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
+    private string NearbyPlacesURLParameters;
+    private string NearbyPlacesNextPageURLParameters;
+
+    private void BuildNearbyPlaces()
     {
-        NearbyPlacesLink = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key={APIKey}&radius=";
-        NearbyPlacesNextPageLink = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key={APIKey}&pagetoken=";
+        NearbyPlacesURLParameters = $"?key={APIKey}&radius=";
+        NearbyPlacesNextPageURLParameters = $"?key={APIKey}&pagetoken=";
+
+        NearbyPlacesHttpClient = new();
+        NearbyPlacesHttpClient.BaseAddress = new Uri(NearbyPlacesURL);
+        NearbyPlacesHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    /// <summary>
-    /// Entry
-    /// </summary>
-    public async Task<GGoogleMapsQueryLocation> QueryLocation(Vector2ds location)
+    public async Task StartNearbyQueryLocation(Vector2ds location, Action<GGoogleMapsQueryLocation> queryLocationAction = null)
     {
-        //1. Check Cache
-        GGoogleMapsQueryLocation queryLocation = await Cache.TryGetCachedGGoogleMapsQueryLocation(location);
-        if (queryLocation != null)
+        GGoogleMapsQueryLocation queryLocation = await NearbyQueryLocation(location);
+        queryLocationAction?.Invoke(queryLocation);
+    }
+
+    //TASK
+    /// <summary>
+    /// Entry to query a single location
+    /// </summary>
+    private async Task<GGoogleMapsQueryLocation> NearbyQueryLocation(Vector2ds location)
+    {
+        try
         {
-            //Cache hit
+            //1. Check Cache
+            GGoogleMapsQueryLocation queryLocation = await Cache.TryGetCachedGGoogleMapsQueryLocation(location);
+            if (queryLocation != null)
+            {
+                //Cache hit
+                return queryLocation;
+            }
+            queryLocation = new(location);
+            //Cache miss
+            //2. Create query task
+            Task<GGoogleMapsQueryLocation> task = CreateNearbyQueryTask(queryLocation, location.x, location.y);
+            //3. Add to pending cache
+            Cache.AddQueryLocationTask(location, task);
+            //4. Start task
+            task.Start();
+            queryLocation = await task;
+            if (queryLocation.hasFailed)
+            {
+                //5. Remove from cache
+                Cache.FinishQueryLocationTaskWithFailure(location);
+                //6. Return null (MUST BE NULL) so that the request can be automatically made again
+                //Disposes queryLocation
+                return null;
+            }
+            //5. Add to cache
+            Cache.FinishQueryLocationTask(location, queryLocation);
+            //6. Return result
             return queryLocation;
         }
-        //Cache miss
-        //2. Create query task
-        Task<GGoogleMapsQueryLocation> task = MakeNearbyPlacesRequest(location.x, location.y);
-        //3. Add to pending cache
-        Cache.AddQueryLocationTask(location, task);
-        //4. Start task
-        task.Start();
-        queryLocation = await task;
-        //5. Add to cache
-        Cache.FinishQueryLocationTask(location, queryLocation);
-        //6. Return result
-        return queryLocation;
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+            throw e;
+        }
     }
 
 
-
-
-    public Task<GGoogleMapsQueryLocation> MakeNearbyPlacesRequest(double latitude, double longitude)
+    //TASK
+    /// <summary>
+    /// Synchronously creates a task (not started)
+    /// </summary>
+    private Task<GGoogleMapsQueryLocation> CreateNearbyQueryTask(GGoogleMapsQueryLocation queryLocation, double latitude, double longitude)
     {
-        string url = NearbyPlacesLink + $"{GameSettings.POIRadius}&location={latitude}%2C{longitude}";
-        Debug.Log($"> NearbySearch: {url}");
-        Task<GGoogleMapsQueryLocation> task = RequestNearbyPlacesHandler(url);
-        G.StartCoroutine(ExecuteRequestNearbyPlacesTask(task));
+        string urlParams = NearbyPlacesURLParameters + $"{GameSettings.POIRadius}&location={latitude}%2C{longitude}";
+        Debug.Log($"TASK> NearbySearch: {NearbyPlacesURL}{urlParams}");
+        Task<GGoogleMapsQueryLocation> task = new(() => RequestNearbyPlacesHandler(queryLocation, urlParams).Result);
         //Task is not started yet
         return task;
     }
 
-    private void MakeNearbyPlacesNextPageRequest(string nextPageToken)
+    private enum NearbyPlacesStatus
     {
-        string url = NearbyPlacesNextPageLink + nextPageToken;
-        Debug.Log($"> NearbySearch_NextPage: {url}");
-        G.StartCoroutine(RequestNearbyPlacesDelayed(url));
+        Failed, //Continuously failed
+        NetworkFailed,  //not response.IsSuccessStatusCode
+        APIFailed,  //not "OK"
+        ContinueNextPage,
+        Completed,
     }
-
-    private IEnumerator RequestNearbyPlacesDelayed(string url, int retryCount = 0)
+    //TASK
+    private async Task<GGoogleMapsQueryLocation> RequestNearbyPlacesHandler(GGoogleMapsQueryLocation queryLocation, string urlParams)
     {
-        yield return new WaitForSecondsRealtime(GameSettings.GoogleNearbyPlacesNextPageRequestDelay + retryCount * GameSettings.WebRequestFailLinearDelay);
-        yield return RequestNearbyPlaces(url, retryCount);
-    }
-
-
-    private IEnumerator ExecuteRequestNearbyPlacesTask(Task<GGoogleMapsQueryLocation> task)
-    {
-        //Don't start task here yet
-        yield return new WaitUntil(() => task.IsCompleted);
-    }
-
-    private async Task<GGoogleMapsQueryLocation> RequestNearbyPlacesHandler(string url)
-    {
-        GGoogleMapsQueryLocation queryLocation = new();
-
-    }
-
-    private async Task RequestNearbyPlaces(string url, GGoogleMapsQueryLocation queryLocation)
-    {
-        UnityWebRequest req = UnityWebRequest.Get(url);
-        var reqAsync = req.SendWebRequest();
-
-        while (!reqAsync.isDone)
+        int retryCount = 0;
+        NearbyPlacesStatus status = await RequestNearbyPlaces(urlParams, queryLocation, retryCount++);
+        while (true)
         {
-            await Task.Yield();
+            bool breakOut = false;
+            switch (status)
+            {
+                case NearbyPlacesStatus.NetworkFailed:
+                case NearbyPlacesStatus.APIFailed:
+                    status = await NearbyPlacesRetry(urlParams, queryLocation, retryCount);
+                    break;
+                case NearbyPlacesStatus.ContinueNextPage:
+                    retryCount = 0;
+                    status = await MakeNearbyPlacesNextPageRequest(queryLocation.nextPageToken, queryLocation, retryCount);
+                    break;
+                case NearbyPlacesStatus.Completed:
+                    breakOut = true;
+                    break;
+                case NearbyPlacesStatus.Failed:
+                    queryLocation.hasFailed = true;
+                    breakOut = true;
+                    break;
+            }
+            if (breakOut)
+            {
+                break;
+            }
         }
+        return queryLocation;
+    }
 
-        if (req.result != UnityWebRequest.Result.Success)
+    //TASK
+    private async Task<NearbyPlacesStatus> RequestNearbyPlaces(string urlParams, GGoogleMapsQueryLocation queryLocation, int retryCount)
+    {
+        HttpResponseMessage response = await NearbyPlacesHttpClient.GetAsync(urlParams);
+
+        if (!response.IsSuccessStatusCode)
         {
             //Network Error
-            Debug.Log($"Network Error: {req.result} (URL: {url})");
-            return NearbyPlacesRetry(url, retryCount);  //NEXT: Move this into handler, return a state instead
+            Debug.Log($"Network Error: {response.ReasonPhrase} (URL: {response.RequestMessage.RequestUri})");
+            return NearbyPlacesStatus.NetworkFailed;
         }
-        string res = req.downloadHandler.text;
-        GGoogleMapsResponses.NearbySearchResponse nearbySearchResponse = JsonConvert.DeserializeObject<GGoogleMapsResponses.NearbySearchResponse>(res);
+        string res = await response.Content.ReadAsStringAsync();
+        NearbySearchResponse nearbySearchResponse = JsonConvert.DeserializeObject<NearbySearchResponse>(res);
         string status = nearbySearchResponse.Status;
         if (status != "OK")
         {
-            Debug.LogWarning($"NearbyPlaces returned Status:{status} for URL: {url}, Retry Count:{retryCount}");
-            return NearbyPlacesRetry(url, retryCount);  //NEXT: Move this into handler, return a state instead
+            Debug.LogWarning($"NearbyPlaces returned Status:{status} for URL: {response.RequestMessage.RequestUri}, Retry Count:{retryCount}");
+            return NearbyPlacesStatus.APIFailed;
         }
 
-        Debug.Log($"NearbyPlaces Success with Status OK (URL: {url}) - {res}");
+        Debug.Log($"NearbyPlaces Success with Status OK (URL: {response.RequestMessage.RequestUri}) - {res}");
 
-        Cache.PopulateWithNearbySearchResponse(nearbySearchResponse);
+        //Fill queryLocation
+        ProcessNearbySearchResponse(queryLocation, nearbySearchResponse);
 
         //Next page
         if (nearbySearchResponse.NextPageToken != null)
         {
-            MakeNearbyPlacesNextPageRequest(nearbySearchResponse.NextPageToken);  //NEXT: Move this into handler, return a state instead
+            queryLocation.nextPageToken = nearbySearchResponse.NextPageToken;
+            return NearbyPlacesStatus.ContinueNextPage;
         }
+        queryLocation.nextPageToken = null;
+        return NearbyPlacesStatus.Completed;
     }
 
+    //TASK
+    private void ProcessNearbySearchResponse(GGoogleMapsQueryLocation queryLocation, NearbySearchResponse nearbySearchResponse)
+    {
+        queryLocation.AddPOIsWithNearbySearchResponse(nearbySearchResponse);
+        Cache.PopulatePOIsWithQueryLocation(queryLocation);
+    }
+
+    //TASK
+    private async Task<NearbyPlacesStatus> NearbyPlacesRetry(string urlParams, GGoogleMapsQueryLocation queryLocation, int retryCount)
+    {
+        if (retryCount <= GameSettings.WebRequestRetryMax)
+        {
+            //If within the max retries limit, make request again
+            await Task.Delay((int)((GameSettings.GoogleNearbyPlacesNextPageRequestDelay + retryCount * GameSettings.WebRequestFailLinearDelay) * 1000));
+            return await RequestNearbyPlaces(urlParams, queryLocation, retryCount);
+        }
+        Debug.LogError($"NearbyPlaces failed to retrieve!!! URL: {urlParams}");
+        return NearbyPlacesStatus.Failed;
+    }
+
+    //TASK
+    private async Task<NearbyPlacesStatus> MakeNearbyPlacesNextPageRequest(string nextPageToken, GGoogleMapsQueryLocation queryLocation, int retryCount)
+    {
+        string urlParams = NearbyPlacesNextPageURLParameters + nextPageToken;
+        Debug.Log($"> NearbySearch_NextPage: {urlParams}");
+        return await RequestNearbyPlaces(urlParams, queryLocation, retryCount);
+    }
 
     //private IEnumerator RequestNearbyPlaces(string url, int retryCount = 0)
     //{
@@ -214,16 +293,16 @@ public class GGoogleMapsService
     //    }
     //}
 
-    private void NearbyPlacesRetry(string url, int retryCount)
-    {
-        if (retryCount <= GameSettings.WebRequestRetryMax)
-        {
-            //If within the max retries limit, make request again
-            G.StartCoroutine(RequestNearbyPlacesDelayed(url, retryCount + 1));
-            return;
-        }
-        Debug.LogError($"NearbyPlaces failed to retrieve!!! URL: {url}");
-    }
+    //private void NearbyPlacesRetry(string url, int retryCount)
+    //{
+    //    if (retryCount <= GameSettings.WebRequestRetryMax)
+    //    {
+    //        //If within the max retries limit, make request again
+    //        G.StartCoroutine(RequestNearbyPlacesDelayed(url, retryCount + 1));
+    //        return;
+    //    }
+    //    Debug.LogError($"NearbyPlaces failed to retrieve!!! URL: {url}");
+    //}
 
 
     #endregion

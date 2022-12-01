@@ -256,6 +256,10 @@ public class PlayerLocation
     {
         return new(vector2d.x, vector2d.y);
     }
+    public static implicit operator Vector2ds(PlayerLocation location)
+    {
+        return new(location.x, location.y);
+    }
 
     public override string ToString()
     {
