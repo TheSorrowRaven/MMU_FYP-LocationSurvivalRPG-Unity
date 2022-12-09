@@ -115,7 +115,6 @@ public class Player : MonoBehaviour
             //In the same cell
             return;
         }
-        Debug.Log("Different!, Querying");
         //In a different cell
         UpdateLastQueryLocations();
         lastPOIQueryTime = now;
@@ -160,18 +159,10 @@ public class Player : MonoBehaviour
         //Spawn all
         foreach (GGoogleMapsQueryLocation location in cluster.Locations())
         {
-            for (int i = 0; i < location.POIs.Count; i++)
+            foreach (GGoogleMapsPOI poi in location.DensityFilteredPOIs)
             {
-                GGoogleMapsPOI poi = location.POIs[i];
-                if (cluster.QueryBounds.Within(poi.Geometry.Location))
-                {
-                    //Debug.Log("Within: {poi.Name} ({poi.PlaceID})");
-                    G.POIManager.SpawnPOI(poi);
-                }
-                else
-                {
-                    //Debug.Log($"Not Within: {poi.Name} ({poi.PlaceID})");
-                }
+                //Debug.Log($"{poi.Name} ({poi.PlaceID})");
+                G.POIManager.SpawnPOI(poi);
             }
             var o = Instantiate(G.DebugCube, G.GeoToWorld(location.Location), Quaternion.identity);
             o.name = location.Location.ToString();

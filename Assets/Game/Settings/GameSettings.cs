@@ -18,7 +18,6 @@ public class GameSettings : MonoBehaviour
 
     //In meters
     [field: SerializeField] public int POIRadius { get; private set; } = 25;
-    [field: SerializeField] public double MetersTravelledBeforePOIQuery { get; set; } = 25;
     //In seconds
     [field: SerializeField] public float DelayBeforePOIQuery { get; set; } = 2f;
 
@@ -27,10 +26,9 @@ public class GameSettings : MonoBehaviour
     [field: SerializeField] public double MovementSpeed { get; private set; } = 0.000001;
     [field: SerializeField] public double MovementSpeedMultiplier { get; private set; } = 3.0;
 
-    
 
 
-
+    [field: Header("Google Maps Query")]
     [field: SerializeField] public float GoogleNearbyPlacesNextPageRequestDelay { get; private set; }
     [field: SerializeField] public int WebRequestRetryMax { get; private set; }
     [field: SerializeField] public float WebRequestFailLinearDelay { get; private set; }
@@ -39,6 +37,10 @@ public class GameSettings : MonoBehaviour
     [field: SerializeField] public double LatLonDistanceQueryRadius { get; private set; }
     [field: SerializeField] public double MetersDistanceQueryRadius { get; private set; }
     [field: SerializeField] public double UnityUnitsDistanceQueryRadius { get; private set; }
+
+
+    [field: Header("POI Density")]
+    [field: SerializeField] public float MetersDistanceDensityRadius { get; private set; }
 
 
     private void OnValidate()

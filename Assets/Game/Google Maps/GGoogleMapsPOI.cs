@@ -12,6 +12,7 @@ using Unity.VisualScripting;
 [Serializable]
 public class GGoogleMapsPOI
 {
+    private static G G => G.Instance;
 
     #region Classes
     [Serializable]
@@ -149,7 +150,13 @@ public class GGoogleMapsPOI
 
     #endregion
 
+
     public bool IsDetailed = false;
+    public Vector2d Location => Geometry.Location;
+    public Vector2 UnityPosition => G.GeoToWorld(Location);
+
+
+
 
     [JsonProperty("name")]
     public string Name { get; set; }
@@ -166,9 +173,9 @@ public class GGoogleMapsPOI
     public List<Photo> Photos { get; set; }
 
     [JsonProperty("rating")]
-    public decimal? Rating { get; set; }
+    public decimal Rating { get; set; }
     [JsonProperty("user_ratings_total")]
-    public int? TotalUserRatings { get; set; }
+    public int TotalUserRatings { get; set; }
     [JsonProperty("reviews")]
     public List<Review> Reviews { get; set; }
 
@@ -182,7 +189,7 @@ public class GGoogleMapsPOI
 
 
     //Below are properties requestable but currently ignored (There are more in https://developers.google.com/maps/documentation/places/web-service/details)
-    
+
     //[JsonProperty("formatted_address")]
     //public string FullAddress { get; set; }
 

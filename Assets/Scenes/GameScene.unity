@@ -1753,17 +1753,17 @@ MonoBehaviour:
   <LocationUpdateDistanceInMeters>k__BackingField: 1
   <LocationSmoothingTime>k__BackingField: 0.05
   <POIRadius>k__BackingField: 20
-  <MetersTravelledBeforePOIQuery>k__BackingField: 25
   <DelayBeforePOIQuery>k__BackingField: 2
   <PlayerMapOrbitalCameraSpeed>k__BackingField: 1
   <MovementSpeed>k__BackingField: 0.000001
-  <MovementSpeedMultiplier>k__BackingField: 3
+  <MovementSpeedMultiplier>k__BackingField: 10
   <GoogleNearbyPlacesNextPageRequestDelay>k__BackingField: 1.25
   <WebRequestRetryMax>k__BackingField: 10
   <WebRequestFailLinearDelay>k__BackingField: 0.3
   <LatLonDistanceQueryRadius>k__BackingField: 0.00017986432118374611
   <MetersDistanceQueryRadius>k__BackingField: 20
   <UnityUnitsDistanceQueryRadius>k__BackingField: 13.1143833571658
+  <MetersDistanceDensityRadius>k__BackingField: 10
 --- !u!114 &1055705022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1783,6 +1783,8 @@ MonoBehaviour:
   MainCameraTR: {fileID: 330585546}
   POIManager: {fileID: 221734821}
   DebugCube: {fileID: 2415978834685819626, guid: b60914e965e577e4b881103d4b126174,
+    type: 3}
+  GooglePOITypesDefinition: {fileID: 4900000, guid: 0b9095ea3086d244599f443d8efd4803,
     type: 3}
   MovementJoystick: {fileID: 1976907792}
   GPSToggle: {fileID: 1338012643}

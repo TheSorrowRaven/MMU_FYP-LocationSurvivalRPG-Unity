@@ -6,8 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-using static UnityEditor.Progress;
 
 public class G : MonoBehaviour
 {
@@ -32,6 +30,8 @@ public class G : MonoBehaviour
     public POIManager POIManager;
 
     public GameObject DebugCube;
+
+    public TextAsset GooglePOITypesDefinition;
 
     [NonSerialized] public double PhysicalMetersPerUnityUnits;
 
@@ -59,13 +59,11 @@ public class G : MonoBehaviour
 
     }
 
-    private Vector2d[] posBuffer;
-
     private void Update()
     {
     }
 
-    //Test one more time tomorrow! MAKE SURE to change the Interactable Radius to 100!
+
     //private double TestLat = 2.92040777778856;
     //private double TestLon = 101.636452902552;
 

@@ -19,10 +19,8 @@ public class GGoogleMapsCache
     //TASK
     public void PopulatePOIsWithQueryLocation(GGoogleMapsQueryLocation queryLocation)
     {
-
-        for (int i = 0; i < queryLocation.POIs.Count; i++)
+        foreach (GGoogleMapsPOI poi in queryLocation.DensityFilteredPOIs)
         {
-            GGoogleMapsPOI poi = queryLocation.POIs[i];
             string placeID = poi.PlaceID;
             if (PlaceIDToGoogleMapPOI.ContainsKey(poi.PlaceID))
             {
@@ -40,7 +38,6 @@ public class GGoogleMapsCache
             //Debug.Log($"D:{G.Haversine(G.Location.X, G.Location.Y, poi.Geometry.Location.Latitude, poi.Geometry.Location.Longitude)} {poi.Name} ({poi.PlaceID})");
             //test only
             //G.POIManager.SpawnPOI(poi);
-
         }
     }
 
@@ -60,7 +57,6 @@ public class GGoogleMapsCache
     {
         if (LocationToQueryLocation.TryGetValue(location, out GGoogleMapsQueryLocation queryLocation))
         {
-            Debug.Log("Cache hit");
             return queryLocation;
         }
         if (PendingQueryLocations.TryGetValue(location, out Task<GGoogleMapsQueryLocation> queryLocationTask))

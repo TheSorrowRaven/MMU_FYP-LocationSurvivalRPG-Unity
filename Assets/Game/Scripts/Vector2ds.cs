@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mapbox.Utils;
 using System;
+using UnityEngine.Assertions.Comparers;
 
 /// <summary>
 /// Vector2d Serialiazble and Comparable

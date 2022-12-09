@@ -274,51 +274,6 @@ public class GGoogleMapsService
         return urlParams;
     }
 
-    //private IEnumerator RequestNearbyPlaces(string url, int retryCount = 0)
-    //{
-    //    UnityWebRequest req = UnityWebRequest.Get(url);
-    //    yield return req.SendWebRequest();
-
-    //    if (req.result != UnityWebRequest.Result.Success)
-    //    {
-    //        //Network Error
-    //        Debug.Log($"Network Error: {req.result} (URL: {url})");
-    //        NearbyPlacesRetry(url, retryCount);
-    //        yield break;
-    //    }
-    //    string res = req.downloadHandler.text;
-    //    GGoogleMapsResponses.NearbySearchResponse nearbySearchResponse = JsonConvert.DeserializeObject<GGoogleMapsResponses.NearbySearchResponse>(res);
-    //    string status = nearbySearchResponse.Status;
-    //    if (status != "OK")
-    //    {
-    //        Debug.LogWarning($"NearbyPlaces returned Status:{status} for URL: {url}, Retry Count:{retryCount}");
-    //        NearbyPlacesRetry(url, retryCount);
-    //        yield break;
-    //    }
-
-    //    Debug.Log($"NearbyPlaces Success with Status OK (URL: {url}) - {res}");
-
-    //    Cache.PopulateWithNearbySearchResponse(nearbySearchResponse);
-
-    //    //Next page
-    //    if (nearbySearchResponse.NextPageToken != null)
-    //    {
-    //        MakeNearbyPlacesNextPageRequest(nearbySearchResponse.NextPageToken);
-    //    }
-    //}
-
-    //private void NearbyPlacesRetry(string url, int retryCount)
-    //{
-    //    if (retryCount <= GameSettings.WebRequestRetryMax)
-    //    {
-    //        //If within the max retries limit, make request again
-    //        G.StartCoroutine(RequestNearbyPlacesDelayed(url, retryCount + 1));
-    //        return;
-    //    }
-    //    Debug.LogError($"NearbyPlaces failed to retrieve!!! URL: {url}");
-    //}
-
-
     #endregion
 
 
