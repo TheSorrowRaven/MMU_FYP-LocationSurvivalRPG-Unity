@@ -132,4 +132,28 @@ public class G : MonoBehaviour
         return val;
     }
 
+    // Function to perform a Mercator projection and map coordinates to pixel units
+    public static void MercatorProjection(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
+    {
+        // Convert longitude and latitude to radians
+        double lon = longitude * Math.PI / 180.0;
+        double lat = latitude * Math.PI / 180.0;
+
+        // Perform the Mercator projection
+        x = (int)(pixelWidth * (lon + Math.PI) / (2 * Math.PI));
+        y = (int)(pixelHeight * (Math.PI - Math.Log(Math.Tan(lat / 2 + Math.PI / 4))));
+    }
+
+    // Function to perform a Miller cylindrical projection and map coordinates to pixel units
+    public static void MillerCylindricalProjection(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
+    {
+        // Convert longitude and latitude to radians
+        double lon = longitude * Math.PI / 180.0;
+        double lat = latitude * Math.PI / 180.0;
+
+        // Perform the Miller cylindrical projection
+        x = (int)(pixelWidth * (lon + Math.PI) / (2 * Math.PI));
+        y = (int)(pixelHeight * lat / Math.PI);
+    }
+
 }

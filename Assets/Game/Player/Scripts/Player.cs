@@ -1,8 +1,6 @@
 using Mapbox.Utils;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -155,8 +153,9 @@ public class Player : MonoBehaviour
     }
     private void ClusterCompleteAction(GGoogleMapsQueryCluster cluster)
     {
-        Debug.Log("Cluster complete!");
+        //Debug.Log("Cluster complete!");
         //Spawn all
+        G.POIManager.StartSpawningPOIs();
         foreach (GGoogleMapsQueryLocation location in cluster.Locations())
         {
             foreach (GGoogleMapsPOI poi in location.DensityFilteredPOIs)
@@ -168,6 +167,7 @@ public class Player : MonoBehaviour
             o.name = location.Location.ToString();
             (o.GetComponent<GTest2>()).location = location.Location;
         }
+        G.POIManager.EndSpawningPOIs();
     }
 
     [ContextMenu("Draw Player Radius")]

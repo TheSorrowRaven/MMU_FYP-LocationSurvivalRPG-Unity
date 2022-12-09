@@ -7,12 +7,20 @@ public class POI : MonoBehaviour
 {
     private static G G => G.Instance;
 
-    [SerializeField] private Transform ThisTR;
+    [SerializeField] public Transform ThisTR;
 
     [SerializeField] private Transform ScreenFacerTR;
     [SerializeField] private TextMeshPro NameText;
+    [SerializeField] private GameObject display;
 
     [System.NonSerialized] public GGoogleMapsPOI gPOI;
+    [System.NonSerialized] private bool active; // Display is showing
+
+    private void Awake()
+    {
+        active = false;
+        display.SetActive(false);
+    }
 
     public void ActivatePOI(GGoogleMapsPOI gPOI)
     {
@@ -41,8 +49,24 @@ public class POI : MonoBehaviour
         ThisTR.localPosition = pos;
     }
 
+    public void Hidden()
+    {
+        display.SetActive(false);
+        active = false;
+    }
+    public void Seen()
+    {
+        display.SetActive(true);
+        active = true;
+    }
+
+
     private void Update()
     {
+        if (!active)
+        {
+            return;
+        }
         ScreenFacerTR.LookAt(G.MainCameraTR);
     }
 

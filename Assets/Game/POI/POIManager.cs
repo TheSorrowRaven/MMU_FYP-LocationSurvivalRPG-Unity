@@ -13,6 +13,10 @@ public class POIManager : MonoBehaviour
     [SerializeField] private Transform POIContainer;
     [SerializeField] private GameObject POIPrefab;
 
+    [SerializeField] private float cooldownToClearPOIs;
+    [SerializeField] private Vector2 distanceFromPlayerToClearPOI;
+    [System.NonSerialized] private float cooldownCount;
+
     [System.NonSerialized] private Dictionary<string, POI> POIs = new();
     [System.NonSerialized] private Dictionary<string, POITypeDefinition> POITypeDefinitions;
     [System.NonSerialized] private HashSet<string> UndefinedTypes = new();
@@ -29,6 +33,35 @@ public class POIManager : MonoBehaviour
         LoadPOITypesDefinition();
     }
 
+    private void Update()
+    {
+        UpdateClearPOI();
+    }
+
+    private void UpdateClearPOI()
+    {
+        cooldownCount -= Time.deltaTime;
+        if (cooldownCount > 0)
+        {
+            return;
+        }
+        cooldownCount = cooldownToClearPOIs;
+        List<string> removingPOIs = new();
+        foreach (KeyValuePair<string, POI> item in POIs)
+        {
+            POI poi = item.Value;
+            Vector2 pos = poi.ThisTR.localPosition;
+            if (Mathf.Abs(pos.x) > distanceFromPlayerToClearPOI.x && Mathf.Abs(pos.y) > distanceFromPlayerToClearPOI.y)
+            {
+                removingPOIs.Add(item.Key);
+            }
+        }
+        for (int i = 0; i < removingPOIs.Count; i++)
+        {
+            RemovePOI(removingPOIs[i]);
+        }
+    }
+
     private void LoadPOITypesDefinition()
     {
         string text = G.GooglePOITypesDefinition.text;
@@ -43,14 +76,23 @@ public class POIManager : MonoBehaviour
     public void AddUndefinedTypes(string type)
     {
         bool added = UndefinedTypes.Add(type);
-        if (added)
+        if (!added)
         {
             return;
         }
         Debug.LogWarning($"POI Type: {type} not defined");
     }
 
+    public void StartSpawningPOIs()
+    {
 
+    }
+
+    public void RemovePOI(string placeID)
+    {
+        POIs.Remove(placeID, out POI poi);
+        poi.gameObject.Destroy();
+    }
 
     public void SpawnPOI(GGoogleMapsPOI gPOI)
     {
@@ -62,6 +104,11 @@ public class POIManager : MonoBehaviour
         poi.ActivatePOI(gPOI);
 
         POIs.Add(gPOI.PlaceID, poi);
+    }
+
+    public void EndSpawningPOIs()
+    {
+
     }
 
     public void UpdatePOI(GGoogleMapsPOI gPOI)

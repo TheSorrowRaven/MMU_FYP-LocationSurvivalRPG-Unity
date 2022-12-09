@@ -150,6 +150,7 @@
   "route": {
     "ignored": true
   },
+  "grocery_or_supermarket": {},
   "rv_park": {},
   "school": {},
   "secondary_school": {},

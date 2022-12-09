@@ -1,19 +1,13 @@
 {
     "m_SelectedDeviceId": "R58M422T2MB",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "R58M422T2MB",
+        "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
+        "processId": 24968,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
-        {
-            "deviceId": "R58M422T2MB",
-            "name": "com.sec.android.app.launcher",
-            "processId": 8958,
-            "exited": false
-        },
         {
             "deviceId": "R58M422T2MB",
             "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
@@ -37,6 +31,12 @@
             "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
             "processId": 18139,
             "exited": true
+        },
+        {
+            "deviceId": "R58M422T2MB",
+            "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
+            "processId": 24968,
+            "exited": false
         }
     ],
     "m_Tags": {
