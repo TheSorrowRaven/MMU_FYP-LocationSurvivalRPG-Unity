@@ -4,6 +4,7 @@ using Mapbox.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 
@@ -45,6 +46,9 @@ public class G : MonoBehaviour
     {
         instance = this;
         Location = new(2.923140, 101.639631);
+        //Location = new(64.140965, -21.912568);
+        //Location = new(72.536582, 92.650241);
+        //Location = new(0, 0);
     }
 
     private void Start()
@@ -154,6 +158,32 @@ public class G : MonoBehaviour
         // Perform the Miller cylindrical projection
         x = (int)(pixelWidth * (lon + Math.PI) / (2 * Math.PI));
         y = (int)(pixelHeight * lat / Math.PI);
+    }
+
+    public static void MercatorProjection2(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
+    {
+        int mapWidth = pixelWidth;
+        int mapHeight = pixelHeight;
+
+        // get x value
+        x = (int)((longitude + 180.0) * (mapWidth / 360.0));
+
+        // convert from degrees to radians
+        double latRad = latitude * Math.PI / 180;
+
+        // get y value
+        double mercN = Math.Log(Math.Tan((Math.PI / 4) + (latRad / 2)));
+        y = (int)((mapHeight / 2.0) - (mapWidth * mercN / (2 * Math.PI)));
+    }
+
+    public Vector2Int EquirectangularProjection(double lat, double lon, int imageWidth, int imageHeight)
+    {
+        // Project the longitude and latitude values onto the image
+        int projectedX = (int)((lon + 180) / 360.0 * imageWidth);
+        int projectedY = (int)((lat + 90) / 180.0 * imageHeight);
+
+        // Return the projected coordinates as a Point object
+        return new Vector2Int(projectedX, projectedY);
     }
 
 }

@@ -225,7 +225,11 @@ public class GGoogleMapsService
         string res = await response.Content.ReadAsStringAsync();
         NearbySearchResponse nearbySearchResponse = JsonConvert.DeserializeObject<NearbySearchResponse>(res);
         string status = nearbySearchResponse.Status;
-        if (status != "OK")
+        if (status == "ZERO_RESULTS")
+        {
+
+        }
+        else if (status != "OK")
         {
             Debug.LogWarning($"NearbyPlaces returned Status:{status} for URL: {response.RequestMessage.RequestUri}, Retry Count:{retryCount}");
             return NearbyPlacesStatus.APIFailed;
