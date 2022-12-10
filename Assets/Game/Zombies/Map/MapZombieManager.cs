@@ -79,7 +79,7 @@ public class MapZombieManager : MonoBehaviour
     private void SpawnZombiesAroundCell(Vector2Int playerCell)
     {
         float density = PopulationDensityMapper.GetDensity(G.Location);
-        float spawnRate = density / densityDivision;
+        float spawnRate = Mathf.Max(density / densityDivision, 1);  //At least 1 zombie
 
         for (int x = -1; x <= 1; x++)
         {
