@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 public class G : MonoBehaviour
 {
@@ -45,10 +46,17 @@ public class G : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        Application.targetFrameRate = 60;
+
         Location = new(2.923140, 101.639631);
         //Location = new(64.140965, -21.912568);
         //Location = new(72.536582, 92.650241);
         //Location = new(0, 0);
+        //Location = new(41.864515, -75.125218); //Away from NY
+        //Location = new(40.722050, -73.988062); //NY
+
+
     }
 
     private void Start()
@@ -136,47 +144,47 @@ public class G : MonoBehaviour
         return val;
     }
 
-    // Function to perform a Mercator projection and map coordinates to pixel units
-    public static void MercatorProjection(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
-    {
-        // Convert longitude and latitude to radians
-        double lon = longitude * Math.PI / 180.0;
-        double lat = latitude * Math.PI / 180.0;
+    //// Function to perform a Mercator projection and map coordinates to pixel units
+    //public static void MercatorProjection(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
+    //{
+    //    // Convert longitude and latitude to radians
+    //    double lon = longitude * Math.PI / 180.0;
+    //    double lat = latitude * Math.PI / 180.0;
 
-        // Perform the Mercator projection
-        x = (int)(pixelWidth * (lon + Math.PI) / (2 * Math.PI));
-        y = (int)(pixelHeight * (Math.PI - Math.Log(Math.Tan(lat / 2 + Math.PI / 4))));
-    }
+    //    // Perform the Mercator projection
+    //    x = (int)(pixelWidth * (lon + Math.PI) / (2 * Math.PI));
+    //    y = (int)(pixelHeight * (Math.PI - Math.Log(Math.Tan(lat / 2 + Math.PI / 4))));
+    //}
 
-    // Function to perform a Miller cylindrical projection and map coordinates to pixel units
-    public static void MillerCylindricalProjection(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
-    {
-        // Convert longitude and latitude to radians
-        double lon = longitude * Math.PI / 180.0;
-        double lat = latitude * Math.PI / 180.0;
+    //// Function to perform a Miller cylindrical projection and map coordinates to pixel units
+    //public static void MillerCylindricalProjection(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
+    //{
+    //    // Convert longitude and latitude to radians
+    //    double lon = longitude * Math.PI / 180.0;
+    //    double lat = latitude * Math.PI / 180.0;
 
-        // Perform the Miller cylindrical projection
-        x = (int)(pixelWidth * (lon + Math.PI) / (2 * Math.PI));
-        y = (int)(pixelHeight * lat / Math.PI);
-    }
+    //    // Perform the Miller cylindrical projection
+    //    x = (int)(pixelWidth * (lon + Math.PI) / (2 * Math.PI));
+    //    y = (int)(pixelHeight * lat / Math.PI);
+    //}
 
-    public static void MercatorProjection2(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
-    {
-        int mapWidth = pixelWidth;
-        int mapHeight = pixelHeight;
+    //public static void MercatorProjection2(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)
+    //{
+    //    int mapWidth = pixelWidth;
+    //    int mapHeight = pixelHeight;
 
-        // get x value
-        x = (int)((longitude + 180.0) * (mapWidth / 360.0));
+    //    // get x value
+    //    x = (int)((longitude + 180.0) * (mapWidth / 360.0));
 
-        // convert from degrees to radians
-        double latRad = latitude * Math.PI / 180;
+    //    // convert from degrees to radians
+    //    double latRad = latitude * Math.PI / 180;
 
-        // get y value
-        double mercN = Math.Log(Math.Tan((Math.PI / 4) + (latRad / 2)));
-        y = (int)((mapHeight / 2.0) - (mapWidth * mercN / (2 * Math.PI)));
-    }
+    //    // get y value
+    //    double mercN = Math.Log(Math.Tan((Math.PI / 4) + (latRad / 2)));
+    //    y = (int)((mapHeight / 2.0) - (mapWidth * mercN / (2 * Math.PI)));
+    //}
 
-    public Vector2Int EquirectangularProjection(double lat, double lon, int imageWidth, int imageHeight)
+    public static Vector2Int EquirectangularProjection(double lat, double lon, int imageWidth, int imageHeight)
     {
         // Project the longitude and latitude values onto the image
         int projectedX = (int)((lon + 180) / 360.0 * imageWidth);
@@ -184,6 +192,15 @@ public class G : MonoBehaviour
 
         // Return the projected coordinates as a Point object
         return new Vector2Int(projectedX, projectedY);
+    }
+
+    public static Vector2 RandomPosition(Vector2 min, Vector2 max)
+    {
+        float r = UnityEngine.Random.value;
+        float x = min.x + (r * (max.x - min.x));
+        r = UnityEngine.Random.value;
+        float y = min.y + (r * (max.y - min.y));
+        return new(x, y);
     }
 
 }

@@ -18,8 +18,7 @@ public class POI : MonoBehaviour
 
     private void Awake()
     {
-        active = false;
-        display.SetActive(false);
+        Hidden();
     }
 
     public void ActivatePOI(GGoogleMapsPOI gPOI)
@@ -28,8 +27,6 @@ public class POI : MonoBehaviour
         UpdatePosition();
 
         NameText.SetText(gPOI.Name);
-
-        gameObject.SetActive(true);
     }
 
     //Full Update

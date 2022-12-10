@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private static G G => G.Instance;
     private static GameSettings GameSettings => GameSettings.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
+    private static MapZombieManager MapZombieManager => MapZombieManager.Instance;
 
     private static PlayerLocation Location => G.Location;
 
@@ -28,6 +29,8 @@ public class Player : MonoBehaviour
     [System.NonSerialized] private Vector2d lastQueryLocation;
     [System.NonSerialized] private Vector2d[] queryLocationsBuffer = new Vector2d[4];
     [System.NonSerialized] private Vector2d[] lastQueryLocations = new Vector2d[4];
+
+    [System.NonSerialized] private Vector2Int lastMapZombieCell;
 
     private void Awake()
     {
@@ -52,6 +55,7 @@ public class Player : MonoBehaviour
         Map_PositionUpdate();
         Map_RotationUpdate();
         Map_POIUpdate();
+        Map_ZombiesUpdate();
     }
 
     private void Map_PositionUpdate()
@@ -61,7 +65,7 @@ public class Player : MonoBehaviour
             return;
         }
         Location.Update();
-
+        
         if (Location.X == lastLat && Location.Y == lastLon)
         {
             //Skip Update (No change in position)
@@ -120,6 +124,21 @@ public class Player : MonoBehaviour
         //Query
         QueryPOI(bounds);
     }
+
+    private void Map_ZombiesUpdate()
+    {
+        Vector2Int currentCell = MapZombieManager.GeoToCell(Location);
+        if (currentCell == lastMapZombieCell)
+        {
+            return;
+        }
+        lastMapZombieCell = currentCell;
+        MapZombieManager.PlayerUpdate(currentCell);
+    }
+
+
+
+
 
     private void UpdateLastQueryLocations()
     {

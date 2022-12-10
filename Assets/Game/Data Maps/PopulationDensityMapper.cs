@@ -10,6 +10,8 @@ public class PopulationDensityMapper : MonoBehaviour
     private static G G => G.Instance;
 
     public Texture2D MapTexture;
+    public float MinPopulationDensity;
+    public float MaxPopulationDensity;
 
     private void Awake()
     {
@@ -18,10 +20,10 @@ public class PopulationDensityMapper : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(Get(G.Location));
+        Debug.Log(GetDensity(G.Location));
     }
 
-    public float Get(Vector2d geo)
+    public float GetFloat(Vector2d geo)
     {
         Vector2Int pixelPos = G.EquirectangularProjection(geo.x, geo.y, MapTexture.width, MapTexture.height);
         Color color = MapTexture.GetPixel(pixelPos.x, pixelPos.y);
@@ -30,6 +32,13 @@ public class PopulationDensityMapper : MonoBehaviour
             return 0;
         }
         return 1 - color.r;
+    }
+
+    public float GetDensity(Vector2d geo)
+    {
+        float val = GetFloat(geo);
+        float density = MinPopulationDensity + (val * (MaxPopulationDensity - MinPopulationDensity));
+        return density;
     }
 
 

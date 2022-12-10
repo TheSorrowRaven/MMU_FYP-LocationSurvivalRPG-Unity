@@ -50,8 +50,8 @@ public class POIManager : MonoBehaviour
         foreach (KeyValuePair<string, POI> item in POIs)
         {
             POI poi = item.Value;
-            Vector2 pos = poi.ThisTR.localPosition;
-            if (Mathf.Abs(pos.x) > distanceFromPlayerToClearPOI.x && Mathf.Abs(pos.y) > distanceFromPlayerToClearPOI.y)
+            Vector3 pos = poi.ThisTR.localPosition;
+            if (Mathf.Abs(pos.x) > distanceFromPlayerToClearPOI.x && Mathf.Abs(pos.z) > distanceFromPlayerToClearPOI.y)
             {
                 removingPOIs.Add(item.Key);
             }
