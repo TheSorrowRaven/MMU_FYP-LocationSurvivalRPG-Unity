@@ -32,6 +32,23 @@ public class Player : MonoBehaviour
 
     [System.NonSerialized] private Vector2Int lastMapZombieCell;
 
+
+
+    #region Gameplay
+
+    [field: SerializeField] public int Level { get; private set; }
+    [field: SerializeField] public int Experience { get; private set; }
+
+    [field: SerializeField] public int Health { get; private set; }
+    [field: SerializeField] public int Hunger { get; private set; }
+    [field: SerializeField] public int Energy { get; private set; }
+
+
+    #endregion
+
+
+
+
     private void Awake()
     {
         lastLat = double.MinValue;
@@ -182,9 +199,9 @@ public class Player : MonoBehaviour
                 //Debug.Log($"{poi.Name} ({poi.PlaceID})");
                 G.POIManager.SpawnPOI(poi);
             }
-            var o = Instantiate(G.DebugCube, G.GeoToWorld(location.Location), Quaternion.identity);
-            o.name = location.Location.ToString();
-            (o.GetComponent<GTest2>()).location = location.Location;
+            //var o = Instantiate(G.DebugCube, G.GeoToWorld(location.Location), Quaternion.identity);
+            //o.name = location.Location.ToString();
+            //(o.GetComponent<GTest2>()).location = location.Location;
         }
         G.POIManager.EndSpawningPOIs();
     }

@@ -160,7 +160,7 @@ public class GLocationService
 #elif UNITY_IOS
         EnsureIOSPermission();
 #endif
-        Debug.Log("Waiting for Permission");
+        Debug.Log("Waiting for Location Permission");
         yield return null;
 
         bool permissionAllowed = Location.isEnabledByUser;

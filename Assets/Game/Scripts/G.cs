@@ -55,6 +55,7 @@ public class G : MonoBehaviour
         //Location = new(0, 0);
         //Location = new(41.864515, -75.125218); //Away from NY
         //Location = new(40.722050, -73.988062); //NY
+        //Location = new(82.487342, -32.677854);
 
 
     }
