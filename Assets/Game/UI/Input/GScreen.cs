@@ -7,22 +7,28 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerClickHandler
 {
 
     [System.NonSerialized] private bool pointerHeld = false;
 
+    [System.NonSerialized] private Vector2 firstDownPos;
     [System.NonSerialized] private Vector2 currentPos;
     [System.NonSerialized] private Vector2 lastPos;
+
+
+    [SerializeField] private float clickThreshold;
 
     [SerializeField] private bool suppressZero;
     [SerializeField] private bool reportScreenPosition;
     [SerializeField] private UnityEvent<Vector2> InputAction;
+    [SerializeField] private UnityEvent<Vector2> ClickAction;
 
     public void OnPointerDown(PointerEventData eventData)
     {
         pointerHeld = true;
         currentPos = eventData.position;
+        firstDownPos = currentPos;
         lastPos = currentPos;
     }
 
@@ -62,5 +68,13 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
         InputAction.Invoke(delta);
     }
 
-
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Vector2 currentPos = eventData.position;
+        float dist = Vector2.Distance(currentPos, firstDownPos);
+        if (dist < clickThreshold)
+        {
+            ClickAction.Invoke(currentPos);
+        }
+    }
 }

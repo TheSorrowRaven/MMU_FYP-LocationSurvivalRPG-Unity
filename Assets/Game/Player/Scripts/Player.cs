@@ -156,6 +156,28 @@ public class Player : MonoBehaviour
 
 
 
+    public void SelectPOI(Vector2 screenPosition)
+    {
+        const int layerMask = 1 << 6 | 1 << 8;
+        Ray ray = G.MainCamera.ScreenPointToRay(screenPosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, layerMask))
+        {
+            return;
+        }
+        if (hit.collider.TryGetComponent(out POI poi))
+        {
+            Debug.Log(poi.gPOI.Name);
+        }
+        else if (hit.collider.TryGetComponent(out MapZombie zombie))
+        {
+            Debug.Log("Tapped on zombie");
+        }
+    }
+
+
+
+
+
 
     private void UpdateLastQueryLocations()
     {
