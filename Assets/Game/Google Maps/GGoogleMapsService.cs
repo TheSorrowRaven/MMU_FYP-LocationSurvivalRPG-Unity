@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 
 using static GGoogleMapsResponses;
 using System.Runtime.InteropServices.WindowsRuntime;
+using static GGoogleMapsPOI;
 
 public class GGoogleMapsService
 {
@@ -41,6 +42,7 @@ public class GGoogleMapsService
     {
         BuildPlaceDetails();
         BuildNearbyPlaces();
+        BuildPlacePhotos();
     }
 
 
@@ -72,7 +74,7 @@ public class GGoogleMapsService
 
     #endregion
 
-    #region Nearby Places
+    #region Nearby Places (Completed)
     //Nearby Search
     //https://developers.google.com/maps/documentation/places/web-service/search-nearby
 
@@ -280,6 +282,34 @@ public class GGoogleMapsService
 
     #endregion
 
+    #region Place Photos
+    //Place Photos
+    //https://developers.google.com/maps/documentation/places/web-service/photos
+
+    private const string PlacePhotosURL = "https://maps.googleapis.com/maps/api/place/photo";
+    private string PlacePhotosURLParameters;
+    private string PlacePhotosHeightParameter;
+    private string PlacePhotosReferenceParameter;
+
+    private void BuildPlacePhotos()
+    {
+        PlacePhotosURLParameters = $"?key={APIKey}&maxwidth=";
+        PlacePhotosHeightParameter = $"&maxheight=";
+        PlacePhotosReferenceParameter = $"&photo_reference=";
+    }
+
+    public void StartPlacePhotosQuery(Photo photo, Action<Texture> textureFetchedAction)
+    {
+        StartPlacePhotosQuery(photo.PhotoReference, photo.Width, photo.Height, textureFetchedAction);
+    }
+
+    public void StartPlacePhotosQuery(string photoReference, int width, int height, Action<Texture> textureFetchedAction)
+    {
+        string url = PlacePhotosURL + PlacePhotosURLParameters + width + PlacePhotosHeightParameter + height + PlacePhotosReferenceParameter + photoReference;
+        MakeImageRequest(url, textureFetchedAction);
+    }
+
+    #endregion
 
 
     public void MakeRequest(string url)
@@ -302,12 +332,12 @@ public class GGoogleMapsService
         }
     }
 
-    public void MakeImageRequest(string url)
+    public void MakeImageRequest(string url, Action<Texture> textureFetchedAction)
     {
-        G.StartCoroutine(ImageRequest(url));
+        G.StartCoroutine(ImageRequest(url, textureFetchedAction));
     }
 
-    private IEnumerator ImageRequest(string url)
+    private IEnumerator ImageRequest(string url, Action<Texture> textureFetchedAction)
     {
         UnityWebRequest req = UnityWebRequestTexture.GetTexture(url);
         yield return req.SendWebRequest();
@@ -315,14 +345,14 @@ public class GGoogleMapsService
         bool error = false;
         if (req.result == UnityWebRequest.Result.Success)
         {
-            Texture myTexture = DownloadHandlerTexture.GetContent(req);
-            if (myTexture == null)
+            Texture texture = DownloadHandlerTexture.GetContent(req);
+            if (texture == null)
             {
                 error = true;
             }
             else
             {
-                //TODO
+                textureFetchedAction.Invoke(texture);
             }
         }
         else

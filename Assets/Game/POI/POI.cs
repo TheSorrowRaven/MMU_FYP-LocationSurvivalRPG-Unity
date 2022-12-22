@@ -13,7 +13,7 @@ public class POI : MonoBehaviour
     [SerializeField] private TextMeshPro NameText;
     [SerializeField] private GameObject display;
 
-    [System.NonSerialized] public GGoogleMapsPOI gPOI;
+    public GGoogleMapsPOI GPOI { get; private set; }
     [System.NonSerialized] private bool active; // Display is showing
 
     private void Awake()
@@ -23,7 +23,7 @@ public class POI : MonoBehaviour
 
     public void ActivatePOI(GGoogleMapsPOI gPOI)
     {
-        this.gPOI = gPOI;
+        this.GPOI = gPOI;
         UpdatePosition();
 
         NameText.SetText(gPOI.Name);
@@ -42,7 +42,7 @@ public class POI : MonoBehaviour
 
     private void UpdatePosition()
     {
-        Vector3 pos = G.GeoToWorld(gPOI.Geometry.Location.Latitude, gPOI.Geometry.Location.Longitude);
+        Vector3 pos = G.GeoToWorld(GPOI.Geometry.Location.Latitude, GPOI.Geometry.Location.Longitude);
         ThisTR.localPosition = pos;
     }
 

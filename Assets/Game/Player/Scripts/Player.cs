@@ -166,7 +166,9 @@ public class Player : MonoBehaviour
         }
         if (hit.collider.TryGetComponent(out POI poi))
         {
-            Debug.Log(poi.gPOI.Name);
+            //POI Selected
+            UIPOI.Instance.SetGPOI(poi.GPOI);
+            Debug.Log(poi.GPOI.Name);
         }
         else if (hit.collider.TryGetComponent(out MapZombie zombie))
         {
