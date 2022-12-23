@@ -298,15 +298,15 @@ public class GGoogleMapsService
         PlacePhotosReferenceParameter = $"&photo_reference=";
     }
 
-    public void StartPlacePhotosQuery(Photo photo, Action<Texture> textureFetchedAction)
+    public void StartPlacePhotosQuery(Photo photo, Action<Texture> textureFetchedAction, Action failedAction)
     {
-        StartPlacePhotosQuery(photo.PhotoReference, photo.Width, photo.Height, textureFetchedAction);
+        StartPlacePhotosQuery(photo.PhotoReference, photo.Width, photo.Height, textureFetchedAction, failedAction);
     }
 
-    public void StartPlacePhotosQuery(string photoReference, int width, int height, Action<Texture> textureFetchedAction)
+    public void StartPlacePhotosQuery(string photoReference, int width, int height, Action<Texture> textureFetchedAction, Action failedAction)
     {
         string url = PlacePhotosURL + PlacePhotosURLParameters + width + PlacePhotosHeightParameter + height + PlacePhotosReferenceParameter + photoReference;
-        MakeImageRequest(url, textureFetchedAction);
+        MakeImageRequest(url, textureFetchedAction, failedAction);
     }
 
     #endregion
@@ -332,17 +332,17 @@ public class GGoogleMapsService
         }
     }
 
-    public void MakeImageRequest(string url, Action<Texture> textureFetchedAction)
+    public void MakeImageRequest(string url, Action<Texture> textureFetchedAction, Action failedAction)
     {
-        G.StartCoroutine(ImageRequest(url, textureFetchedAction));
+        G.StartCoroutine(ImageRequest(url, textureFetchedAction, failedAction));
     }
 
-    private IEnumerator ImageRequest(string url, Action<Texture> textureFetchedAction)
+    private IEnumerator ImageRequest(string url, Action<Texture> textureFetchedAction, Action failedAction)
     {
         UnityWebRequest req = UnityWebRequestTexture.GetTexture(url);
         yield return req.SendWebRequest();
 
-        bool error = false;
+        bool error;
         if (req.result == UnityWebRequest.Result.Success)
         {
             Texture texture = DownloadHandlerTexture.GetContent(req);
@@ -353,6 +353,7 @@ public class GGoogleMapsService
             else
             {
                 textureFetchedAction.Invoke(texture);
+                error = false;
             }
         }
         else
@@ -363,6 +364,7 @@ public class GGoogleMapsService
         if (error)
         {
             Debug.Log($"(Image) Error: {req.result} (From: {url})");
+            failedAction.Invoke();
         }
 
     }
