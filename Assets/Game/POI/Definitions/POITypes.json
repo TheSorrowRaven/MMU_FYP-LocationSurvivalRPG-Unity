@@ -23,21 +23,29 @@
   },
   "airport": {},
   "amusement_park": {},
-  "aquarium": {},
+  "aquarium": {
+    "food": 4
+  },
   "archipelago": {
     "ignored": true
   },
   "art_gallery": {},
   "atm": {},
-  "bakery": {},
+  "bakery": {
+    "food": 10
+  },
   "bank": {},
-  "bar": {},
+  "bar": {
+    "food": 8
+  },
   "beauty_salon": {},
   "bicycle_store": {},
   "book_store": {},
   "bowling_alley": {},
   "bus_station": {},
-  "cafe": {},
+  "cafe": {
+    "food": 10
+  },
   "campground": {},
   "car_dealer": {},
   "car_rental": {},
@@ -45,7 +53,9 @@
   "car_wash": {},
   "casino": {},
   "cemetery": {},
-  "church": {},
+  "church": {
+    "food": 2
+  },
   "city_hall": {},
   "clothing_store": {},
   "colloquial_area": {
@@ -54,15 +64,27 @@
   "continent": {
     "ignored": true
   },
-  "convenience_store": {},
+  "convenience_store": {
+    "food": 6,
+    "medical": 4
+  },
   "country": {
     "ignored": true
   },
   "courthouse": {},
-  "dentist": {},
-  "department_store": {},
-  "doctor": {},
-  "drugstore": {},
+  "dentist": {
+    "medical": 7
+  },
+  "department_store": {
+    "food": 7,
+    "medical": 5
+  },
+  "doctor": {
+    "medical": 7
+  },
+  "drugstore": {
+    "medical": 8
+  },
   "electrician": {},
   "electronics_store": {},
   "embassy": {},
@@ -71,7 +93,9 @@
   "fire_station": {},
   "floor": {},
   "florist": {},
-  "food": {},
+  "food": {
+    "food": 8
+  },
   "funeral_home": {},
   "furniture_store": {},
   "gas_station": {},
@@ -80,12 +104,23 @@
     "ignored": true
   },
   "gym": {},
-  "hair_care": {},
+  "hair_care": {
+    "medical": 1
+  },
   "hardware_store": {},
-  "health": {},
-  "hindu_temple": {},
-  "home_goods_store": {},
-  "hospital": {},
+  "health": {
+    "medical": 7
+  },
+  "hindu_temple": {
+    "food": 2
+  },
+  "home_goods_store": {
+    "food": 4,
+    "medical": 1
+  },
+  "hospital": {
+    "medical": 10
+  },
   "insurance_agency": {},
   "intersection": {
     "ignored": true
@@ -96,16 +131,24 @@
   "lawyer": {},
   "library": {},
   "light_rail_station": {},
-  "liquor_store": {},
+  "liquor_store": {
+    "food": 5
+  },
   "local_government_office": {},
   "locality": {
     "ignored": true
   },
   "locksmith": {},
   "lodging": {},
-  "meal_delivery": {},
-  "meal_takeaway": {},
-  "mosque": {},
+  "meal_delivery": {
+    "food": 5
+  },
+  "meal_takeaway": {
+    "food": 5
+  },
+  "mosque": {
+    "food": 2
+  },
   "movie_rental": {},
   "movie_theater": {},
   "moving_company": {},
@@ -117,8 +160,12 @@
   "park": {},
   "parking": {},
   "pet_store": {},
-  "pharmacy": {},
-  "physiotherapist": {},
+  "pharmacy": {
+    "medical": 9
+  },
+  "physiotherapist": {
+    "medical": 7
+  },
   "place_of_worship": {},
   "plumber": {},
   "plus_code": {
@@ -144,22 +191,36 @@
   "premise": {},
   "primary_school": {},
   "real_estate_agency": {},
-  "restaurant": {},
+  "restaurant": {
+    "food": 9
+  },
   "roofing_contractor": {},
   "room": {},
   "route": {
     "ignored": true
   },
-  "grocery_or_supermarket": {},
+  "grocery_or_supermarket": {
+    "food": 8,
+    "medical": 3
+  },
   "rv_park": {},
   "school": {},
   "secondary_school": {},
   "shoe_store": {},
-  "shopping_mall": {},
+  "shopping_mall": {
+    "food": 7,
+    "medical": 4
+  },
   "spa": {},
   "stadium": {},
-  "storage": {},
-  "store": {},
+  "storage": {
+    "food": 4,
+    "medical": 4
+  },
+  "store": {
+    "food": 5,
+    "medical": 2
+  },
   "street_address": {
     "ignored": true
   },
@@ -186,7 +247,10 @@
   },
   "subpremise": {},
   "subway_station": {},
-  "supermarket": {},
+  "supermarket": {
+    "food": 7,
+    "medical": 2
+  },
   "synagogue": {},
   "taxi_stand": {},
   "tourist_attraction": {},
@@ -195,6 +259,10 @@
   "transit_station": {},
   "travel_agency": {},
   "university": {},
-  "veterinary_care": {},
-  "zoo": {}
+  "veterinary_care": {
+    "medical": 8
+  },
+  "zoo": {
+    "food": 4
+  }
 }

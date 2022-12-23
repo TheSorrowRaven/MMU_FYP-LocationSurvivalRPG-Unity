@@ -18,11 +18,6 @@ public class PopulationDensityMapper : MonoBehaviour
         instance = this;
     }
 
-    private void Start()
-    {
-        Debug.Log(GetDensity(G.Location));
-    }
-
     public float GetFloat(Vector2d geo)
     {
         Vector2Int pixelPos = G.EquirectangularProjection(geo.x, geo.y, MapTexture.width, MapTexture.height);

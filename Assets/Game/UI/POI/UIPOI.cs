@@ -12,12 +12,14 @@ public class UIPOI : MonoBehaviour
     public static UIPOI Instance => instance;
 
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
+    private static POIManager POIManager => POIManager.Instance;
 
     [SerializeField] private GameObject UIPOIObject;
 
     [SerializeField] private RawImage POIPhotoRawImage;
     [SerializeField] private RectTransform POIPhotoRT;
     [SerializeField] private Texture PhotoNotFoundTexture;
+    [SerializeField] private Texture PhotoLoadingTexture;
 
     [SerializeField] private TextMeshProUGUI POIName;
     [SerializeField] private TextMeshProUGUI POITypes;
@@ -76,20 +78,13 @@ public class UIPOI : MonoBehaviour
     public void RequestGPOIImage(GGoogleMapsPOI gPOI)
     {
         List<GGoogleMapsPOI.Photo> photos = gPOI.Photos;
-        if (photos == null)
+        if (photos == null || photos.Count == 0)
         {
-            Debug.Log("Photos Null");
-            SetPhotoUnkown();
-            return;
-        }
-        if (photos.Count == 0)
-        {
-            Debug.Log("Photos Empty");
             SetPhotoUnkown();
             return;
         }
         SetPhotoIsLoading();
-        GGoogleMapsService.StartPlacePhotosQuery(photos[0], PhotoFetched, SetPhotoUnkown);
+        GGoogleMapsService.StartPlacePhotosQuery(photos[0].PhotoReference, (int)POIPhotoRT.rect.size.x, (int)POIPhotoRT.rect.size.y, PhotoFetched, SetPhotoUnkown);
     }
 
     private void PhotoFetched(Texture texture)
@@ -104,8 +99,8 @@ public class UIPOI : MonoBehaviour
     }
     private void SetPhotoIsLoading()
     {
-
-        CorrectPhotoUV();
+        POIPhotoRawImage.texture = PhotoLoadingTexture;
+        ResetPhotoUV();
     }
 
     private void ResetPhotoUV()
@@ -146,6 +141,55 @@ public class UIPOI : MonoBehaviour
         }
         POIPhotoRawImage.uvRect = uvRect;
     }
+
+
+
+    public void CalculateLoot()
+    {
+        CalculateLootFromTypes();
+    }
+
+    private void CalculateLootFromTypes()
+    {
+        List<string> types = gPOI.Types;
+        if (types.Count == 0)
+        {
+            return;
+        }
+        for (int i = 0; i < types.Count; i++)
+        {
+            string type = types[i];
+            if (POIManager.TryGetPOITypeDefinition(type, out POITypeDefinition definition))
+            {
+                CalculateLootFromFood(definition.Food);
+                CalculateLootFromMedical(definition.Medical);
+            }
+        }
+
+    }
+
+    private void CalculateLootFromFood(int food)
+    {
+        if (food == 0)
+        {
+            return;
+        }
+    }
+
+    private void CalculateLootFromMedical(int medical)
+    {
+        if (medical == 0)
+        {
+            return;
+        }
+    }
+
+
+
+
+
+
+
 
     public void ButtonClickExitUIPOI()
     {

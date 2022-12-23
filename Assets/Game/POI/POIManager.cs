@@ -19,7 +19,7 @@ public class POIManager : MonoBehaviour
 
     [System.NonSerialized] private Dictionary<string, POI> POIs = new();
     [System.NonSerialized] private Dictionary<string, POITypeDefinition> POITypeDefinitions;
-    [System.NonSerialized] private HashSet<string> UndefinedTypes = new();
+    [System.NonSerialized] private readonly HashSet<string> UndefinedTypes = new();
 
     private void Awake()
     {

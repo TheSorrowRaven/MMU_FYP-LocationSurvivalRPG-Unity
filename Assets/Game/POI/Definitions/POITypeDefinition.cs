@@ -11,7 +11,12 @@ public class POITypeDefinition
     [DefaultValue(false)]
     public bool Ignored { get; set; }
 
-
+    [JsonProperty("food")]
+    [DefaultValue(0)]
+    public int Food { get; set; }
+    [JsonProperty("medical")]
+    [DefaultValue(0)]
+    public int Medical { get; set; }
 
 
 
