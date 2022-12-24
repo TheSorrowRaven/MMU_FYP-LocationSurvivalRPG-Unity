@@ -9,7 +9,7 @@ public class UIInventory : MonoBehaviour
     private static ItemManager ItemManager => ItemManager.Instance;
 
 
-    public readonly Dictionary<Item, int> Inventory = new();
+    private readonly Dictionary<Item, int> Inventory = new();
 
 
 
