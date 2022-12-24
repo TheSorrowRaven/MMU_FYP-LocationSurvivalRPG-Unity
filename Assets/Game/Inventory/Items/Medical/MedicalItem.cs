@@ -8,4 +8,6 @@ public class MedicalItem : Item
 
     protected override string IdentifierStarter => "medical_";
 
+    public float HealthFill;
+
 }

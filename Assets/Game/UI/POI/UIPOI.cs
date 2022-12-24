@@ -5,14 +5,36 @@ using TMPro;
 using UnityEngine.InputSystem.UI;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using System;
 
 public class UIPOI : MonoBehaviour
 {
+    private class LootComparer : IComparer<ItemAmt>
+    {
+        public static LootComparer Shared = new();
+
+        public int Compare(ItemAmt x, ItemAmt y)
+        {
+            int val = y.item.Rarity.CompareTo(x.item.Rarity);
+            if (val != 0)
+            {
+                return val;
+            }
+            val = x.GetType().FullName.CompareTo(y.GetType().FullName);
+            if (val != 0)
+            {
+                return val;
+            }
+            return y.amt.CompareTo(x.amt);
+        }
+    }
+
     private static UIPOI instance;
     public static UIPOI Instance => instance;
 
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
     private static POIManager POIManager => POIManager.Instance;
+    private static ItemManager ItemManager => ItemManager.Instance;
 
     [SerializeField] private GameObject UIPOIObject;
 
@@ -24,7 +46,10 @@ public class UIPOI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI POIName;
     [SerializeField] private TextMeshProUGUI POITypes;
 
-    [System.NonSerialized] private GGoogleMapsPOI gPOI;
+    [SerializeField] private Transform UILootContainer;
+    [SerializeField] private GameObject UILootPrefab;
+
+    [NonSerialized] private GGoogleMapsPOI gPOI;
 
     private void Awake()
     {
@@ -40,6 +65,8 @@ public class UIPOI : MonoBehaviour
         RequestGPOIImage(gPOI);
 
         UIPOIObject.SetActive(true);
+
+        CalculateLoot();
     }
 
     private string BuildTypeTextFromGPOI(GGoogleMapsPOI gPOI)
@@ -144,9 +171,58 @@ public class UIPOI : MonoBehaviour
 
 
 
+    #region Loot Calculation
+
+    private System.Random LootRNG;
+    private readonly Dictionary<Item, int> LootCount = new();
+    private readonly List<ItemAmt> ItemAmtList = new();
+    private readonly List<UIItem> UILootList = new();
+
+    private void AddToLoot(Item item)
+    {
+        if (LootCount.TryGetValue(item, out int count))
+        {
+            LootCount[item] = count + 1;
+            return;
+        }
+        LootCount.Add(item, 1);
+    }
+
     public void CalculateLoot()
     {
+        int seed = CreateNumberFromDate(DateTime.Now) + gPOI.PlaceID.GetHashCode();
+        LootRNG = new(seed);
+        ClearLoot();
         CalculateLootFromTypes();
+
+        SpawnLoot();
+    }
+
+    public void ClearLoot()
+    {
+        LootCount.Clear();
+        ItemAmtList.Clear();
+        for (int i = 0; i < UILootList.Count; i++)
+        {
+            Destroy(UILootList[i]);
+        }
+        UILootList.Clear();
+        for (int i = 0; i < UILootContainer.childCount; i++)
+        {
+            Destroy(UILootContainer.GetChild(i).gameObject);
+        }
+    }
+
+    public void UILootRemoved(UIItem uiLoot)
+    {
+        UILootList.Remove(uiLoot);
+        Destroy(uiLoot.gameObject);
+    }
+
+    private static int CreateNumberFromDate(DateTime dt)
+    {
+        string str = dt.Year.ToString() + (dt.Month < 10 ? ("0" + dt.Month) : dt.Month) + (dt.Day < 10 ? ("0" + dt.Day) : dt.Day);
+        return int.Parse(str);
     }
 
     private void CalculateLootFromTypes()
@@ -174,6 +250,14 @@ public class UIPOI : MonoBehaviour
         {
             return;
         }
+
+        for (int i = 0; i < food; i++)
+        {
+            double rarityChance = LootRNG.NextDouble();
+            Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
+            FoodItem item = ItemManager.GetFoodFromRarity(rarity);
+            AddToLoot(item);
+        }
     }
 
     private void CalculateLootFromMedical(int medical)
@@ -182,11 +266,37 @@ public class UIPOI : MonoBehaviour
         {
             return;
         }
+
+        for (int i = 0; i < medical; i++)
+        {
+            double rarityChance = LootRNG.NextDouble();
+            Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
+            MedicalItem item = ItemManager.GetMedicalFromRarity(rarity);
+            AddToLoot(item);
+        }
+    }
+
+    private void SpawnLoot()
+    {
+        foreach (var pair in LootCount)
+        {
+            ItemAmt itemAmt = new(pair.Key, pair.Value);
+            ItemAmtList.Add(itemAmt);
+        }
+
+        ItemAmtList.Sort(LootComparer.Shared);
+
+        for (int i = 0; i < ItemAmtList.Count; i++)
+        {
+            UIItem uiLoot = Instantiate(UILootPrefab, UILootContainer).GetComponent<UIItem>();
+            uiLoot.SetLootable(ItemAmtList[i]);
+            UILootList.Add(uiLoot);
+        }
     }
 
 
 
-
+    #endregion
 
 
 

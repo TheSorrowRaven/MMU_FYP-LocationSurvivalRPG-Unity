@@ -57,7 +57,6 @@ public class G : MonoBehaviour
         //Location = new(40.722050, -73.988062); //NY
         //Location = new(82.487342, -32.677854);
 
-
     }
 
     private void Start()

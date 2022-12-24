@@ -43,6 +43,14 @@ public class GameSettings : MonoBehaviour
     [field: SerializeField] public float MetersDistanceDensityRadius { get; private set; }
 
 
+
+
+    [field: Header("UI POI")]
+    [field: SerializeField] public float LootableHideTime { get; private set; }
+
+
+
+
     private void OnValidate()
     {
         MetersDistanceQueryRadius = G.Haversine(new(0, 0), new(0, LatLonDistanceQueryRadius));

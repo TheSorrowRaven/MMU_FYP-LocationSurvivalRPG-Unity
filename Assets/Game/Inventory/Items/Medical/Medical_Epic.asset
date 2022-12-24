@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7d2d318f95e14f489236330ae991db6, type: 3}
-  m_Name: Vaccine
+  m_Name: Medical_Epic
   m_EditorClassIdentifier: 
-  Identifier: medical_vaccine
+  Identifier: medical_epic
   Name: Vaccine
   Icon: {fileID: 21300000, guid: 4c5f4ee8a0549e64c9232e1b868b45b9, type: 3}
   Rarity: 3

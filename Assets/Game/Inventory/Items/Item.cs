@@ -36,4 +36,10 @@ public struct ItemAmt
 {
     public Item item;
     public int amt;
+
+    public ItemAmt(Item item, int amt)
+    {
+        this.item = item;
+        this.amt = amt;
+    }
 }

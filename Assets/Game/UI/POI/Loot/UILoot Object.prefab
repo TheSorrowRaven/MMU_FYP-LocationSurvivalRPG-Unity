@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 7141760753125310708}
   - component: {fileID: 5840993404356756083}
   m_Layer: 5
-  m_Name: Loot Object
+  m_Name: UILoot Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,8 +341,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c866a57579e3824da7fc15e2fc44980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RT: {fileID: 7141760753125310709}
   NameText: {fileID: 3557157123351953533}
-  AmtText: {fileID: 0}
+  AmtText: {fileID: 3571104413125064639}
   BackgroundImage: {fileID: 7849045401360101999}
   IconImage: {fileID: 8699936746660667494}
 --- !u!222 &7141760753125310699

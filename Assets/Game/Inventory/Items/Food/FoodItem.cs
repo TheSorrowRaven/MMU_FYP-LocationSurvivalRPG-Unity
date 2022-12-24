@@ -8,4 +8,6 @@ public class FoodItem : Item
 
     protected override string IdentifierStarter => "food_";
 
+    public float HungerFill;
+
 }

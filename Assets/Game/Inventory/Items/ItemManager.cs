@@ -1,9 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ItemManager;
 
 public class ItemManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class RarityClass<T>
+    {
+        public T common;
+        public T uncommon;
+        public T rare;
+        public T epic;
+        public T GetFromRarity(Rarity rarity)
+        {
+            return rarity switch
+            {
+                Rarity.Common => common,
+                Rarity.Uncommon => uncommon,
+                Rarity.Rare => rare,
+                _ => epic,
+            };
+        }
+    }
+
     private static ItemManager instance;
     public static ItemManager Instance => instance;
 
@@ -11,10 +31,18 @@ public class ItemManager : MonoBehaviour
     public Sprite UncommonSprite;
     public Sprite RareSprite;
     public Sprite EpicSprite;
+    public double CommonChance;
+    public double UncommonChance;
+    public double RareChance;
+    public double EpicChance;
 
     public List<Item> Items = new();
-    public readonly Dictionary<Rarity, Sprite> RarityToSprite = new();
+    public readonly Dictionary<Rarity, Sprite> RarityToBackgroundSprite = new();
     public readonly Dictionary<string, Item> IdentifierToItem = new();
+
+    public RarityClass<FoodItem> FoodClass;
+    public RarityClass<MedicalItem> MedicalClass;
+
 
     private void Awake()
     {
@@ -24,11 +52,11 @@ public class ItemManager : MonoBehaviour
 
     private void Setup()
     {
-        RarityToSprite.Clear();
-        RarityToSprite.Add(Rarity.Common, CommonSprite);
-        RarityToSprite.Add(Rarity.Uncommon, UncommonSprite);
-        RarityToSprite.Add(Rarity.Rare, RareSprite);
-        RarityToSprite.Add(Rarity.Epic, EpicSprite);
+        RarityToBackgroundSprite.Clear();
+        RarityToBackgroundSprite.Add(Rarity.Common, CommonSprite);
+        RarityToBackgroundSprite.Add(Rarity.Uncommon, UncommonSprite);
+        RarityToBackgroundSprite.Add(Rarity.Rare, RareSprite);
+        RarityToBackgroundSprite.Add(Rarity.Epic, EpicSprite);
 
         IdentifierToItem.Clear();
         for (int i = 0; i < Items.Count; i++)
@@ -37,6 +65,30 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public Rarity GetRarityFromChance(double rarity)
+    {
+        if (rarity <= CommonChance)
+        {
+            return Rarity.Common;
+        }
+        if (rarity <= UncommonChance)
+        {
+            return Rarity.Uncommon;
+        }
+        if (rarity <= RareChance)
+        {
+            return Rarity.Rare;
+        }
+        return Rarity.Epic;
+    }
 
+    public FoodItem GetFoodFromRarity(Rarity rarity)
+    {
+        return FoodClass.GetFromRarity(rarity);
+    }
+    public MedicalItem GetMedicalFromRarity(Rarity rarity)
+    {
+        return MedicalClass.GetFromRarity(rarity);
+    }
 
 }
