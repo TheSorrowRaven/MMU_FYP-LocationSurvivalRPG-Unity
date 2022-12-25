@@ -47,6 +47,7 @@ public class GameSettings : MonoBehaviour
 
     [field: Header("UI POI")]
     [field: SerializeField] public float LootableHideTime { get; private set; }
+    [field: SerializeField] public float LootAllTime { get; private set; }
 
 
 

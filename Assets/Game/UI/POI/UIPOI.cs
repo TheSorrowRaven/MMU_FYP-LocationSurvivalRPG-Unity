@@ -32,6 +32,7 @@ public class UIPOI : MonoBehaviour
     private static UIPOI instance;
     public static UIPOI Instance => instance;
 
+    private static GameSettings GameSettings => GameSettings.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
     private static POIManager POIManager => POIManager.Instance;
     private static ItemManager ItemManager => ItemManager.Instance;
@@ -54,6 +55,11 @@ public class UIPOI : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Update()
+    {
+        LootUpdate();
     }
 
     public void SetGPOI(GGoogleMapsPOI gPOI)
@@ -190,6 +196,8 @@ public class UIPOI : MonoBehaviour
 
     public void CalculateLoot()
     {
+        isLootingAll = false;
+
         int seed = CreateNumberFromDate(DateTime.Now) + gPOI.PlaceID.GetHashCode();
         LootRNG = new(seed);
         ClearLoot();
@@ -294,7 +302,50 @@ public class UIPOI : MonoBehaviour
         }
     }
 
+    private bool isLootingAll = false;
+    private float lootingAllTimeCount;
 
+    public void ButtonClickedLootAll()
+    {
+        if (isLootingAll)
+        {
+            return;
+        }
+        isLootingAll = true;
+        lootingAllTimeCount = GameSettings.LootAllTime;
+    }
+
+    private void LootUpdate()
+    {
+        if (!isLootingAll)
+        {
+            return;
+        }
+
+        lootingAllTimeCount -= Time.deltaTime;
+        if (lootingAllTimeCount > 0)
+        {
+            return;
+        }
+        lootingAllTimeCount = GameSettings.LootAllTime;
+
+        bool finishedLooting = true;
+        for (int i = 0; i < UILootList.Count; i++)
+        {
+            if (UILootList[i].itemAmt.amt == 0)
+            {
+                continue;
+            }
+            finishedLooting = false;
+            UILootList[i].LootOne();
+            break;
+        }
+
+        if (finishedLooting)
+        {
+            isLootingAll = false;
+        }
+    }
 
     #endregion
 

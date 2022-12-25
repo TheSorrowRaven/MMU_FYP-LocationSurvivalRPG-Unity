@@ -23,6 +23,7 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
     public Interaction CurrentInteraction { get; private set; }
 
     [SerializeField] private RectTransform RT;
+    [SerializeField] private CanvasGroup CanvasGroup;
     [SerializeField] private TextMeshProUGUI NameText;
     [SerializeField] private TextMeshProUGUI AmtText;
     [SerializeField] private Image BackgroundImage;
@@ -37,6 +38,12 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
     {
         AssignItemAmt(itemAmt);
         CurrentInteraction = Interaction.Lootable;
+    }
+
+    public void SetUseable(ItemAmt itemAmt)
+    {
+        AssignItemAmt(itemAmt);
+        CurrentInteraction = Interaction.Useable;
     }
 
     public void AssignItemAmt(ItemAmt itemAmt)
@@ -63,6 +70,21 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
         AmtText.SetText($"x{itemAmt.amt}");
     }
 
+
+    public void SetSibling(int sibling)
+    {
+        RT.SetSiblingIndex(sibling);
+    }
+
+    public void SetAlpha(float alpha)
+    {
+        CanvasGroup.alpha = alpha;
+    }
+    public void SetInteractable(bool interactable)
+    {
+        CanvasGroup.interactable = interactable;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         switch (CurrentInteraction)
@@ -72,23 +94,48 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
             case Interaction.Lootable:
                 LootableClicked();
                 return;
-
+            case Interaction.Useable:
+                UseableClicked();
+                return;
         }
     }
 
     private void LootableClicked()
     {
+        LootOne();
+    }
+    public void LootOne()
+    {
+        if (itemAmt.amt == 0)
+        {
+            return;
+        }
         UIInventory.AddToInventory(itemAmt.item, 1);
         itemAmt.amt--;
         if (itemAmt.amt == 0)
         {
             animating = true;
+            SetInteractable(false);
         }
         else
         {
             SetAmtText();
         }
     }
+
+    private void UseableClicked()
+    {
+        if (itemAmt.amt == 0)
+        {
+            return;
+        }
+        itemAmt.amt--;
+        //TODO use item
+
+        UIInventory.RemoveFromInventory(itemAmt.item, 1);
+    }
+
+
 
     private void Update()
     {
@@ -107,7 +154,17 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
                     return;
                 }
                 float scale = 1 - animCount / GameSettings.LootableHideTime;
-                RT.sizeDelta = new(RT.sizeDelta.x * scale, RT.sizeDelta.y);
+                SetAlpha(scale);
+                break;
+            case Interaction.Useable:
+                //if (animCount > GameSettings.LootableHideTime)
+                //{
+                //    //Destroy(gameObject);
+                //    UIInventory.UIItemRemoved(this);
+                //    return;
+                //}
+                //float scale1 = 1 - animCount / GameSettings.LootableHideTime;
+                //SetAlpha(scale1);
                 break;
         }
 
