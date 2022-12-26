@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
 
@@ -18,6 +19,9 @@ public class G : MonoBehaviour
     private static GLocationService GLocationProvider => GLocationService.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
 
+
+    [SerializeField] private GameObject UIObject;
+    [SerializeField] private GameObject EventSystemObject;
     [field: SerializeField] public AbstractMap Mapbox { get; private set; }
 
     public PlayerLocation Location { get; private set; }
@@ -45,6 +49,10 @@ public class G : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(UIObject);
+        DontDestroyOnLoad(EventSystemObject);
+
         instance = this;
 
         Application.targetFrameRate = 60;
@@ -57,6 +65,7 @@ public class G : MonoBehaviour
         //Location = new(40.722050, -73.988062); //NY
         //Location = new(82.487342, -32.677854);
 
+        Save.Instance.Init();
     }
 
     private void Start()
@@ -71,8 +80,14 @@ public class G : MonoBehaviour
 
     }
 
+    private bool firstUpdateLoad = false;
     private void Update()
     {
+        if (!firstUpdateLoad)
+        {
+            firstUpdateLoad = true;
+            Save.Instance.LoadFromFile();
+        }
     }
 
 
@@ -143,6 +158,25 @@ public class G : MonoBehaviour
 
         return val;
     }
+
+
+#if UNITY_EDITOR
+    public static T[] GetAllScriptableObjects<T>() where T : ScriptableObject
+    {
+        string[] guids = AssetDatabase.FindAssets("t:" + typeof(T).Name);  //FindAssets uses tags check documentation for more info
+        T[] a = new T[guids.Length];
+        for (int i = 0; i < guids.Length; i++)         //probably could get optimized 
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+            a[i] = AssetDatabase.LoadAssetAtPath<T>(path);
+        }
+
+        return a;
+
+    }
+#endif
+
+
 
     //// Function to perform a Mercator projection and map coordinates to pixel units
     //public static void MercatorProjection(double longitude, double latitude, int pixelWidth, int pixelHeight, out int x, out int y)

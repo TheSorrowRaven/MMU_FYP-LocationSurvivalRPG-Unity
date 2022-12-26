@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-public class UIInventory : MonoBehaviour
+public class UIInventory : MonoBehaviour, Save.ISaver
 {
     private class ItemComparer : IComparer<ItemAmt>
     {
@@ -35,7 +35,7 @@ public class UIInventory : MonoBehaviour
     [SerializeField] private Transform UIItemContainer;
     [SerializeField] private GameObject UIItemPrefab;
 
-    private readonly Dictionary<Item, int> Inventory = new();
+    private Dictionary<Item, int> Inventory = new();
     private readonly List<ItemAmt> ItemAmtList = new();
     private readonly List<UIItem> UIItemList = new();
 
@@ -48,6 +48,10 @@ public class UIInventory : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        StartInit();
+    }
 
 
     public void AddToInventory(Item item, int amt = 1)
@@ -113,6 +117,7 @@ public class UIInventory : MonoBehaviour
             Destroy(UIItemList[i].gameObject);
             UIItemList.RemoveAt(i);
         }
+        Save.Instance.SaveRequest();
     }
 
     public void UIItemRemoved(UIItem uiItem)
@@ -128,4 +133,34 @@ public class UIInventory : MonoBehaviour
         UIInventoryObject.SetActive(false);
     }
 
+    public void StartInit()
+    {
+        Save.Instance.InitSaver(this);
+    }
+
+    public void SaveData(Save.Data data)
+    {
+        data.Inventory ??= new();
+        data.Inventory.Clear();
+        foreach (var pair in Inventory)
+        {
+            data.Inventory.Add(pair.Key.Identifier, pair.Value);
+        }
+    }
+
+    public void LoadData(Save.Data data)
+    {
+        if (data.Inventory == null)
+        {
+            Inventory = new();
+        }
+        else
+        {
+            foreach (var pair in data.Inventory)
+            {
+                Inventory.Add(ItemManager.IdentifierToItem[pair.Key], pair.Value);
+            }
+        }
+        UpdateUIItems();
+    }
 }

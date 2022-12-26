@@ -1,15 +1,14 @@
 using Mapbox.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, Save.ISaver
 {
     private static G G => G.Instance;
     private static GameSettings GameSettings => GameSettings.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
     private static MapZombieManager MapZombieManager => MapZombieManager.Instance;
+    private static UIStats UIStats => UIStats.Instance;
 
     private static PlayerLocation Location => G.Location;
 
@@ -39,13 +38,55 @@ public class Player : MonoBehaviour
     [field: SerializeField] public int Level { get; private set; }
     [field: SerializeField] public int Experience { get; private set; }
 
-    [field: SerializeField] public int Health { get; private set; }
-    [field: SerializeField] public int Hunger { get; private set; }
-    [field: SerializeField] public int Energy { get; private set; }
+    [System.NonSerialized] private int health;
+    [System.NonSerialized] private int hunger;
+    [System.NonSerialized] private int stamina;
+    [System.NonSerialized] private int zombification;
+    public int Health
+    {
+        get => health;
+        private set
+        {
+            health = value;
+            StatUpdated(0, value);
+        }
+    }
+    public int Hunger
+    {
+        get => hunger;
+        private set
+        {
+            hunger = value;
+            StatUpdated(1, value);
+        }
+    }
+    public int Stamina
+    {
+        get => stamina;
+        private set
+        {
+            stamina = value;
+            StatUpdated(2, value);
+        }
+    }
+    public int Zombification
+    {
+        get => zombification;
+        private set
+        {
+            zombification = value;
+            StatUpdated(3, value);
+        }
+    }
 
 
     #endregion
 
+    private void StatUpdated(int index, int val)
+    {
+        UIStats.SetSliderValue(index, val);
+        Save.Instance.SaveRequest();
+    }
 
 
 
@@ -53,6 +94,11 @@ public class Player : MonoBehaviour
     {
         lastLat = double.MinValue;
         lastLon = double.MinValue;
+    }
+
+    private void Start()
+    {
+        StartInit();
     }
 
     //Unity Event Referenced
@@ -82,7 +128,7 @@ public class Player : MonoBehaviour
             return;
         }
         Location.Update();
-        
+
         if (Location.X == lastLat && Location.Y == lastLon)
         {
             //Skip Update (No change in position)
@@ -172,6 +218,7 @@ public class Player : MonoBehaviour
         }
         else if (hit.collider.TryGetComponent(out MapZombie zombie))
         {
+            SceneManager.LoadScene(1);
             Debug.Log("Tapped on zombie");
         }
     }
@@ -242,4 +289,36 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void StartInit()
+    {
+        Save.Instance.InitSaver(this);
+    }
+
+    public void SaveData(Save.Data data)
+    {
+        data.PlayerStats ??= new int[4];
+        data.PlayerStats[0] = Health;
+        data.PlayerStats[1] = Hunger;
+        data.PlayerStats[2] = Stamina;
+        data.PlayerStats[3] = Zombification;
+    }
+
+    public void LoadData(Save.Data data)
+    {
+        if (data.PlayerStats == null)
+        {
+            Health = 100;
+            Hunger = 100;
+            Stamina = 100;
+            Zombification = 0;
+        }
+        else
+        {
+            Health = data.PlayerStats[0];
+            Hunger = data.PlayerStats[1];
+            Stamina = data.PlayerStats[2];
+            Zombification = data.PlayerStats[3];
+        }
+
+    }
 }

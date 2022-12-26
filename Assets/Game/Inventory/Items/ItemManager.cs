@@ -50,6 +50,20 @@ public class ItemManager : MonoBehaviour
         Setup();
     }
 
+#if UNITY_EDITOR
+
+    [ContextMenu("Get All Items")]
+    public void GetAllItems()
+    {
+        Item[] AllItems = G.GetAllScriptableObjects<Item>();
+        for (int i = 0; i < AllItems.Length; i++)
+        {
+            Items.Add(AllItems[i]);
+        }
+    }
+
+#endif
+
     private void Setup()
     {
         RarityToBackgroundSprite.Clear();
