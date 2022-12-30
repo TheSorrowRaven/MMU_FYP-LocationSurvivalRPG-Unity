@@ -15,8 +15,8 @@ TagManager:
   - POIDetector
   - Zombie
   - ZombieDetector
-  - 
-  - 
+  - Player
+  - Building
   - 
   - 
   - 

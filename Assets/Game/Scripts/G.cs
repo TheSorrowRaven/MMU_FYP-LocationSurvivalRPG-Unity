@@ -47,6 +47,14 @@ public class G : MonoBehaviour
 
     #endregion
 
+    #region Combat
+
+    //Passing Data
+    public int zombiesCount;
+
+
+    #endregion
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -126,13 +134,26 @@ public class G : MonoBehaviour
         return Mapbox.WorldToGeoPosition(world);
     }
 
-    public static double Haversine(Vector2d pos1, Vector2d pos2)
+
+
+
+    public static Vector3 RandomPointInBounds(Bounds bounds)
     {
-        return Haversine(pos1.x, pos1.y, pos2.x, pos2.y);
+        return new Vector3(
+            UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
+            UnityEngine.Random.Range(bounds.min.y, bounds.max.y),
+            UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
+        );
     }
 
 
 
+
+
+    public static double Haversine(Vector2d pos1, Vector2d pos2)
+    {
+        return Haversine(pos1.x, pos1.y, pos2.x, pos2.y);
+    }
 
     /// <summary>
     /// Returns the distance between 2 geo coordinates in meters
