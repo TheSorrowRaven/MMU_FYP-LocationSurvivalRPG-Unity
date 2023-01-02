@@ -16,3 +16,5 @@ MonoBehaviour:
   Name: Blood
   Icon: {fileID: 21300000, guid: a25ed44e7cc96714ea6fdd8ae1358c4b, type: 3}
   Rarity: 2
+  HealthFill: 80
+  ZombificationHeal: 10

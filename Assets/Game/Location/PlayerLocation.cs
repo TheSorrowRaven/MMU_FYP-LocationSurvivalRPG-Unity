@@ -55,7 +55,7 @@ public class PlayerLocation
     public double ActualX => actualX;
     public double ActualY => actualY;
 
-    private Vector2 joystickMovement;
+    private Vector2 movement;
     private bool usedWASD;
 
 
@@ -143,41 +143,7 @@ public class PlayerLocation
 
     private void SetLocationBasedOnJoystickMovement()
     {
-
-        Vector2 keyboardMovement = Vector2.zero;
-        if (Input.GetKey(KeyCode.W))
-        {
-            keyboardMovement.y += 1;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            keyboardMovement.y += -1;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            keyboardMovement.x += -1;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            keyboardMovement.x += 1;
-        }
-        if (keyboardMovement.x != 0 || keyboardMovement.y != 0)
-        {
-            usedWASD = true;
-            keyboardMovement.Normalize();
-            joystickMovement = keyboardMovement;
-            G.MovementJoystick.ExternalJoystickControl(keyboardMovement);
-        }
-        else
-        {
-            if (usedWASD)
-            {
-                G.MovementJoystick.ExternalJoystickControl();
-                usedWASD = false;
-            }
-        }
-
-        if (joystickMovement.x == 0 && joystickMovement.y == 0)
+        if (movement.x == 0 && movement.y == 0)
         {
             return;
         }
@@ -190,8 +156,8 @@ public class PlayerLocation
         {
             movementSpeed *= GameSettings.MovementSpeedMultiplier;
         }
-        double xChange = joystickMovement.y * movementSpeed;
-        double yChange = joystickMovement.x * movementSpeed;
+        double xChange = movement.y * movementSpeed;
+        double yChange = movement.x * movementSpeed;
 
         double xRotated = xChange * Math.Cos(rotation) - yChange * Math.Sin(rotation);
         double yRotated = xChange * Math.Sin(rotation) + yChange * Math.Cos(rotation);
@@ -201,7 +167,7 @@ public class PlayerLocation
 
         Snap();
 
-        joystickMovement = Vector2.zero;
+        movement = Vector2.zero;
     }
 
 
@@ -211,9 +177,9 @@ public class PlayerLocation
     }
 
 
-    public void PlayerReportJoystickMovment(Vector2 movementDelta)
+    public void PlayerReportMovment(Vector2 movementDelta)
     {
-        joystickMovement = movementDelta;
+        movement = movementDelta;
     }
 
     public void UIReportGPSToggle(bool gpsOn)

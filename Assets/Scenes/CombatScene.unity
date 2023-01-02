@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 14110971}
   - component: {fileID: 14110970}
   - component: {fileID: 14110973}
+  - component: {fileID: 14110975}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -347,6 +348,18 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &14110975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14110969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de03c74280b27b42a46017b07902c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &33684044
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +477,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TR: {fileID: 287638981}
   RB: {fileID: 287638984}
+  CamTR: {fileID: 551643359}
+  CamRotateSpeed: 0.1
+  CamVerticalMax: 40
+  CamVerticalMin: -40
 --- !u!54 &287638984
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -653,7 +670,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 1, y: 0.5, z: 0.5}
   m_Center: {x: -0, y: 0.25, z: 0}
 --- !u!1 &551643358
 GameObject:
@@ -933,6 +950,10 @@ MonoBehaviour:
   AttackDistance: 1.5
   AttackTotalTime: 1
   AttackCooldownTotalTime: 2
+  AttackHitCheckTime: 0.26666668
+  AttackHitCheckTime2: 0.6666667
+  HealthDamage: 10
+  ZombificationDamage: 2
   CurrentState: 0
 --- !u!1 &975777223
 GameObject:

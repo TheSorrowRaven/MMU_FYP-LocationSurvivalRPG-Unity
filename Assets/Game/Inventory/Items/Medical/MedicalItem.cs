@@ -8,6 +8,12 @@ public class MedicalItem : Item
 
     protected override string IdentifierStarter => "medical_";
 
-    public float HealthFill;
+    public int HealthFill;
+    public int ZombificationHeal;
+
+    public override void Use()
+    {
+        Player.Instance.MedsTaken(this);
+    }
 
 }

@@ -49,7 +49,13 @@ public class CombatZombie : MonoBehaviour
     private float MoveSpeed;
     private float lastMoveSpeed;
 
+    public float AttackHitCheckTime;
+    public float AttackHitCheckTime2;
+    private int hitCountPerAttack;
 
+
+    public int HealthDamage;
+    public int ZombificationDamage;
 
 
     public enum State
@@ -177,10 +183,26 @@ public class CombatZombie : MonoBehaviour
 
                 IsAttacking = true;
                 AttackIsReady = false;
+                hitCountPerAttack = 0;
             }
             else
             {
                 ChangeState(State.Chasing);
+            }
+        }
+
+        if (IsAttacking)
+        {
+            float timeCheck = AttackTotalTime - attackTimeCount;
+            if (hitCountPerAttack == 0 && timeCheck > AttackHitCheckTime)
+            {
+                TryHitPlayer();
+                hitCountPerAttack++;
+            }
+            else if (hitCountPerAttack == 1 && timeCheck > AttackHitCheckTime2)
+            {
+                TryHitPlayer();
+                hitCountPerAttack++;
             }
         }
 
@@ -231,6 +253,24 @@ public class CombatZombie : MonoBehaviour
                 DetectedPlayer();
             }
         }
+    }
+
+    private void TryHitPlayer()
+    {
+        Vector3 playerPos = CombatPlayer.TR.localPosition;
+        float distance = Vector3.Distance(playerPos, TR.localPosition);
+
+        if (distance < AttackDistance)
+        {
+            //hit Player
+            HitPlayer();
+        }
+
+    }
+
+    private void HitPlayer()
+    {
+        CombatPlayer.HitByZombie(this);
     }
 
     private void DetectedPlayer()

@@ -16,3 +16,5 @@ MonoBehaviour:
   Name: Pizza
   Icon: {fileID: 21300000, guid: 6b3f12ea055074e479d4a128f39ee103, type: 3}
   Rarity: 3
+  HungerFill: 100
+  StaminaRestore: 50

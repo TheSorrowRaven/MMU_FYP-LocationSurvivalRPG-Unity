@@ -35,7 +35,16 @@ public class POIManager : MonoBehaviour
 
     private void Update()
     {
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
         UpdateClearPOI();
+    }
+
+    public void ActivateCombatMode(bool combatMode)
+    {
+        gameObject.SetActive(!combatMode);
     }
 
     private void UpdateClearPOI()

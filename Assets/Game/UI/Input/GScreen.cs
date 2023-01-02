@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -40,6 +39,11 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
     public void OnDrag(PointerEventData eventData)
     {
         currentPos = eventData.position;
+    }
+
+    public void AddAsInputAction(UnityAction<Vector2> inputAction)
+    {
+        InputAction.AddListener(inputAction);
     }
 
     private void Update()

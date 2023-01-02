@@ -8,6 +8,12 @@ public class FoodItem : Item
 
     protected override string IdentifierStarter => "food_";
 
-    public float HungerFill;
+    public int HungerFill;
+    public int StaminaRestore;
+
+    public override void Use()
+    {
+        Player.Instance.FoodEaten(this);
+    }
 
 }

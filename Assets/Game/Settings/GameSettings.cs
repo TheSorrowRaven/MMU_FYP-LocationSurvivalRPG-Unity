@@ -28,6 +28,7 @@ public class GameSettings : MonoBehaviour
 
 
 
+
     [field: Header("Google Maps Query")]
     [field: SerializeField] public float GoogleNearbyPlacesNextPageRequestDelay { get; private set; }
     [field: SerializeField] public int WebRequestRetryMax { get; private set; }

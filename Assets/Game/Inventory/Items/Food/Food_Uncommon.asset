@@ -16,3 +16,5 @@ MonoBehaviour:
   Name: Chicken
   Icon: {fileID: 21300000, guid: 3177a8ecd75c22d4083f164898ac5705, type: 3}
   Rarity: 1
+  HungerFill: 12
+  StaminaRestore: 2

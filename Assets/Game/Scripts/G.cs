@@ -15,6 +15,8 @@ public class G : MonoBehaviour
     private static G instance;
     public static G Instance => instance;
 
+    private static References References => References.Instance;
+
     private static GameSettings GameSettings => GameSettings.Instance;
     private static GLocationService GLocationProvider => GLocationService.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
@@ -22,7 +24,8 @@ public class G : MonoBehaviour
 
     [SerializeField] private GameObject UIObject;
     [SerializeField] private GameObject EventSystemObject;
-    [field: SerializeField] public AbstractMap Mapbox { get; private set; }
+    [SerializeField] private GameObject PlayerObject;
+    public AbstractMap Mapbox => References.Mapbox;
 
     public PlayerLocation Location { get; private set; }
 
@@ -30,8 +33,8 @@ public class G : MonoBehaviour
 
     public TextMeshProUGUI coords;
 
-    public Camera MainCamera;
-    public Transform MainCameraTR;
+    public Camera MainCamera => References.Camera;
+    public Transform MainCameraTR => References.CameraTR;
 
     public POIManager POIManager;
 
@@ -42,6 +45,7 @@ public class G : MonoBehaviour
     [NonSerialized] public double PhysicalMetersPerUnityUnits;
 
     #region UI
+    public GScreen ScreenInput;
     public GJoystick MovementJoystick;
     public GToggle GPSToggle;
 
@@ -57,11 +61,18 @@ public class G : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(UIObject);
         DontDestroyOnLoad(EventSystemObject);
+        DontDestroyOnLoad(PlayerObject);
+        DontDestroyOnLoad(POIManager.gameObject);
 
-        instance = this;
 
         Application.targetFrameRate = 60;
 

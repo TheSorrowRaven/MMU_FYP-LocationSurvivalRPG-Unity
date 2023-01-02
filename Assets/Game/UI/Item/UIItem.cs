@@ -132,6 +132,8 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
         itemAmt.amt--;
         //TODO use item
 
+        itemAmt.item.Use();
+
         UIInventory.RemoveFromInventory(itemAmt.item, 1);
     }
 

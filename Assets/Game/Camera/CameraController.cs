@@ -24,6 +24,11 @@ public class CameraController : MonoBehaviour
         PlayerMapOrbitalTransposer = PlayerMapVCam.GetCinemachineComponent<CinemachineOrbitalTransposer>();
     }
 
+    private void Start()
+    {
+        G.ScreenInput.AddAsInputAction(ScreenDragInput);
+    }
+
     //Unity Event Referenced
     public void ScreenDragInput(Vector2 screenPosition)
     {

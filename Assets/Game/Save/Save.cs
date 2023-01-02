@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
+using Unity.VisualScripting;
 
 public class Save
 {
@@ -13,6 +14,8 @@ public class Save
     private readonly string savePath = Application.persistentDataPath + "/save.json";
     private readonly List<ISaver> savers = new();
     private Data saveData;
+
+    private bool hasFirstLoaded = false;
 
     public interface ISaver
     {
@@ -30,6 +33,8 @@ public class Save
 
         [JsonProperty("PlayerStats")]
         public int[] PlayerStats { get; set; }
+        [JsonProperty("PlayerMaxStats")]
+        public int[] PlayerMaxStats { get; set; }
 
         [JsonProperty("Inventory")]
         public Dictionary<string, int> Inventory { get; set; }
@@ -43,6 +48,7 @@ public class Save
     public void Init()
     {
         savers.Clear();
+        hasFirstLoaded = false;
     }
 
     public void InitSaver(ISaver saver)
@@ -52,6 +58,10 @@ public class Save
 
     public void SaveRequest()
     {
+        if (!hasFirstLoaded)
+        {
+            return;
+        }
         //TODO queue based on number of requests, don't save every time there is a request
         SaveToFile();
     }
@@ -84,6 +94,7 @@ public class Save
         {
             savers[i].LoadData(saveData);
         }
+        hasFirstLoaded = true;
     }
 
 

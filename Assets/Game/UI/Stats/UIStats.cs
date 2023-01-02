@@ -20,6 +20,11 @@ public class UIStats : MonoBehaviour
         StatSliders[index].value = value;
     }
 
+    public void SetSliderMax(int index, int max)
+    {
+        StatSliders[index].maxValue = max;
+    }
+
 
 
 

@@ -1,9 +1,14 @@
 using Mapbox.Utils;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, Save.ISaver
 {
+    private static Player instance;
+    public static Player Instance => instance;
+
+
     private static G G => G.Instance;
     private static GameSettings GameSettings => GameSettings.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
@@ -14,12 +19,14 @@ public class Player : MonoBehaviour, Save.ISaver
 
     public Transform ThisTR;
 
-    [SerializeField] private LineRenderer RadiusLR;
+    [SerializeField] private GameObject ModelObject;
+    private LineRenderer RadiusLR => References.Instance.PlayerRadiusLR;
     [SerializeField] private float radius;
     [SerializeField] private int radiusDetail;
 
 
     [System.NonSerialized] private Vector2d lastPos;
+    [System.NonSerialized] private bool usedWASD;
 
     [System.NonSerialized] private double lastLat;
     [System.NonSerialized] private double lastLon;
@@ -33,22 +40,61 @@ public class Player : MonoBehaviour, Save.ISaver
 
 
 
+    public bool InCombatMode { get; private set; }
+    public CombatPlayer CombatPlayer => CombatPlayer.Instance;
+
     #region Gameplay
 
     [field: SerializeField] public int Level { get; private set; }
     [field: SerializeField] public int Experience { get; private set; }
 
+    [SerializeField] private float combatMovementSpeed;
+    [SerializeField] private float combatMovementSpeedMultiplier;
+    public float CombatMovementSpeed
+    {
+        get => combatMovementSpeed;
+        private set
+        {
+            combatMovementSpeed = value;
+        }
+    }
+    public float CombatMovementSpeedMultiplier
+    {
+        get => combatMovementSpeedMultiplier;
+        private set
+        {
+            combatMovementSpeedMultiplier = value;
+        }
+    }
+
+    public float HungerConsumeTimePass;
+    public int HungerConsumedPerTimePass;
+    private float HungerConsumeTimePassCount;
+
+    public float HealthConsumeStarvingTimePass;
+    public int HealthConsumedStarvingPerTimePass;
+    private float HealthConsumeStarvingTimePassCount;
+
+    public float StaminaRestoreFromFoodTimePass;
+    public int StaminaRestoredFromFoodPerTimePass;
+    public int HungerUsedToRestoreStaminaPerTimePass;
+    private float StaminaRestoreFromFoodTimePassCount;
+
     [System.NonSerialized] private int health;
     [System.NonSerialized] private int hunger;
     [System.NonSerialized] private int stamina;
     [System.NonSerialized] private int zombification;
+    [System.NonSerialized] private int maxHealth;
+    [System.NonSerialized] private int maxHunger;
+    [System.NonSerialized] private int maxStamina;
+    [System.NonSerialized] private int maxZombification;
     public int Health
     {
         get => health;
         private set
         {
             health = value;
-            StatUpdated(0, value);
+            StatValueUpdated(0, value);
         }
     }
     public int Hunger
@@ -57,7 +103,7 @@ public class Player : MonoBehaviour, Save.ISaver
         private set
         {
             hunger = value;
-            StatUpdated(1, value);
+            StatValueUpdated(1, value);
         }
     }
     public int Stamina
@@ -66,7 +112,7 @@ public class Player : MonoBehaviour, Save.ISaver
         private set
         {
             stamina = value;
-            StatUpdated(2, value);
+            StatValueUpdated(2, value);
         }
     }
     public int Zombification
@@ -75,16 +121,160 @@ public class Player : MonoBehaviour, Save.ISaver
         private set
         {
             zombification = value;
-            StatUpdated(3, value);
+            StatValueUpdated(3, value);
         }
+    }
+    public int MaxHealth
+    {
+        get => maxHealth;
+        private set
+        {
+            maxHealth = value;
+            StatMaxUpdated(0, value);
+        }
+    }
+    public int MaxHunger
+    {
+        get => maxHunger;
+        private set
+        {
+            maxHunger = value;
+            StatMaxUpdated(1, value);
+        }
+    }
+    public int MaxStamina
+    {
+        get => maxStamina;
+        private set
+        {
+            maxStamina = value;
+            StatMaxUpdated(2, value);
+        }
+    }
+    public int MaxZombification
+    {
+        get => maxZombification;
+        private set
+        {
+            maxZombification = value;
+            StatMaxUpdated(3, value);
+        }
+    }
+
+    public void FoodEaten(FoodItem food)
+    {
+        int hungerRestore = food.HungerFill;
+        int staminaRestore = food.StaminaRestore;
+
+        Hunger = AddToOrMax(MaxHunger, Hunger, hungerRestore);
+        Stamina = AddToOrMax(MaxStamina, Stamina, staminaRestore);
+    }
+
+    public void MedsTaken(MedicalItem meds)
+    {
+        int healthRestore = meds.HealthFill;
+        int zombificationRestore = meds.ZombificationHeal;
+
+        Health = AddToOrMax(MaxHealth, Health, healthRestore);
+        Zombification = MinusOrMin(0, Zombification, zombificationRestore);
+    }
+
+    public void Damaged(int healthDamage, int zombificationDamage)
+    {
+        Health = MinusOrMin(0, Health, healthDamage);
+        Zombification = AddToOrMax(MaxZombification, Zombification, zombificationDamage);
+    }
+
+    public void TimePassedHungrify()
+    {
+        //Minus one hunger per time passed
+        Hunger = MinusOrMin(0, Hunger, HungerConsumedPerTimePass);
+    }
+
+    public void TimePassedStarvify()
+    {
+        //When hunger 0, minus one health per time passed
+        Health = MinusOrMin(0, Health, 1);
+    }
+
+    public bool TryConsumeStamina(int stamina)
+    {
+        if (Stamina >= stamina)
+        {
+            Stamina = MinusOrMin(0, Stamina, stamina);
+            return true;
+        }
+        // Not used if not enough stamina
+        return false;
+    }
+
+    private bool TryConsumeHungerForStamina(int hunger)
+    {
+        if (Hunger > hunger)
+        {
+            Hunger = MinusOrMin(0, Hunger, hunger);
+            return true;
+        }
+        //Not used if not enough hunger
+        return false;
+    }
+
+    public bool RequireRestoreStamina()
+    {
+        return Stamina != MaxStamina;
+    }
+
+    public void RestoreStaminaFromFood(int stamina)
+    {
+        Stamina = AddToOrMax(MaxStamina, Stamina, stamina);
+    }
+
+    public void TimePassedTryConvertHungerToStamina()
+    {
+        //TODO require conversion rate
+        if (!RequireRestoreStamina())
+        {
+            return;
+        }
+        int hungerUse = HungerUsedToRestoreStaminaPerTimePass;
+        int staminaGain = StaminaRestoredFromFoodPerTimePass;
+        if (TryConsumeHungerForStamina(hungerUse))
+        {
+            RestoreStaminaFromFood(staminaGain);
+        }
+        
+    }
+
+    private int AddToOrMax(int max, int current, int add)
+    {
+        int total = current + add;
+        if (total > max)
+        {
+            total = max;
+        }
+        return total;
+    }
+    private int MinusOrMin(int min, int current, int minus)
+    {
+        int total = current - minus;
+        if (total < min)
+        {
+            total = min;
+        }
+        return total;
     }
 
 
     #endregion
 
-    private void StatUpdated(int index, int val)
+    private void StatValueUpdated(int index, int value)
     {
-        UIStats.SetSliderValue(index, val);
+        UIStats.SetSliderValue(index, value);
+        Save.Instance.SaveRequest();
+    }
+    private void StatMaxUpdated(int index, int max)
+    {
+        UIStats.SetSliderMax(index, max);
         Save.Instance.SaveRequest();
     }
 
@@ -92,6 +282,12 @@ public class Player : MonoBehaviour, Save.ISaver
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
         lastLat = double.MinValue;
         lastLon = double.MinValue;
     }
@@ -99,18 +295,138 @@ public class Player : MonoBehaviour, Save.ISaver
     private void Start()
     {
         StartInit();
+        StatInit();
     }
+
+    public void PlayerDied()
+    {
+        Debug.Log("PLAYER DIED!!");
+        //TODO new game
+        Health = MaxHealth;
+    }
+
+
+    public void SwitchToCombatMode()
+    {
+        InCombatMode = true;
+        //ThisTR.SetParent(null);
+        ModelObject.SetActive(false);
+        POIManager.Instance.ActivateCombatMode(true);
+    }
+    public void SwitchToMapMode()
+    {
+        InCombatMode = false;
+        ModelObject.SetActive(true);
+        POIManager.Instance.ActivateCombatMode(false);
+
+    }
+
 
     //Unity Event Referenced
     public void ReceiveJoystickMovement(Vector2 movementDelta)
     {
-        G.Location.PlayerReportJoystickMovment(movementDelta);
+        ReportMovement(movementDelta);
+    }
+
+    private void WASDUpdate()
+    {
+        Vector2 keyboardMovement = Vector2.zero;
+        if (Input.GetKey(KeyCode.W))
+        {
+            keyboardMovement.y += 1;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            keyboardMovement.y += -1;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            keyboardMovement.x += -1;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            keyboardMovement.x += 1;
+        }
+        if (keyboardMovement.x != 0 || keyboardMovement.y != 0)
+        {
+            usedWASD = true;
+            keyboardMovement.Normalize();
+            G.MovementJoystick.ExternalJoystickControl(keyboardMovement);
+            ReportMovement(keyboardMovement);
+        }
+        else
+        {
+            if (usedWASD)
+            {
+                G.MovementJoystick.ExternalJoystickControl();
+                usedWASD = false;
+            }
+        }
+    }
+
+    private void ReportMovement(Vector2 movementDelta)
+    {
+        if (InCombatMode)
+        {
+            CombatPlayer.Move(movementDelta);
+            return;
+        }
+        G.Location.PlayerReportMovment(movementDelta);
+    }
+
+    private void StatInit()
+    {
+        HungerConsumeTimePassCount = HungerConsumeTimePass;
+        HealthConsumeStarvingTimePassCount = HealthConsumeStarvingTimePass;
+        StaminaRestoreFromFoodTimePassCount = StaminaRestoreFromFoodTimePass;
     }
 
 
     private void Update()
     {
-        Map_Update();
+        WASDUpdate();
+        if (!InCombatMode)
+        {
+            Map_Update();
+        }
+        Stats_Update();
+    }
+
+    private void Stats_Update()
+    {
+        // Get Hungry
+        HungerConsumeTimePassCount -= Time.deltaTime;
+        if (HungerConsumeTimePassCount < 0)
+        {
+            HungerConsumeTimePassCount = HungerConsumeTimePass;
+            TimePassedHungrify();
+        }
+
+        // Starve
+        if (Hunger == 0)
+        {
+            HealthConsumeStarvingTimePassCount -= Time.deltaTime;
+            if (HealthConsumeStarvingTimePassCount < 0)
+            {
+                HealthConsumeStarvingTimePassCount = HealthConsumeStarvingTimePass;
+                TimePassedStarvify();
+            }
+        }
+
+        // Restore Stamina from hunger/food
+        StaminaRestoreFromFoodTimePassCount -= Time.deltaTime;
+        if (StaminaRestoreFromFoodTimePassCount < 0)
+        {
+            StaminaRestoreFromFoodTimePassCount = StaminaRestoreFromFoodTimePass;
+            TimePassedTryConvertHungerToStamina();
+        }
+
+        if (Health == 0)
+        {
+            PlayerDied();
+        }
+
+
     }
 
     private void Map_Update()
@@ -202,8 +518,12 @@ public class Player : MonoBehaviour, Save.ISaver
 
 
 
-    public void SelectPOI(Vector2 screenPosition)
+    public void SelectPOIOrZombie(Vector2 screenPosition)
     {
+        if (InCombatMode)
+        {
+            return;
+        }
         const int layerMask = 1 << 6 | 1 << 8;
         Ray ray = G.MainCamera.ScreenPointToRay(screenPosition);
         if (!Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, layerMask))
@@ -218,6 +538,7 @@ public class Player : MonoBehaviour, Save.ISaver
         }
         else if (hit.collider.TryGetComponent(out MapZombie zombie))
         {
+            SwitchToCombatMode();
             SceneManager.LoadScene(1);
             Debug.Log("Tapped on zombie");
         }
@@ -260,6 +581,10 @@ public class Player : MonoBehaviour, Save.ISaver
     }
     private void ClusterCompleteAction(GGoogleMapsQueryCluster cluster)
     {
+        if (InCombatMode)
+        {
+            return;
+        }
         //Debug.Log("Cluster complete!");
         //Spawn all
         G.POIManager.StartSpawningPOIs();
@@ -301,6 +626,12 @@ public class Player : MonoBehaviour, Save.ISaver
         data.PlayerStats[1] = Hunger;
         data.PlayerStats[2] = Stamina;
         data.PlayerStats[3] = Zombification;
+
+        data.PlayerMaxStats ??= new int[4];
+        data.PlayerMaxStats[0] = MaxHealth;
+        data.PlayerMaxStats[1] = MaxHunger;
+        data.PlayerMaxStats[2] = MaxStamina;
+        data.PlayerMaxStats[3] = MaxZombification;
     }
 
     public void LoadData(Save.Data data)
@@ -318,6 +649,21 @@ public class Player : MonoBehaviour, Save.ISaver
             Hunger = data.PlayerStats[1];
             Stamina = data.PlayerStats[2];
             Zombification = data.PlayerStats[3];
+        }
+
+        if (data.PlayerMaxStats == null)
+        {
+            MaxHealth = 200;
+            MaxHunger = 200;
+            MaxStamina = 200;
+            MaxZombification = 200;
+        }
+        else
+        {
+            MaxHealth = data.PlayerMaxStats[0];
+            MaxHunger = data.PlayerMaxStats[1];
+            MaxStamina = data.PlayerMaxStats[2];
+            MaxZombification = data.PlayerMaxStats[3];
         }
 
     }
