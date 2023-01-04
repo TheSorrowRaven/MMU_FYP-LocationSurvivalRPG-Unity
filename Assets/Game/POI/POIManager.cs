@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class POIManager : MonoBehaviour
+public class POIManager : MonoBehaviour, Save.ISaver
 {
     private static G G => G.Instance;
     private static POIManager instance;
@@ -20,15 +20,22 @@ public class POIManager : MonoBehaviour
     [System.NonSerialized] private Dictionary<string, POI> POIs = new();
     [System.NonSerialized] private Dictionary<string, POITypeDefinition> POITypeDefinitions;
     [System.NonSerialized] private readonly HashSet<string> UndefinedTypes = new();
+    [System.NonSerialized] private Dictionary<string, Dictionary<string, int>> VisitedPOIs;
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
         POIs.Clear();
     }
 
     private void Start()
     {
+        StartInit();
         G.Mapbox.OnUpdated += MapUpdated;
         LoadPOITypesDefinition();
     }
@@ -140,5 +147,33 @@ public class POIManager : MonoBehaviour
             poi.MapUpdated();
         }
     }
+
+    public bool TryGetVisitedPOI(string placeID, out Dictionary<string, int> remainingItemAmts)
+    {
+        return VisitedPOIs.TryGetValue(placeID, out remainingItemAmts);
+    }
+
+    public void UpdateVisitedPOIs(string placeID, Dictionary<string, int> remainingItemAmts)
+    {
+        VisitedPOIs[placeID] = remainingItemAmts;
+    }
+
+
+    public void StartInit()
+    {
+        Save.Instance.InitSaver(this);
+    }
+
+    public void SaveData(Save.Data data)
+    {
+
+    }
+
+    public void LoadData(Save.Data data)
+    {
+        data.VisitedPOIs ??= new();
+        VisitedPOIs = data.VisitedPOIs;
+    }
+
 
 }

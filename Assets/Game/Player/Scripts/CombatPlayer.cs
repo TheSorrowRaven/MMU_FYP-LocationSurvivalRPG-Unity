@@ -15,6 +15,7 @@ public class CombatPlayer : MonoBehaviour
     public Transform TR;
     public Rigidbody RB;
 
+    public Camera Cam;
     public Transform CamTR;
     public float CamRotateSpeed;
     public float CamVerticalMin;
@@ -22,6 +23,8 @@ public class CombatPlayer : MonoBehaviour
 
     private Quaternion originalRotation;
     private Vector2 rotation;
+
+    public WeaponItem UsingWeaponSO => Player.UsingWeapon;
 
     private void Awake()
     {
@@ -31,6 +34,12 @@ public class CombatPlayer : MonoBehaviour
     private void Start()
     {
         originalRotation = CamTR.localRotation;
+    }
+
+    public void WeaponChanged()
+    {
+        //TODO set model/material, animation
+        
     }
 
     public void RotateView(Vector2 delta)
@@ -52,6 +61,33 @@ public class CombatPlayer : MonoBehaviour
             delta *= Player.CombatMovementSpeedMultiplier;
         }
         TR.localPosition += TR.forward * delta.y + TR.right * delta.x;
+    }
+
+    public bool TrySphereCastZombie(Vector2 screenPosition, out CombatZombie zombie)
+    {
+        Vector3 fromPosition = CamTR.position;
+        Vector3 toPosition = Cam.ScreenToWorldPoint(new(screenPosition.x, screenPosition.y, 1));
+        Vector3 direction = toPosition - fromPosition;
+        direction.Normalize();
+        float radius = 1f;
+        float distance = 2f;
+        if (Physics.SphereCast(fromPosition, radius, direction, out RaycastHit hit, distance, 1 << 8))
+        {
+            Transform tr = hit.collider.transform.parent;
+            if (tr.TryGetComponent(out zombie))
+            {
+                Debug.Log("Hit Zombie");
+                return true;
+            }
+        }
+        Debug.DrawRay(fromPosition, direction * distance, Color.yellow);
+        zombie = null;
+        return false;
+    }
+
+    public void HitZombieWithWeapon(CombatZombie zombie)
+    {
+        // TODO zombie.Hit()
     }
 
     public void HitByZombie(CombatZombie zombie)

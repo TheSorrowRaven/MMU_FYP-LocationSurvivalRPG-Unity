@@ -18,6 +18,7 @@ public abstract class Item : ScriptableObject
     public string Name;
     public Sprite Icon;
     public Rarity Rarity;
+    public virtual bool Consumable => true;
 
     protected abstract string IdentifierStarter { get; }
 

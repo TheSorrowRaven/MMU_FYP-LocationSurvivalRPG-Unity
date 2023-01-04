@@ -91,11 +91,16 @@ public class G : MonoBehaviour
     {
         InitializeServices();
 
-        Mapbox.Initialize(Location, 18);
-        Mapbox.UpdateMap(18f);
+        if (!Player.Instance.InCombatMode)
+        {
+            Mapbox.Initialize(Location, 18);
+            Mapbox.UpdateMap(18f);
 
-        PhysicalMetersPerUnityUnits = Haversine(WorldToGeo(Vector3.zero), WorldToGeo(Vector3.right));
-        GameSettings.GSetUnityUnitsDistanceQueryRadius(GameSettings.MetersDistanceQueryRadius / PhysicalMetersPerUnityUnits);
+            PhysicalMetersPerUnityUnits = Haversine(WorldToGeo(Vector3.zero), WorldToGeo(Vector3.right));
+            GameSettings.GSetUnityUnitsDistanceQueryRadius(GameSettings.MetersDistanceQueryRadius / PhysicalMetersPerUnityUnits);
+        }
+
+
 
     }
 

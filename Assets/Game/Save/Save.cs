@@ -36,6 +36,9 @@ public class Save
         [JsonProperty("PlayerMaxStats")]
         public int[] PlayerMaxStats { get; set; }
 
+        [JsonProperty("VisitedPOIs")]
+        public Dictionary<string, Dictionary<string, int>> VisitedPOIs { get; set; }
+
         [JsonProperty("Inventory")]
         public Dictionary<string, int> Inventory { get; set; }
 

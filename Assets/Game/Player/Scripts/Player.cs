@@ -39,8 +39,10 @@ public class Player : MonoBehaviour, Save.ISaver
     [System.NonSerialized] private Vector2Int lastMapZombieCell;
 
 
+    public WeaponItem UsingWeapon { get; private set; }
 
-    public bool InCombatMode { get; private set; }
+
+    [field: SerializeField] public bool InCombatMode { get; private set; }
     public CombatPlayer CombatPlayer => CombatPlayer.Instance;
 
     #region Gameplay
@@ -296,6 +298,14 @@ public class Player : MonoBehaviour, Save.ISaver
     {
         StartInit();
         StatInit();
+        if (InCombatMode)
+        {
+            SwitchToCombatMode();
+        }
+        else
+        {
+            SwitchToMapMode();
+        }
     }
 
     public void PlayerDied()
@@ -319,6 +329,15 @@ public class Player : MonoBehaviour, Save.ISaver
         ModelObject.SetActive(true);
         POIManager.Instance.ActivateCombatMode(false);
 
+    }
+
+    public void EquipWeapon(WeaponItem weaponItem)
+    {
+        UsingWeapon = weaponItem;
+        if (InCombatMode)
+        {
+            CombatPlayer.WeaponChanged();
+        }
     }
 
 

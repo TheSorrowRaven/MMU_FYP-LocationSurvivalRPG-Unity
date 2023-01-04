@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.UI;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using System;
+using static UnityEditor.Progress;
 
 public class UIPOI : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class UIPOI : MonoBehaviour
     [SerializeField] private GameObject UILootPrefab;
 
     [NonSerialized] private GGoogleMapsPOI gPOI;
+    [NonSerialized] private Dictionary<string, int> remainingItems;
 
     private void Awake()
     {
@@ -69,6 +71,8 @@ public class UIPOI : MonoBehaviour
         POIName.SetText(gPOI.Name);
         POITypes.SetText(BuildTypeTextFromGPOI(gPOI));
         RequestGPOIImage(gPOI);
+
+        POIManager.TryGetVisitedPOI(gPOI.PlaceID, out remainingItems);
 
         UIPOIObject.SetActive(true);
 
@@ -184,14 +188,18 @@ public class UIPOI : MonoBehaviour
     private readonly List<ItemAmt> ItemAmtList = new();
     private readonly List<UIItem> UILootList = new();
 
-    private void AddToLoot(Item item)
+    private void AddToLoot(Item item, int amt = 1)
     {
-        if (LootCount.TryGetValue(item, out int count))
+        if (amt < 1)
         {
-            LootCount[item] = count + 1;
             return;
         }
-        LootCount.Add(item, 1);
+        if (LootCount.TryGetValue(item, out int count))
+        {
+            LootCount[item] = count + amt;
+            return;
+        }
+        LootCount.Add(item, amt);
     }
 
     public void CalculateLoot()
@@ -227,6 +235,11 @@ public class UIPOI : MonoBehaviour
         Destroy(uiLoot.gameObject);
     }
 
+    public void UILootUpdate()
+    {
+        LootListUpdated();
+    }
+
     private static int CreateNumberFromDate(DateTime dt)
     {
         string str = dt.Year.ToString() + (dt.Month < 10 ? ("0" + dt.Month) : dt.Month) + (dt.Day < 10 ? ("0" + dt.Day) : dt.Day);
@@ -235,6 +248,16 @@ public class UIPOI : MonoBehaviour
 
     private void CalculateLootFromTypes()
     {
+        if (remainingItems != null)
+        {
+            foreach (var pair in remainingItems)
+            {
+                Item item = ItemManager.IdentifierToItem[pair.Key];
+                AddToLoot(item, pair.Value);
+            }
+            return;
+        }
+
         List<string> types = gPOI.Types;
         if (types.Count == 0)
         {
@@ -247,6 +270,7 @@ public class UIPOI : MonoBehaviour
             {
                 CalculateLootFromFood(definition.Food);
                 CalculateLootFromMedical(definition.Medical);
+                CalculateLootFromWeapon(definition.Weapon);
             }
         }
 
@@ -280,6 +304,22 @@ public class UIPOI : MonoBehaviour
             double rarityChance = LootRNG.NextDouble();
             Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
             MedicalItem item = ItemManager.GetMedicalFromRarity(rarity);
+            AddToLoot(item);
+        }
+    }
+
+    private void CalculateLootFromWeapon(int weapon)
+    {
+        if (weapon == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < weapon; i++)
+        {
+            double rarityChance = LootRNG.NextDouble();
+            Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
+            WeaponItem item = ItemManager.GetWeaponFromRarity(rarity);
             AddToLoot(item);
         }
     }
@@ -347,6 +387,27 @@ public class UIPOI : MonoBehaviour
         }
     }
 
+    private void LootListUpdated()
+    {
+        POIManager.UpdateVisitedPOIs(gPOI.PlaceID, GetRemainingItems());
+        Save.Instance.SaveRequest();
+    }
+
+    private Dictionary<string, int> GetRemainingItems()
+    {
+        Dictionary<string, int> remainingItems = new();
+        for (int i = 0; i < UILootList.Count; i++)
+        {
+            ItemAmt itemAmt = UILootList[i].itemAmt;
+            if (itemAmt.amt == 0)
+            {
+                continue;
+            }
+            remainingItems.Add(itemAmt.item.Identifier, itemAmt.amt);
+        }
+        return remainingItems;
+    }
+
     #endregion
 
 
@@ -354,6 +415,7 @@ public class UIPOI : MonoBehaviour
 
     public void ButtonClickExitUIPOI()
     {
+        isLootingAll = false;
         UIPOIObject.SetActive(false);
     }
 

@@ -775,7 +775,7 @@ PrefabInstance:
     - target: {fileID: 7141760753125310709, guid: 262a150e7f1d44541b0851968bf27450,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7141760753125310709, guid: 262a150e7f1d44541b0851968bf27450,
         type: 3}
@@ -785,7 +785,7 @@ PrefabInstance:
     - target: {fileID: 7141760753125310709, guid: 262a150e7f1d44541b0851968bf27450,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7141760753125310709, guid: 262a150e7f1d44541b0851968bf27450,
         type: 3}
@@ -835,12 +835,12 @@ PrefabInstance:
     - target: {fileID: 7141760753125310709, guid: 262a150e7f1d44541b0851968bf27450,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 39.25
       objectReference: {fileID: 0}
     - target: {fileID: 7141760753125310709, guid: 262a150e7f1d44541b0851968bf27450,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -37.5
       objectReference: {fileID: 0}
     - target: {fileID: 7141760753125310709, guid: 262a150e7f1d44541b0851968bf27450,
         type: 3}
@@ -3806,6 +3806,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fbd466e11284a464fbab45e29ad64407, type: 2}
   - {fileID: 11400000, guid: 1a7aaff0e370aa44cb8e56b2a93d3bcf, type: 2}
   - {fileID: 11400000, guid: 2cf00cfd4166aac4da614f228c5cbc10, type: 2}
+  - {fileID: 11400000, guid: b4947f9f905217a4aa3d0b61d8372c8d, type: 2}
   FoodClass:
     common: {fileID: 11400000, guid: ff9878d47e8bb8e439a0848ac7ccbada, type: 2}
     uncommon: {fileID: 11400000, guid: 7be0056f353e4824bb5ad75071a857ab, type: 2}
@@ -6082,6 +6083,7 @@ MonoBehaviour:
   ModelObject: {fileID: 1109310900}
   radius: 13.114384
   radiusDetail: 50
+  <InCombatMode>k__BackingField: 0
   <Level>k__BackingField: 0
   <Experience>k__BackingField: 0
   combatMovementSpeed: 0.05

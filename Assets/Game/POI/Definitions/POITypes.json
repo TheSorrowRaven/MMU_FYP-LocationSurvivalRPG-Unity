@@ -21,7 +21,9 @@
   "administrative_area_level_7": {
     "ignored": true
   },
-  "airport": {},
+  "airport": {
+    "weapon": 1
+  },
   "amusement_park": {},
   "aquarium": {
     "food": 4
@@ -46,17 +48,25 @@
   "cafe": {
     "food": 10
   },
-  "campground": {},
+  "campground": {
+    "weapon": 1
+  },
   "car_dealer": {},
   "car_rental": {},
-  "car_repair": {},
+  "car_repair": {
+    "weapon": 1
+  },
   "car_wash": {},
-  "casino": {},
+  "casino": {
+    "weapon": 1
+  },
   "cemetery": {},
   "church": {
     "food": 2
   },
-  "city_hall": {},
+  "city_hall": {
+    "weapon": 1
+  },
   "clothing_store": {},
   "colloquial_area": {
     "ignored": true
@@ -71,13 +81,16 @@
   "country": {
     "ignored": true
   },
-  "courthouse": {},
+  "courthouse": {
+    "weapon": 1
+  },
   "dentist": {
     "medical": 7
   },
   "department_store": {
     "food": 7,
-    "medical": 5
+    "medical": 5,
+    "weapon": 1
   },
   "doctor": {
     "medical": 7
@@ -85,20 +98,30 @@
   "drugstore": {
     "medical": 8
   },
-  "electrician": {},
-  "electronics_store": {},
+  "electrician": {
+    "weapon": 1
+  },
+  "electronics_store": {
+    "weapon": 1
+  },
   "embassy": {},
   "establishment": {},
   "finance": {},
-  "fire_station": {},
+  "fire_station": {
+    "weapon": 1
+  },
   "floor": {},
   "florist": {},
   "food": {
     "food": 8
   },
   "funeral_home": {},
-  "furniture_store": {},
-  "gas_station": {},
+  "furniture_store": {
+    "weapon": 1
+  },
+  "gas_station": {
+    "weapon": 1
+  },
   "general_contractor": {},
   "geocode": {
     "ignored": true
@@ -107,7 +130,9 @@
   "hair_care": {
     "medical": 1
   },
-  "hardware_store": {},
+  "hardware_store": {
+    "weapon": 1
+  },
   "health": {
     "medical": 7
   },
@@ -139,7 +164,9 @@
     "ignored": true
   },
   "locksmith": {},
-  "lodging": {},
+  "lodging": {
+    "weapon": 1
+  },
   "meal_delivery": {
     "food": 5
   },
@@ -172,7 +199,9 @@
     "ignored": true
   },
   "point_of_interest": {},
-  "police": {},
+  "police": {
+    "weapon": 1
+  },
   "political": {},
   "post_box": {},
   "post_office": {},

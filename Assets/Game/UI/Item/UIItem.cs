@@ -112,6 +112,7 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
         }
         UIInventory.AddToInventory(itemAmt.item, 1);
         itemAmt.amt--;
+        UIPOI.UILootUpdate();
         if (itemAmt.amt == 0)
         {
             animating = true;
@@ -129,12 +130,14 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
         {
             return;
         }
-        itemAmt.amt--;
-        //TODO use item
+
+        if (itemAmt.item.Consumable)
+        {
+            itemAmt.amt--;
+            UIInventory.RemoveFromInventory(itemAmt.item, 1);
+        }
 
         itemAmt.item.Use();
-
-        UIInventory.RemoveFromInventory(itemAmt.item, 1);
     }
 
 

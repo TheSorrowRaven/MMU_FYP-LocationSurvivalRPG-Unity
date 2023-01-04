@@ -55,6 +55,7 @@ public class ItemManager : MonoBehaviour
     [ContextMenu("Get All Items")]
     public void GetAllItems()
     {
+        Items.Clear();
         Item[] AllItems = G.GetAllScriptableObjects<Item>();
         for (int i = 0; i < AllItems.Length; i++)
         {
@@ -75,6 +76,10 @@ public class ItemManager : MonoBehaviour
         IdentifierToItem.Clear();
         for (int i = 0; i < Items.Count; i++)
         {
+            if (Items[i] is WeaponItem)
+            {
+                Debug.Log(Items[i].Identifier);
+            }
             IdentifierToItem.Add(Items[i].Identifier, Items[i]);
         }
     }
@@ -103,6 +108,12 @@ public class ItemManager : MonoBehaviour
     public MedicalItem GetMedicalFromRarity(Rarity rarity)
     {
         return MedicalClass.GetFromRarity(rarity);
+    }
+
+    public WeaponItem GetWeaponFromRarity(Rarity rarity)
+    {
+        //TODO temporary
+        return (WeaponItem)IdentifierToItem["weapon_sledgehammer"];
     }
 
 }

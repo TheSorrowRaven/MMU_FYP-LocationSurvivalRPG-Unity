@@ -17,6 +17,9 @@ public class POITypeDefinition
     [JsonProperty("medical")]
     [DefaultValue(0)]
     public int Medical { get; set; }
+    [JsonProperty("weapon")]
+    [DefaultValue(0)]
+    public int Weapon { get; set; }
 
 
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class CombatZombie : MonoBehaviour
 {
@@ -206,6 +207,7 @@ public class CombatZombie : MonoBehaviour
             }
         }
 
+        RotateTowards(CombatPlayer.TR.localPosition);
     }
 
     private void MoveTowards(Vector3 pos)
@@ -214,17 +216,30 @@ public class CombatZombie : MonoBehaviour
         Vector3 direction = pos - zombiePos;
         direction.Normalize();
 
-        float angle = Vector3.SignedAngle(TR.forward, direction, Vector3.up);
-        if (angle < 1)
-        {
-            //Prevent Jitter
-            angle = 0;
-        }
-        float currentAngle = TR.localRotation.eulerAngles.y;
+        RotateTowards(pos);
 
-        TR.localRotation = Quaternion.RotateTowards(TR.localRotation, Quaternion.Euler(0, currentAngle + angle, 0), Time.deltaTime * TurnSpeed);
         Vector3 movement = TR.forward * (Time.deltaTime * MoveSpeed);
         TR.localPosition += movement;
+    }
+
+    private void RotateTowards(Vector3 pos)
+    {
+        Vector3 zombiePos = TR.localPosition;
+        Vector3 direction = pos - zombiePos;
+        direction.Normalize();
+
+        float angle = Vector3.SignedAngle(TR.forward, direction, Vector3.up);
+        float currentAngle = TR.localRotation.eulerAngles.y;
+        if (angle < 5)
+        {
+            TR.localRotation = Quaternion.Euler(0, currentAngle + angle, 0);
+            TR.LookAt(new Vector3(pos.x, zombiePos.y, pos.z), Vector3.up);
+        }
+        else
+        {
+            float turnMax = Mathf.Min(Time.deltaTime * TurnSpeed, angle);
+            TR.localRotation = Quaternion.RotateTowards(TR.localRotation, Quaternion.Euler(0, currentAngle + angle, 0), turnMax);
+        }
     }
 
 
