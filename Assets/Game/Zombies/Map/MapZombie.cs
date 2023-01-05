@@ -9,11 +9,10 @@ public class MapZombie : MonoBehaviour
 
     public Transform ThisTR;
 
+    [System.NonSerialized] public Vector2Int cellPos;
     [System.NonSerialized] public Vector2d GeoLocation;
 
     [SerializeField] private GameObject display;
-
-    [System.NonSerialized] private bool active; // Display is showing
 
     private void Awake()
     {
@@ -35,12 +34,10 @@ public class MapZombie : MonoBehaviour
     public void Hidden()
     {
         display.SetActive(false);
-        active = false;
     }
     public void Seen()
     {
         display.SetActive(true);
-        active = true;
     }
 
 }

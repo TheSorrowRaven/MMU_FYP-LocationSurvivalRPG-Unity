@@ -58,6 +58,9 @@ public class CombatZombie : MonoBehaviour
     public int HealthDamage;
     public int ZombificationDamage;
 
+    public int health;
+    private bool isDead = false;
+
 
     public enum State
     {
@@ -65,6 +68,7 @@ public class CombatZombie : MonoBehaviour
         Wander,
         Chasing,
         Attacking,
+        Dying,
     }
 
     public State CurrentState;
@@ -87,6 +91,9 @@ public class CombatZombie : MonoBehaviour
             case State.Attacking:
                 AttackingUpdate();
                 break;
+            case State.Dying:
+                DyingUpdate();
+                break;
         }
         if (MoveSpeed != lastMoveSpeed)
         {
@@ -95,6 +102,22 @@ public class CombatZombie : MonoBehaviour
             Animator.SetFloat("MoveSpeed", MoveSpeed);
         }
     }
+
+    public void PlayerHit(int damage)
+    {
+        if (isDead)
+        {
+            return;
+        }
+        health -= damage;
+        if (health < 0)
+        {
+            ChangeState(State.Dying);
+            isDead = true;
+        }
+    }
+
+
 
     private void WanderUpdate()
     {
@@ -210,6 +233,11 @@ public class CombatZombie : MonoBehaviour
         RotateTowards(CombatPlayer.TR.localPosition);
     }
 
+    private void DyingUpdate()
+    {
+
+    }
+
     private void MoveTowards(Vector3 pos)
     {
         Vector3 zombiePos = TR.localPosition;
@@ -306,6 +334,8 @@ public class CombatZombie : MonoBehaviour
             case State.Attacking:
                 ExitAttackingState();
                 break;
+            case State.Dying:
+                break;
         }
         CurrentState = state;
         switch (state)
@@ -318,6 +348,9 @@ public class CombatZombie : MonoBehaviour
                 break;
             case State.Attacking:
                 EnterAttackingState();
+                break;
+            case State.Dying:
+                EnterDyingState();
                 break;
         }
     }
@@ -337,6 +370,12 @@ public class CombatZombie : MonoBehaviour
     private void EnterChasingState()
     {
         Animator.SetBool("Chasing", true);
+    }
+
+    private void EnterDyingState()
+    {
+        Animator.SetBool("DieForward", false);
+        Animator.SetTrigger("Die");
     }
 
     private void ExitChasingState()

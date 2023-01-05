@@ -85,18 +85,21 @@ public class PlayerAttack : MonoBehaviour
             else
             {
                 SetPoint(screenPosition);
-                bool hit;
-                if (hit = CombatPlayer.TrySphereCastZombie(screenPosition, out CombatZombie zombie))
+                if (!hitZombie)
                 {
-                    hitZombie = hit;
-                    zombieTarget = zombie;
+                    bool hit;
+                    if (hit = CombatPlayer.TrySphereCastZombie(screenPosition, out CombatZombie zombie))
+                    {
+                        hitZombie = hit;
+                        zombieTarget = zombie;
 
-                    //TODO move
-                    Animator.SetTrigger("Swing");
-                    const float hitTime = 0.1333333333f;
+                        //TODO move
+                        Animator.SetTrigger("Swing");
+                        const float hitTime = 0.1333333333f;
 
-                    animationTimeCount = hitTime;
-                    isAnimating = true;
+                        animationTimeCount = hitTime;
+                        isAnimating = true;
+                    }
                 }
             }
         }

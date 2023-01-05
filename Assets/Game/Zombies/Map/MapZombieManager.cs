@@ -69,6 +69,33 @@ public class MapZombieManager : MonoBehaviour
         }
     }
 
+    private void ClearZombiesAroundCell(Vector2Int playerCell)
+    {
+        List<Vector2Int> cellsToClear = new();
+        foreach (var cell in cellsSpawned)
+        {
+            if (Mathf.Abs(cell.x - playerCell.x) <= 1 || Mathf.Abs(cell.y - playerCell.y) <= 1)
+            {
+                cellsToClear.Add(cell);
+            }
+        }
+        for (int i = 0; i < cellsToClear.Count; i++)
+        {
+            Vector2Int cell = cellsToClear[i];
+            cellsToClear.Remove(cell);
+        }
+        for (int i = 0; i < zombies.Count; i++)
+        {
+            MapZombie zombie = zombies[i];
+            if (cellsToClear.Contains(zombie.cellPos))
+            {
+                zombie.gameObject.Destroy();
+                zombies.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+
     // TODO: Detection and Chasing
     public void PlayerUpdate(Vector2Int currentCell)
     {
@@ -107,6 +134,7 @@ public class MapZombieManager : MonoBehaviour
             Vector2 spawnPos = G.RandomPosition(min, max);
             Vector3 pos = new(spawnPos.x, 0, spawnPos.y);
             MapZombie mapZombie = Instantiate(MapZombiePrefab, pos, Quaternion.Euler(0, Random.value * 360, 0), container).GetComponent<MapZombie>();
+            mapZombie.cellPos = cell;
             mapZombie.GeoLocation = G.WorldToGeo(pos);
             zombies.Add(mapZombie);
         }

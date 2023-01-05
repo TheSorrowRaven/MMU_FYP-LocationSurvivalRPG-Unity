@@ -76,18 +76,18 @@ public class CombatPlayer : MonoBehaviour
             Transform tr = hit.collider.transform.parent;
             if (tr.TryGetComponent(out zombie))
             {
-                Debug.Log("Hit Zombie");
+                //Debug.Log("Hit Zombie");
                 return true;
             }
         }
-        Debug.DrawRay(fromPosition, direction * distance, Color.yellow);
+        //Debug.DrawRay(fromPosition, direction * distance, Color.yellow);
         zombie = null;
         return false;
     }
 
     public void HitZombieWithWeapon(CombatZombie zombie)
     {
-        // TODO zombie.Hit()
+        zombie.PlayerHit(UsingWeaponSO.Damage);
     }
 
     public void HitByZombie(CombatZombie zombie)

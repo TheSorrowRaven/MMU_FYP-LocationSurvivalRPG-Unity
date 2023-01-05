@@ -4,6 +4,8 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
 using Unity.VisualScripting;
+using System;
+using System.ComponentModel;
 
 public class Save
 {
@@ -39,8 +41,12 @@ public class Save
         [JsonProperty("VisitedPOIs")]
         public Dictionary<string, Dictionary<string, int>> VisitedPOIs { get; set; }
 
+        [JsonProperty("VisitedPOIDate")]
+        public DateTime VisitedPOIDate;
+
         [JsonProperty("Inventory")]
         public Dictionary<string, int> Inventory { get; set; }
+
 
     }
 
@@ -87,9 +93,9 @@ public class Save
             string text = File.ReadAllText(savePath);
             saveData = JsonConvert.DeserializeObject<Data>(text);
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
-
+            Debug.LogError(e);
         }
         saveData ??= new();
 

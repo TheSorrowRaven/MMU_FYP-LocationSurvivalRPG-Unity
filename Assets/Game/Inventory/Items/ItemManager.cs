@@ -46,6 +46,11 @@ public class ItemManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
         Setup();
     }
@@ -76,10 +81,6 @@ public class ItemManager : MonoBehaviour
         IdentifierToItem.Clear();
         for (int i = 0; i < Items.Count; i++)
         {
-            if (Items[i] is WeaponItem)
-            {
-                Debug.Log(Items[i].Identifier);
-            }
             IdentifierToItem.Add(Items[i].Identifier, Items[i]);
         }
     }

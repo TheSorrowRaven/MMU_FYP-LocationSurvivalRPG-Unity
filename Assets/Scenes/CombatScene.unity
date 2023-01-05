@@ -735,7 +735,7 @@ MonoBehaviour:
   ScreenInput: {fileID: 1734276519}
   MovementJoystick: {fileID: 1471439602}
   GPSToggle: {fileID: 2028295036}
-  zombiesCount: 0
+  zombiesCount: 10
 --- !u!4 &97980657
 Transform:
   m_ObjectHideFlags: 0
@@ -4229,6 +4229,7 @@ MonoBehaviour:
   AttackHitCheckTime2: 0.6666667
   HealthDamage: 10
   ZombificationDamage: 2
+  health: 5
   CurrentState: 0
 --- !u!1 &845805486
 GameObject:

@@ -44,6 +44,11 @@ public class UIInventory : MonoBehaviour, Save.ISaver
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
     }
 

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class POIManager : MonoBehaviour, Save.ISaver
     [System.NonSerialized] private Dictionary<string, POITypeDefinition> POITypeDefinitions;
     [System.NonSerialized] private readonly HashSet<string> UndefinedTypes = new();
     [System.NonSerialized] private Dictionary<string, Dictionary<string, int>> VisitedPOIs;
+
+    private DateTime lastVisitedPOIDate;
 
     private void Awake()
     {
@@ -150,6 +153,13 @@ public class POIManager : MonoBehaviour, Save.ISaver
 
     public bool TryGetVisitedPOI(string placeID, out Dictionary<string, int> remainingItemAmts)
     {
+        DateTime today = DateTime.Now.Date;
+        if (!lastVisitedPOIDate.Equals(today))
+        {
+            VisitedPOIs.Clear();
+            lastVisitedPOIDate = today;
+            Save.Instance.SaveRequest();
+        }
         return VisitedPOIs.TryGetValue(placeID, out remainingItemAmts);
     }
 
@@ -166,13 +176,14 @@ public class POIManager : MonoBehaviour, Save.ISaver
 
     public void SaveData(Save.Data data)
     {
-
+        data.VisitedPOIDate = lastVisitedPOIDate;
     }
 
     public void LoadData(Save.Data data)
     {
         data.VisitedPOIs ??= new();
         VisitedPOIs = data.VisitedPOIs;
+        lastVisitedPOIDate = data.VisitedPOIDate;
     }
 
 

@@ -9,7 +9,7 @@ public class WeaponItem : Item
     public override bool Consumable => false;
 
     public float Range;
-    public float Damage;
+    public int Damage;
 
     public override void Use()
     {
