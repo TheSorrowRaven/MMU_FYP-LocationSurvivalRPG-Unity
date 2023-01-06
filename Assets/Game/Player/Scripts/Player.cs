@@ -45,10 +45,7 @@ public class Player : MonoBehaviour, Save.ISaver
     [field: SerializeField] public bool InCombatMode { get; private set; }
     public CombatPlayer CombatPlayer => CombatPlayer.Instance;
 
-    #region Gameplay
-
-    [field: SerializeField] public int Level { get; private set; }
-    [field: SerializeField] public int Experience { get; private set; }
+    #region Stats
 
     [SerializeField] private float combatMovementSpeed;
     [SerializeField] private float combatMovementSpeedMultiplier;
@@ -244,7 +241,7 @@ public class Player : MonoBehaviour, Save.ISaver
         {
             RestoreStaminaFromFood(staminaGain);
         }
-        
+
     }
 
     private int AddToOrMax(int max, int current, int add)
@@ -268,6 +265,105 @@ public class Player : MonoBehaviour, Save.ISaver
 
 
     #endregion
+
+
+    #region Leveling & Skills
+
+    public static readonly int[] ExperienceRequiredToAdvance = new int[]
+    {
+        100,
+        250,
+        500,
+        900,
+        1500,
+        2350,
+        3500,
+        5000,
+        6900,
+        9250,
+    };
+    // Calculation Reference (Unoptimized)
+    private static int ExpReq(int level)
+    {
+        const int baseExp = 100;
+        int exp = baseExp;
+        for (int i = 0; i <= level; i++)
+        {
+            exp += (int)(baseExp * i * 0.5f);
+        }
+        if (level > 0)
+        {
+            exp += ExpReq(level - 1);
+        }
+        return exp;
+    }
+
+
+
+    public int experienceGainPerZombie;
+
+    private int level;
+    public int Level
+    { 
+        get => level;
+        private set
+        {
+            level = value;
+            LevelChanged();
+        }
+    }
+
+    private int experience;
+    public int Experience
+    {
+        get => experience;
+        private set
+        {
+            experience = value;
+
+            int level = 1;
+            for (int i = 0; i < ExperienceRequiredToAdvance.Length; i++)
+            {
+                if (experience >= ExperienceRequiredToAdvance[i])
+                {
+                    level = i + 2;
+                    break;
+                }
+            }
+            if (Level == level)
+            {
+                return;
+            }
+            Level = level;
+        }
+    }
+
+    public void ZombieKilledGainExperience(CombatZombie zombie)
+    {
+        Experience += experienceGainPerZombie;
+    }
+
+
+
+    private void LevelChanged()
+    {
+        Debug.Log($"LEVELED TO {Level}");
+        UIStats.Instance.SetLevel(Level);
+    }
+
+
+
+
+
+
+
+
+
+
+    #endregion
+
+
+
 
     private void StatValueUpdated(int index, int value)
     {
@@ -651,6 +747,8 @@ public class Player : MonoBehaviour, Save.ISaver
         data.PlayerMaxStats[1] = MaxHunger;
         data.PlayerMaxStats[2] = MaxStamina;
         data.PlayerMaxStats[3] = MaxZombification;
+
+        data.PlayerExperiencePoints = Experience;
     }
 
     public void LoadData(Save.Data data)
@@ -685,5 +783,6 @@ public class Player : MonoBehaviour, Save.ISaver
             MaxZombification = data.PlayerMaxStats[3];
         }
 
+        Experience = data.PlayerExperiencePoints;
     }
 }

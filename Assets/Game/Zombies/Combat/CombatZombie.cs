@@ -46,6 +46,7 @@ public class CombatZombie : MonoBehaviour
     private bool IsAttacking;
     private bool AttackIsReady;
     private float attackTimeCount;
+    private bool attackTriggerSet;
 
     private float MoveSpeed;
     private float lastMoveSpeed;
@@ -53,7 +54,6 @@ public class CombatZombie : MonoBehaviour
     public float AttackHitCheckTime;
     public float AttackHitCheckTime2;
     private int hitCountPerAttack;
-
 
     public int HealthDamage;
     public int ZombificationDamage;
@@ -69,6 +69,7 @@ public class CombatZombie : MonoBehaviour
         Chasing,
         Attacking,
         Dying,
+        Dead,
     }
 
     public State CurrentState;
@@ -93,6 +94,9 @@ public class CombatZombie : MonoBehaviour
                 break;
             case State.Dying:
                 DyingUpdate();
+                break;
+            case State.Dead:
+                DeadUpdate();
                 break;
         }
         if (MoveSpeed != lastMoveSpeed)
@@ -191,6 +195,7 @@ public class CombatZombie : MonoBehaviour
             else
             {
                 AttackIsReady = true;
+                attackTriggerSet = false;
             }
             IsAttacking = false;
         }
@@ -203,7 +208,13 @@ public class CombatZombie : MonoBehaviour
             if (distance < AttackDistance)
             {
                 attackTimeCount = AttackTotalTime;
-                Animator.SetTrigger("Attack");
+
+                if (attackTriggerSet)
+                {
+                    Animator.SetTrigger("Attack");
+                }
+
+                attackTriggerSet = true;
 
                 IsAttacking = true;
                 AttackIsReady = false;
@@ -234,6 +245,10 @@ public class CombatZombie : MonoBehaviour
     }
 
     private void DyingUpdate()
+    {
+
+    }
+    private void DeadUpdate()
     {
 
     }
@@ -352,6 +367,9 @@ public class CombatZombie : MonoBehaviour
             case State.Dying:
                 EnterDyingState();
                 break;
+            case State.Dead:
+                EnterDeadState();
+                break;
         }
     }
 
@@ -376,6 +394,11 @@ public class CombatZombie : MonoBehaviour
     {
         Animator.SetBool("DieForward", false);
         Animator.SetTrigger("Die");
+    }
+
+    private void EnterDeadState()
+    {
+        Player.Instance.ZombieKilledGainExperience(this);
     }
 
     private void ExitChasingState()

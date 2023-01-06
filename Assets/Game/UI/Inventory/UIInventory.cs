@@ -137,9 +137,13 @@ public class UIInventory : MonoBehaviour, Save.ISaver
         UIInventoryObject.SetActive(false);
     }
 
-    public void ButtonClickToggleUIInventory()
+    public void InventoryButtonClicked()
     {
         UIInventoryObject.SetActive(!UIInventoryObject.activeSelf);
+    }
+    public void InventoryForceDisable()
+    {
+        UIInventoryObject.SetActive(false);
     }
 
     public void StartInit()

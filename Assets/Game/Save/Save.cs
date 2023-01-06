@@ -38,6 +38,10 @@ public class Save
         [JsonProperty("PlayerMaxStats")]
         public int[] PlayerMaxStats { get; set; }
 
+        [JsonProperty("PlayerEXP")]
+        public int PlayerExperiencePoints { get; set; }
+
+
         [JsonProperty("VisitedPOIs")]
         public Dictionary<string, Dictionary<string, int>> VisitedPOIs { get; set; }
 
