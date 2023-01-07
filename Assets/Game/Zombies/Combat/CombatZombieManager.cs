@@ -5,6 +5,10 @@ using UnityEngine.UIElements;
 
 public class CombatZombieManager : MonoBehaviour
 {
+
+    private static CombatZombieManager instance;
+    public static CombatZombieManager Instance => instance;
+
     private static G G => G.Instance;
 
     public Transform TR;
@@ -14,7 +18,15 @@ public class CombatZombieManager : MonoBehaviour
 
     public Bounds ZombieSpawnBounds;
     public int zombiesCount;
+    public bool zombieInitiatedCombat;
 
+    private readonly List<CombatZombie> ActiveCombatZombies = new();
+    private readonly List<CombatZombie> ZombieChasingPlayer = new();
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -22,6 +34,7 @@ public class CombatZombieManager : MonoBehaviour
         if (G != null)
         {
             zombiesCount = G.zombiesCount;
+            zombieInitiatedCombat = G.zombieInitiatedCombat;
         }
         else
         {
@@ -30,9 +43,36 @@ public class CombatZombieManager : MonoBehaviour
         SpawnZombies();
     }
 
+    public void CombatZombieDetectedPlayer(CombatZombie zombie)
+    {
+        ZombieChasingPlayer.Add(zombie);
+        Player.Instance.SetEscapeActive(false);
+    }
+
+    public void CombatZombieDied(CombatZombie zombie)
+    {
+        ActiveCombatZombies.Remove(zombie);
+        ZombieChasingPlayer.Remove(zombie);
+
+        Debug.Log(ZombieChasingPlayer.Count);
+        if (ZombieChasingPlayer.Count == 0)
+        {
+            Player.Instance.SetEscapeActive(true);
+        }
+        if (ActiveCombatZombies.Count == 0)
+        {
+            Player.Instance.NoMoreZombiesLeaveCombat();
+        }
+    }
+
+
 
     private void SpawnZombies()
     {
+        ActiveCombatZombies.Clear();
+        ZombieChasingPlayer.Clear();
+
+        Player.Instance.SetEscapeActive(true);
 
         for (int i = 0; i < zombiesCount; i++)
         {
@@ -50,7 +90,14 @@ public class CombatZombieManager : MonoBehaviour
             float yRot = Random.value * 360f;
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * Quaternion.Euler(0, yRot, 0);
             CombatZombie combatZombie = Instantiate(CombatZombiePrefab, pos, rotation, TR).GetComponent<CombatZombie>();
+
+            if (zombieInitiatedCombat)
+            {
+                Vector3 playerPos = CombatPlayer.Instance.TR.localPosition;
+                TR.LookAt(new Vector3(playerPos.x, pos.y, playerPos.z), Vector3.up);
+            }
             combatZombie.RB.isKinematic = true;
+            ActiveCombatZombies.Add(combatZombie);
         }
     }
 

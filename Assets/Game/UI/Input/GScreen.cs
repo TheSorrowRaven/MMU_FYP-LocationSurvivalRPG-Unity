@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,19 +10,19 @@ using UnityEngine.UI;
 public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IPointerClickHandler
 {
 
-    [System.NonSerialized] private bool pointerHeld = false;
+    [NonSerialized] private bool pointerHeld = false;
 
-    [System.NonSerialized] private Vector2 firstDownPos;
-    [System.NonSerialized] private Vector2 currentPos;
-    [System.NonSerialized] private Vector2 lastPos;
+    [NonSerialized] private Vector2 firstDownPos;
+    [NonSerialized] private Vector2 currentPos;
+    [NonSerialized] private Vector2 lastPos;
 
 
     [SerializeField] private float clickThreshold;
 
     [SerializeField] private bool suppressZero;
     [SerializeField] private bool reportScreenPosition;
-    [SerializeField] private UnityEvent<Vector2> InputAction;
-    [SerializeField] private UnityEvent<Vector2> ClickAction;
+    public Action<Vector2> InputAction;
+    public Action<Vector2> ClickAction;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -39,11 +40,6 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
     public void OnDrag(PointerEventData eventData)
     {
         currentPos = eventData.position;
-    }
-
-    public void AddAsInputAction(UnityAction<Vector2> inputAction)
-    {
-        InputAction.AddListener(inputAction);
     }
 
     private void Update()

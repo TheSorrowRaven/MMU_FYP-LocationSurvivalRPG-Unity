@@ -16,12 +16,12 @@ public class POIManager : MonoBehaviour, Save.ISaver
 
     [SerializeField] private float cooldownToClearPOIs;
     [SerializeField] private Vector2 distanceFromPlayerToClearPOI;
-    [System.NonSerialized] private float cooldownCount;
+    [NonSerialized] private float cooldownCount;
 
-    [System.NonSerialized] private Dictionary<string, POI> POIs = new();
-    [System.NonSerialized] private Dictionary<string, POITypeDefinition> POITypeDefinitions;
-    [System.NonSerialized] private readonly HashSet<string> UndefinedTypes = new();
-    [System.NonSerialized] private Dictionary<string, Dictionary<string, int>> VisitedPOIs;
+    [NonSerialized] private Dictionary<string, POI> POIs = new();
+    [NonSerialized] private Dictionary<string, POITypeDefinition> POITypeDefinitions;
+    [NonSerialized] private readonly HashSet<string> UndefinedTypes = new();
+    [NonSerialized] private Dictionary<string, Dictionary<string, int>> VisitedPOIs;
 
     private DateTime lastVisitedPOIDate;
 
@@ -39,8 +39,12 @@ public class POIManager : MonoBehaviour, Save.ISaver
     private void Start()
     {
         StartInit();
-        G.Mapbox.OnUpdated += MapUpdated;
         LoadPOITypesDefinition();
+    }
+
+    public void ReferencesInitializedStart()
+    {
+        G.Mapbox.OnUpdated += MapUpdated;
     }
 
     private void Update()

@@ -12,6 +12,10 @@ public class UIStats : MonoBehaviour
     [SerializeField] private Slider[] StatSliders;
     [SerializeField] private TextMeshProUGUI LevelText;
 
+    [SerializeField] private TextMeshProUGUI ExpCurrentText;
+    [SerializeField] private TextMeshProUGUI ExpRequiredText;
+
+
     private void Awake()
     {
         if (Instance != null)
@@ -35,6 +39,19 @@ public class UIStats : MonoBehaviour
     public void SetLevel(int level)
     {
         LevelText.SetText("Level " + level);
+    }
+
+    public void SetExperience(int exp, int? expReq)
+    {
+        ExpCurrentText.SetText(exp.ToString());
+        if (expReq == null)
+        {
+            ExpRequiredText.SetText("MAX");
+        }
+        else
+        {
+            ExpRequiredText.SetText(expReq.ToString());
+        }
     }
 
 

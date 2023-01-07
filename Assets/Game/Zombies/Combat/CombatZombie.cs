@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class CombatZombie : MonoBehaviour
 {
     private static CombatPlayer CombatPlayer => CombatPlayer.Instance;
+    private static CombatZombieManager CombatZombieManager => CombatZombieManager.Instance;
 
     public Transform TR;
     public Rigidbody RB;
@@ -246,7 +246,7 @@ public class CombatZombie : MonoBehaviour
 
     private void DyingUpdate()
     {
-
+        ChangeState(State.Dead);
     }
     private void DeadUpdate()
     {
@@ -275,7 +275,7 @@ public class CombatZombie : MonoBehaviour
         float currentAngle = TR.localRotation.eulerAngles.y;
         if (angle < 5)
         {
-            TR.localRotation = Quaternion.Euler(0, currentAngle + angle, 0);
+            //TR.localRotation = Quaternion.Euler(0, currentAngle + angle, 0);
             TR.LookAt(new Vector3(pos.x, zombiePos.y, pos.z), Vector3.up);
         }
         else
@@ -387,6 +387,7 @@ public class CombatZombie : MonoBehaviour
 
     private void EnterChasingState()
     {
+        CombatZombieManager.CombatZombieDetectedPlayer(this);
         Animator.SetBool("Chasing", true);
     }
 
@@ -398,6 +399,7 @@ public class CombatZombie : MonoBehaviour
 
     private void EnterDeadState()
     {
+        CombatZombieManager.CombatZombieDied(this);
         Player.Instance.ZombieKilledGainExperience(this);
     }
 

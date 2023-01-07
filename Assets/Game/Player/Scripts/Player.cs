@@ -2,6 +2,7 @@ using Mapbox.Utils;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Player : MonoBehaviour, Save.ISaver
 {
@@ -18,6 +19,8 @@ public class Player : MonoBehaviour, Save.ISaver
     private static PlayerLocation Location => G.Location;
 
     public Transform ThisTR;
+    public Transform FollowTR;
+    public Transform LookAtTR;
 
     [SerializeField] private GameObject ModelObject;
     private LineRenderer RadiusLR => References.Instance.PlayerRadiusLR;
@@ -81,12 +84,8 @@ public class Player : MonoBehaviour, Save.ISaver
 
     [System.NonSerialized] private int health;
     [System.NonSerialized] private int hunger;
-    [System.NonSerialized] private int stamina;
+    [System.NonSerialized] private int energy;
     [System.NonSerialized] private int zombification;
-    [System.NonSerialized] private int maxHealth;
-    [System.NonSerialized] private int maxHunger;
-    [System.NonSerialized] private int maxStamina;
-    [System.NonSerialized] private int maxZombification;
     public int Health
     {
         get => health;
@@ -105,12 +104,12 @@ public class Player : MonoBehaviour, Save.ISaver
             StatValueUpdated(1, value);
         }
     }
-    public int Stamina
+    public int Energy
     {
-        get => stamina;
+        get => energy;
         private set
         {
-            stamina = value;
+            energy = value;
             StatValueUpdated(2, value);
         }
     }
@@ -123,41 +122,31 @@ public class Player : MonoBehaviour, Save.ISaver
             StatValueUpdated(3, value);
         }
     }
+
     public int MaxHealth
     {
-        get => maxHealth;
-        private set
-        {
-            maxHealth = value;
-            StatMaxUpdated(0, value);
-        }
+        get => PlayerSkillSet.Health * 20;
     }
     public int MaxHunger
     {
-        get => maxHunger;
-        private set
-        {
-            maxHunger = value;
-            StatMaxUpdated(1, value);
-        }
+        get => PlayerSkillSet.Hunger * 20;
     }
     public int MaxStamina
     {
-        get => maxStamina;
-        private set
-        {
-            maxStamina = value;
-            StatMaxUpdated(2, value);
-        }
+        get => PlayerSkillSet.Energy * 20;
     }
     public int MaxZombification
     {
-        get => maxZombification;
-        private set
-        {
-            maxZombification = value;
-            StatMaxUpdated(3, value);
-        }
+        get => PlayerSkillSet.Zombification * 20;
+    }
+
+    public void UpdatePlayerStats()
+    {
+        StatMaxUpdated(0, MaxHealth);
+        StatMaxUpdated(0, MaxHunger);
+        StatMaxUpdated(0, MaxStamina);
+        StatMaxUpdated(0, MaxZombification);
+        UISkills.Instance.SetSkillSet(PlayerSkillSet);
     }
 
     public void FoodEaten(FoodItem food)
@@ -166,7 +155,7 @@ public class Player : MonoBehaviour, Save.ISaver
         int staminaRestore = food.StaminaRestore;
 
         Hunger = AddToOrMax(MaxHunger, Hunger, hungerRestore);
-        Stamina = AddToOrMax(MaxStamina, Stamina, staminaRestore);
+        Energy = AddToOrMax(MaxStamina, Energy, staminaRestore);
     }
 
     public void MedsTaken(MedicalItem meds)
@@ -198,9 +187,9 @@ public class Player : MonoBehaviour, Save.ISaver
 
     public bool TryConsumeStamina(int stamina)
     {
-        if (Stamina >= stamina)
+        if (Energy >= stamina)
         {
-            Stamina = MinusOrMin(0, Stamina, stamina);
+            Energy = MinusOrMin(0, Energy, stamina);
             return true;
         }
         // Not used if not enough stamina
@@ -220,12 +209,12 @@ public class Player : MonoBehaviour, Save.ISaver
 
     public bool RequireRestoreStamina()
     {
-        return Stamina != MaxStamina;
+        return Energy != MaxStamina;
     }
 
     public void RestoreStaminaFromFood(int stamina)
     {
-        Stamina = AddToOrMax(MaxStamina, Stamina, stamina);
+        Energy = AddToOrMax(MaxStamina, Energy, stamina);
     }
 
     public void TimePassedTryConvertHungerToStamina()
@@ -302,9 +291,10 @@ public class Player : MonoBehaviour, Save.ISaver
 
     public int experienceGainPerZombie;
 
+    [System.NonSerialized] private int previousLevel = int.MaxValue;
     private int level;
     public int Level
-    { 
+    {
         get => level;
         private set
         {
@@ -320,37 +310,112 @@ public class Player : MonoBehaviour, Save.ISaver
         private set
         {
             experience = value;
-
-            int level = 1;
-            for (int i = 0; i < ExperienceRequiredToAdvance.Length; i++)
-            {
-                if (experience >= ExperienceRequiredToAdvance[i])
-                {
-                    level = i + 2;
-                    break;
-                }
-            }
-            if (Level == level)
-            {
-                return;
-            }
-            Level = level;
+            ExperienceChanged();
+        }
+    }
+    private int skillPoints;
+    public int SkillPoints
+    {
+        get => skillPoints;
+        private set
+        {
+            skillPoints = value;
+            SkillPointsChanged();
         }
     }
 
+
+    public int MeleeDamage => PlayerSkillSet.MeleeDamage;
+    public int RangedDamage => PlayerSkillSet.RangedDamage;
+
+
+
+
+    public static readonly SkillSet BaseSkillSet = new()
+    {
+        Health = 10,
+        Hunger = 10,
+        Energy = 10,
+        Zombification = 10,
+        MeleeDamage = 4,
+        RangedDamage = 4,
+    };
+
+    public SkillSet PlayerSkillSet { get; private set; }
+
+    public void SkillIncreased(int index)
+    {
+        PlayerSkillSet.SetSkillValue(index, PlayerSkillSet.GetSkillValue(index) + 1);
+        UISkills.Instance.SetSkillSet(PlayerSkillSet);
+
+        SkillPoints--;
+    }
     public void ZombieKilledGainExperience(CombatZombie zombie)
     {
+        PreCheckLevelUp();
         Experience += experienceGainPerZombie;
     }
 
 
+    private void ExperienceChanged()
+    {
 
+        int level = 1;
+        for (int i = 0; i < ExperienceRequiredToAdvance.Length; i++)
+        {
+            if (experience >= ExperienceRequiredToAdvance[i])
+            {
+                level = i + 2;
+                break;
+            }
+        }
+        if (Level == level)
+        {
+            return;
+        }
+        Level = level;
+
+        int lvlIndex = Level - 1;
+        if (lvlIndex >= ExperienceRequiredToAdvance.Length)
+        {
+            UIStats.Instance.SetExperience(Experience, null);
+            UISkills.Instance.SetExperience(Experience, null);
+        }
+        else
+        {
+            UIStats.Instance.SetExperience(Experience, ExperienceRequiredToAdvance[Level - 1]);
+            UISkills.Instance.SetExperience(Experience, ExperienceRequiredToAdvance[Level - 1]);
+        }
+
+        Save.Instance.SaveRequest();
+    }
     private void LevelChanged()
     {
-        Debug.Log($"LEVELED TO {Level}");
         UIStats.Instance.SetLevel(Level);
+        UISkills.Instance.SetLevel(Level);
+
+
+        if (previousLevel >= Level)
+        {
+            return;
+        }
+        LeveledUp();
+    }
+    private void SkillPointsChanged()
+    {
+        UISkills.Instance.SetSkillPoints(skillPoints);
+        Save.Instance.SaveRequest();
+    }
+    private void LeveledUp()
+    {
+        Debug.Log($"LEVELED UP TO {Level}!");
+        SkillPoints += 10;
     }
 
+    private void PreCheckLevelUp()
+    {
+        previousLevel = Level;
+    }
 
 
 
@@ -402,6 +467,9 @@ public class Player : MonoBehaviour, Save.ISaver
         {
             SwitchToMapMode();
         }
+        G.MovementJoystick.InputAction += ReceiveJoystickMovement;
+        G.ScreenInput.ClickAction += SelectPOIOrZombie;
+        G.EscapeButton.onClick.AddListener(EscapeButtonClicked);
     }
 
     public void PlayerDied()
@@ -418,12 +486,14 @@ public class Player : MonoBehaviour, Save.ISaver
         //ThisTR.SetParent(null);
         ModelObject.SetActive(false);
         POIManager.Instance.ActivateCombatMode(true);
+        G.EscapeObj.SetActive(true);
     }
     public void SwitchToMapMode()
     {
         InCombatMode = false;
         ModelObject.SetActive(true);
         POIManager.Instance.ActivateCombatMode(false);
+        G.EscapeObj.SetActive(false);
 
     }
 
@@ -437,8 +507,7 @@ public class Player : MonoBehaviour, Save.ISaver
     }
 
 
-    //Unity Event Referenced
-    public void ReceiveJoystickMovement(Vector2 movementDelta)
+    private void ReceiveJoystickMovement(Vector2 movementDelta)
     {
         ReportMovement(movementDelta);
     }
@@ -486,7 +555,7 @@ public class Player : MonoBehaviour, Save.ISaver
             CombatPlayer.Move(movementDelta);
             return;
         }
-        G.Location.PlayerReportMovment(movementDelta);
+        G.Location.PlayerReportMovement(movementDelta);
     }
 
     private void StatInit()
@@ -565,7 +634,7 @@ public class Player : MonoBehaviour, Save.ISaver
             //Skip Update (No change in position)
             return;
         }
-        G.coords.SetText("COORDS: " + Location);
+        G.Coords.SetText("COORDS: " + Location);
         G.Mapbox.UpdateMap(Location);
 
         lastLat = Location.X;
@@ -633,7 +702,7 @@ public class Player : MonoBehaviour, Save.ISaver
 
 
 
-    public void SelectPOIOrZombie(Vector2 screenPosition)
+    private void SelectPOIOrZombie(Vector2 screenPosition)
     {
         if (InCombatMode)
         {
@@ -654,11 +723,20 @@ public class Player : MonoBehaviour, Save.ISaver
         else if (hit.collider.TryGetComponent(out MapZombie zombie))
         {
             SwitchToCombatMode();
-            SceneManager.LoadScene(1);
+            SwitchToCombatScene();
             Debug.Log("Tapped on zombie");
         }
     }
 
+    private void SwitchToCombatScene()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    private void SwitchToMapScene()
+    {
+        SceneManager.LoadScene(0);
+    }
 
 
 
@@ -717,6 +795,27 @@ public class Player : MonoBehaviour, Save.ISaver
         G.POIManager.EndSpawningPOIs();
     }
 
+    private void EscapeButtonClicked()
+    {
+        SwitchToMapMode();
+        SwitchToMapScene();
+    }
+
+    public void SetEscapeActive(bool active)
+    {
+        G.EscapeButton.interactable = active;
+    }
+    public void NoMoreZombiesLeaveCombat()
+    {
+        SwitchToMapMode();
+        SwitchToMapScene();
+    }
+
+
+
+
+
+
     [ContextMenu("Draw Player Radius")]
     public void DrawPlayerRadius()
     {
@@ -739,16 +838,13 @@ public class Player : MonoBehaviour, Save.ISaver
         data.PlayerStats ??= new int[4];
         data.PlayerStats[0] = Health;
         data.PlayerStats[1] = Hunger;
-        data.PlayerStats[2] = Stamina;
+        data.PlayerStats[2] = Energy;
         data.PlayerStats[3] = Zombification;
 
-        data.PlayerMaxStats ??= new int[4];
-        data.PlayerMaxStats[0] = MaxHealth;
-        data.PlayerMaxStats[1] = MaxHunger;
-        data.PlayerMaxStats[2] = MaxStamina;
-        data.PlayerMaxStats[3] = MaxZombification;
-
         data.PlayerExperiencePoints = Experience;
+        data.PlayerSkillPoints = SkillPoints;
+
+        data.PlayerSkillSet = PlayerSkillSet;
     }
 
     public void LoadData(Save.Data data)
@@ -757,32 +853,29 @@ public class Player : MonoBehaviour, Save.ISaver
         {
             Health = 100;
             Hunger = 100;
-            Stamina = 100;
+            Energy = 100;
             Zombification = 0;
         }
         else
         {
             Health = data.PlayerStats[0];
             Hunger = data.PlayerStats[1];
-            Stamina = data.PlayerStats[2];
+            Energy = data.PlayerStats[2];
             Zombification = data.PlayerStats[3];
         }
 
-        if (data.PlayerMaxStats == null)
+        Experience = data.PlayerExperiencePoints;
+        SkillPoints = data.PlayerSkillPoints;
+
+        if (data.PlayerSkillSet == null)
         {
-            MaxHealth = 200;
-            MaxHunger = 200;
-            MaxStamina = 200;
-            MaxZombification = 200;
+            PlayerSkillSet = new(BaseSkillSet);
         }
         else
         {
-            MaxHealth = data.PlayerMaxStats[0];
-            MaxHunger = data.PlayerMaxStats[1];
-            MaxStamina = data.PlayerMaxStats[2];
-            MaxZombification = data.PlayerMaxStats[3];
+            PlayerSkillSet = data.PlayerSkillSet;
         }
 
-        Experience = data.PlayerExperiencePoints;
+        UpdatePlayerStats();
     }
 }

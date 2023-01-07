@@ -9,6 +9,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
+using UnityEngine.UI;
 
 public class G : MonoBehaviour
 {
@@ -20,18 +21,17 @@ public class G : MonoBehaviour
     private static GameSettings GameSettings => GameSettings.Instance;
     private static GLocationService GLocationProvider => GLocationService.Instance;
     private static GGoogleMapsService GGoogleMapsService => GGoogleMapsService.Instance;
+    private static GameUI GameUI => GameUI.Instance;
 
 
-    [SerializeField] private GameObject UIObject;
     [SerializeField] private GameObject EventSystemObject;
     [SerializeField] private GameObject PlayerObject;
     public AbstractMap Mapbox => References.Mapbox;
 
     public PlayerLocation Location { get; private set; }
 
-    public TextMeshProUGUI lastUpdate;
-
-    public TextMeshProUGUI coords;
+    public TextMeshProUGUI LastUpdate => GameUI.LastUpdate;
+    public TextMeshProUGUI Coords => GameUI.Coords;
 
     public Camera MainCamera => References.Camera;
     public Transform MainCameraTR => References.CameraTR;
@@ -45,9 +45,11 @@ public class G : MonoBehaviour
     [NonSerialized] public double PhysicalMetersPerUnityUnits;
 
     #region UI
-    public GScreen ScreenInput;
-    public GJoystick MovementJoystick;
-    public GToggle GPSToggle;
+    public GScreen ScreenInput => GameUI.ScreenInput;
+    public GJoystick MovementJoystick => GameUI.MovementJoystick;
+    public GToggle GPSToggle => GameUI.GPSToggle;
+    public GameObject EscapeObj => GameUI.EscapeObject;
+    public Button EscapeButton => GameUI.EscapeButton;
 
     #endregion
 
@@ -55,6 +57,7 @@ public class G : MonoBehaviour
 
     //Passing Data
     public int zombiesCount;
+    public bool zombieInitiatedCombat;
 
 
     #endregion
@@ -68,7 +71,7 @@ public class G : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(UIObject);
+        DontDestroyOnLoad(FindObjectOfType<GameUI>().gameObject);
         DontDestroyOnLoad(EventSystemObject);
         DontDestroyOnLoad(PlayerObject);
         DontDestroyOnLoad(POIManager.gameObject);
@@ -90,7 +93,10 @@ public class G : MonoBehaviour
     private void Start()
     {
         InitializeServices();
+    }
 
+    public void ReferencesInitializedStart()
+    {
         if (!Player.Instance.InCombatMode)
         {
             Mapbox.Initialize(Location, 18);
@@ -99,9 +105,6 @@ public class G : MonoBehaviour
             PhysicalMetersPerUnityUnits = Haversine(WorldToGeo(Vector3.zero), WorldToGeo(Vector3.right));
             GameSettings.GSetUnityUnitsDistanceQueryRadius(GameSettings.MetersDistanceQueryRadius / PhysicalMetersPerUnityUnits);
         }
-
-
-
     }
 
     private bool firstUpdateLoad = false;

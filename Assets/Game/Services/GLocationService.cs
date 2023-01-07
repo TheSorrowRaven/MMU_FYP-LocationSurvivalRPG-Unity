@@ -72,7 +72,7 @@ public class GLocationService
     {
         lastFetchedLocation = CurrentLocation;
         lastFetchedTime = Time.time;
-        G.lastUpdate.SetText($"Last Update: {DateTime.Now}\n{lastFetchedLocation.latitude}, {lastFetchedLocation.longitude}");
+        G.LastUpdate.SetText($"Last Update: {DateTime.Now}\n{lastFetchedLocation.latitude}, {lastFetchedLocation.longitude}");
     }
 
     private void TryToEnableLocation()

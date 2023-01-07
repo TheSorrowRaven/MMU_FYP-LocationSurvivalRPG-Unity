@@ -87,7 +87,7 @@ public class CombatPlayer : MonoBehaviour
 
     public void HitZombieWithWeapon(CombatZombie zombie)
     {
-        zombie.PlayerHit(UsingWeaponSO.Damage);
+        zombie.PlayerHit(UsingWeaponSO.Damage + Player.MeleeDamage);    //TODO
     }
 
     public void HitByZombie(CombatZombie zombie)

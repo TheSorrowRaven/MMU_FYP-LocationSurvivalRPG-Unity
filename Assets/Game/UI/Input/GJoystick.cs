@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,11 +14,11 @@ public class GJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
     [SerializeField] private RectTransform joystickRT;
     [SerializeField] private RectTransform baseRT;
 
-    [System.NonSerialized] private bool pointerHeld = false;
-    [System.NonSerialized] private Vector2 lastPos;
-    [System.NonSerialized] private float size;
+    [NonSerialized] private bool pointerHeld = false;
+    [NonSerialized] private Vector2 lastPos;
+    [NonSerialized] private float size;
 
-    [SerializeField] private UnityEvent<Vector2> InputAction;
+    public event Action<Vector2> InputAction;
 
     private void Awake()
     {

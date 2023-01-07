@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     private static G G => G.Instance;
     private static GameSettings GameSettings => GameSettings.Instance;
 
-    [SerializeField] private Transform PlayerTR;
+    private Transform PlayerTR => Player.Instance.ThisTR;
     [SerializeField] private CinemachineBrain PlayerCinemachineBrain;
     [SerializeField] private CinemachineVirtualCamera PlayerMapVCam;
 
@@ -26,7 +26,14 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        G.ScreenInput.AddAsInputAction(ScreenDragInput);
+        G.ScreenInput.InputAction += ScreenDragInput;
+        PlayerMapVCam.m_Follow = Player.Instance.FollowTR;
+        PlayerMapVCam.m_LookAt = Player.Instance.LookAtTR;
+    }
+
+    private void OnDestroy()
+    {
+        G.ScreenInput.InputAction -= ScreenDragInput;
     }
 
     //Unity Event Referenced

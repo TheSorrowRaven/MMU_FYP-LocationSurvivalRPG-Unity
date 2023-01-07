@@ -177,7 +177,7 @@ public class PlayerLocation
     }
 
 
-    public void PlayerReportMovment(Vector2 movementDelta)
+    public void PlayerReportMovement(Vector2 movementDelta)
     {
         movement = movementDelta;
     }

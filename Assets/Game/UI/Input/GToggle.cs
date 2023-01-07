@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,15 +18,19 @@ public class GToggle : MonoBehaviour
     [SerializeField] private Color onColor;
     [SerializeField] private Color offColor;
 
-    [SerializeField] private UnityEvent<bool> ToggleAction;
+    public event Action<bool> ToggleAction = _ => { };
+
+    private void Awake()
+    {
+        ThisToggle.onValueChanged.AddListener(Toggled);
+    }
 
     private void Start()
     {
         Toggled(ThisToggle.isOn);
     }
 
-    //Unity Event Referenced
-    public void Toggled(bool isOn)
+    private void Toggled(bool isOn)
     {
         if (isOn)
         {

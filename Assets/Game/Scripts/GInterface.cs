@@ -9,8 +9,13 @@ public class GInterface : MonoBehaviour
 {
     private static G G => G.Instance;
 
-    //Unity Event Referenced
-    public void GPSToggled(bool gpsOn)
+    private void Start()
+    {
+        G.GPSToggle.ToggleAction += GPSToggled;
+        GPSToggled(G.GPSToggle.ThisToggle.isOn);
+    }
+
+    private void GPSToggled(bool gpsOn)
     {
         G.Location.UIReportGPSToggle(gpsOn);
     }

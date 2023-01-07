@@ -35,11 +35,15 @@ public class Save
 
         [JsonProperty("PlayerStats")]
         public int[] PlayerStats { get; set; }
-        [JsonProperty("PlayerMaxStats")]
-        public int[] PlayerMaxStats { get; set; }
 
         [JsonProperty("PlayerEXP")]
         public int PlayerExperiencePoints { get; set; }
+
+        [JsonProperty("PlayerSkillPoints")]
+        public int PlayerSkillPoints { get; set; }
+
+        [JsonProperty("PlayerSkillSet")]
+        public SkillSet PlayerSkillSet { get; set; }
 
 
         [JsonProperty("VisitedPOIs")]
