@@ -76,7 +76,11 @@ public class CombatZombie : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(State.Wander);
+        if (CurrentState == State.None)
+        {
+            ChangeState(State.Wander);
+            Debug.Log("Set to wander");
+        }
     }
 
     private void Update()
@@ -209,7 +213,7 @@ public class CombatZombie : MonoBehaviour
             {
                 attackTimeCount = AttackTotalTime;
 
-                if (attackTriggerSet)
+                if (!attackTriggerSet)
                 {
                     Animator.SetTrigger("Attack");
                 }
@@ -313,6 +317,11 @@ public class CombatZombie : MonoBehaviour
         }
     }
 
+    public void ForceDetectPlayer()
+    {
+        DetectedPlayer();
+    }
+
     private void TryHitPlayer()
     {
         Vector3 playerPos = CombatPlayer.TR.localPosition;
@@ -333,6 +342,7 @@ public class CombatZombie : MonoBehaviour
 
     private void DetectedPlayer()
     {
+        ChangeState(State.Wander);
         ChangeState(State.Chasing);
     }
 

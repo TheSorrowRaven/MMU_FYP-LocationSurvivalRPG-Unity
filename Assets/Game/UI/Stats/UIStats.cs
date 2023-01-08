@@ -34,6 +34,8 @@ public class UIStats : MonoBehaviour
     public void SetSliderMax(int index, int max)
     {
         StatSliders[index].maxValue = max;
+        RectTransform rt = StatSliders[index].GetComponent<RectTransform>();
+        rt.sizeDelta = new(rt.sizeDelta.x, max);
     }
 
     public void SetLevel(int level)

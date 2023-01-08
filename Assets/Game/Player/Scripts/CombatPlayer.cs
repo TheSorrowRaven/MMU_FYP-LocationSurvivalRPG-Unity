@@ -34,6 +34,13 @@ public class CombatPlayer : MonoBehaviour
     private void Start()
     {
         originalRotation = CamTR.localRotation;
+
+        //TODO WEAPON TEMP
+        if (UsingWeaponSO == null)
+        {
+            Player.Instance.EquipWeapon(UIInventory.Instance.GetFirstWeaponItem());
+        }
+
     }
 
     public void WeaponChanged()
@@ -54,11 +61,18 @@ public class CombatPlayer : MonoBehaviour
 
     public void Move(Vector2 delta)
     {
+        if (TR == null)
+        {
+            return;
+        }
         G.MovementJoystick.ExternalJoystickControl(delta.normalized);
         delta *= Player.CombatMovementSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            delta *= Player.CombatMovementSpeedMultiplier;
+            if (Player.Instance.TryConsumeStaminaToRun())
+            {
+                delta *= Player.CombatMovementSpeedMultiplier;
+            }
         }
         TR.localPosition += TR.forward * delta.y + TR.right * delta.x;
     }

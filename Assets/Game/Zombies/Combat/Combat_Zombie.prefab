@@ -2344,16 +2344,16 @@ MonoBehaviour:
   Animator: {fileID: 8592504278861651400}
   ViewCone: 0.5
   CloseDistance: 1
-  ViewDistance: 10
+  ViewDistance: 15
   WanderBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 75, y: 0, z: 75}
+    m_Extent: {x: 20, y: 0, z: 20}
   WanderPauseTime: 8
   WanderMoveTime: 16
   TurnSpeed: 90
-  WanderSpeed: 0.1
-  ChaseSpeed: 0.2
-  ChaseRunSpeed: 0.5
+  WanderSpeed: 0.3
+  ChaseSpeed: 0.6
+  ChaseRunSpeed: 1.5
   AttackDistance: 1.5
   AttackTotalTime: 1
   AttackCooldownTotalTime: 2

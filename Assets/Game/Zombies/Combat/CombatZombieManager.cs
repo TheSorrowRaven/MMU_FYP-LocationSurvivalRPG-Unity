@@ -17,11 +17,14 @@ public class CombatZombieManager : MonoBehaviour
     public MeshRenderer boundsMesh;
 
     public Bounds ZombieSpawnBounds;
-    public int zombiesCount;
-    public bool zombieInitiatedCombat;
+    public int chasingZombies;
+    public int unawareZombies;
 
     private readonly List<CombatZombie> ActiveCombatZombies = new();
     private readonly List<CombatZombie> ZombieChasingPlayer = new();
+
+    public int zombieBaseHealth;
+    public int zombieScaledHealth;
 
     private void Awake()
     {
@@ -33,8 +36,8 @@ public class CombatZombieManager : MonoBehaviour
         ZombieSpawnBounds = boundsMesh.bounds;
         if (G != null)
         {
-            zombiesCount = G.zombiesCount;
-            zombieInitiatedCombat = G.zombieInitiatedCombat;
+            chasingZombies = G.chasingZombies;
+            unawareZombies = G.unawareZombies;
         }
         else
         {
@@ -54,7 +57,6 @@ public class CombatZombieManager : MonoBehaviour
         ActiveCombatZombies.Remove(zombie);
         ZombieChasingPlayer.Remove(zombie);
 
-        Debug.Log(ZombieChasingPlayer.Count);
         if (ZombieChasingPlayer.Count == 0)
         {
             Player.Instance.SetEscapeActive(true);
@@ -74,7 +76,33 @@ public class CombatZombieManager : MonoBehaviour
 
         Player.Instance.SetEscapeActive(true);
 
-        for (int i = 0; i < zombiesCount; i++)
+        for (int i = 0; i < chasingZombies; i++)
+        {
+            Vector3 pos = G.RandomPointInBounds(ZombieSpawnBounds);
+            pos.y = 0;
+
+            Vector3 rotCheck = pos;
+            rotCheck.y = 100;
+
+            if (!Physics.Raycast(rotCheck, Vector3.down, out RaycastHit hit, 200f, 1 << 11))
+            {
+                throw new System.Exception("Cannot raycast??");
+            }
+            pos = hit.point;
+            Quaternion rotation = Quaternion.identity;
+            CombatZombie combatZombie = Instantiate(CombatZombiePrefab, pos, rotation, TR).GetComponent<CombatZombie>();
+
+            Vector3 playerPos = CombatPlayer.Instance.TR.localPosition;
+            TR.LookAt(new Vector3(playerPos.x, pos.y, playerPos.z), Vector3.up);
+
+            combatZombie.RB.isKinematic = true;
+            combatZombie.ForceDetectPlayer();
+            combatZombie.health = Random.Range(zombieBaseHealth, Player.Instance.Level * zombieScaledHealth);
+
+            ActiveCombatZombies.Add(combatZombie);
+        }
+
+        for (int i = 0; i < unawareZombies; i++)
         {
             Vector3 pos = G.RandomPointInBounds(ZombieSpawnBounds);
             pos.y = 0;
@@ -91,14 +119,13 @@ public class CombatZombieManager : MonoBehaviour
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * Quaternion.Euler(0, yRot, 0);
             CombatZombie combatZombie = Instantiate(CombatZombiePrefab, pos, rotation, TR).GetComponent<CombatZombie>();
 
-            if (zombieInitiatedCombat)
-            {
-                Vector3 playerPos = CombatPlayer.Instance.TR.localPosition;
-                TR.LookAt(new Vector3(playerPos.x, pos.y, playerPos.z), Vector3.up);
-            }
             combatZombie.RB.isKinematic = true;
+            Debug.Log("No forcing to detect player");
+            combatZombie.health = Random.Range(zombieBaseHealth, Player.Instance.Level * zombieScaledHealth);
+
             ActiveCombatZombies.Add(combatZombie);
         }
+
     }
 
 }

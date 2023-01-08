@@ -16,7 +16,6 @@ public class References : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        Debug.Log("SET INSTANCE");
     }
 
     private void Start()

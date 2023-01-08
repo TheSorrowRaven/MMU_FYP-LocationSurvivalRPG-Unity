@@ -154,7 +154,10 @@ public class PlayerLocation
         double movementSpeed = GameSettings.MovementSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            movementSpeed *= GameSettings.MovementSpeedMultiplier;
+            if (Player.Instance.TryConsumeStaminaToRun())
+            {
+                movementSpeed *= GameSettings.MovementSpeedMultiplier;
+            }
         }
         double xChange = movement.y * movementSpeed;
         double yChange = movement.x * movementSpeed;

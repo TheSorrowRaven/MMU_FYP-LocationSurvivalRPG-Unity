@@ -58,6 +58,21 @@ public class UIInventory : MonoBehaviour, Save.ISaver
     }
 
 
+
+
+    public WeaponItem GetFirstWeaponItem()
+    {
+        foreach (var pair in Inventory)
+        {
+            if (pair.Key is WeaponItem weapon)
+            {
+                return weapon;
+            }
+        }
+        return null;
+    }
+
+
     public void AddToInventory(Item item, int amt = 1)
     {
         if (Inventory.TryGetValue(item, out int count))

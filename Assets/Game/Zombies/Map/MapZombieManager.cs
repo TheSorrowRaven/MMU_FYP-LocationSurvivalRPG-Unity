@@ -1,9 +1,9 @@
 using Mapbox.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-
-// TODO OPT: Make container move with map instead of updating each zombie (SAME FOR POI)
 
 
 public class MapZombieManager : MonoBehaviour
@@ -48,6 +48,35 @@ public class MapZombieManager : MonoBehaviour
         UpdateClearMapZombies();
     }
 
+    public int GetChasingZombiesCountWith(MapZombie tappedZombie, out int unawareZombies)
+    {
+        int chasingZombies = 0;
+        unawareZombies = 0;
+        if (tappedZombie != null)
+        {
+            if (tappedZombie.isChasingPlayer)
+            {
+                chasingZombies += tappedZombie.zombiesCount;
+            }
+            else
+            {
+                unawareZombies = tappedZombie.zombiesCount;
+            }
+        }
+        for (int i = 0; i < zombies.Count; i++)
+        {
+            if (zombies[i] == tappedZombie)
+            {
+                continue;
+            }
+            if (zombies[i].isChasingPlayer)
+            {
+                chasingZombies += zombies[i].zombiesCount;
+            }
+        }
+        return chasingZombies;
+    }
+
     private void UpdateClearMapZombies()
     {
         cooldownCount -= Time.deltaTime;
@@ -69,37 +98,8 @@ public class MapZombieManager : MonoBehaviour
         }
     }
 
-    private void ClearZombiesAroundCell(Vector2Int playerCell)
-    {
-        List<Vector2Int> cellsToClear = new();
-        foreach (var cell in cellsSpawned)
-        {
-            if (Mathf.Abs(cell.x - playerCell.x) <= 1 || Mathf.Abs(cell.y - playerCell.y) <= 1)
-            {
-                cellsToClear.Add(cell);
-            }
-        }
-        for (int i = 0; i < cellsToClear.Count; i++)
-        {
-            Vector2Int cell = cellsToClear[i];
-            cellsToClear.Remove(cell);
-        }
-        for (int i = 0; i < zombies.Count; i++)
-        {
-            MapZombie zombie = zombies[i];
-            if (cellsToClear.Contains(zombie.cellPos))
-            {
-                zombie.gameObject.Destroy();
-                zombies.RemoveAt(i);
-                i--;
-            }
-        }
-    }
-
-    // TODO: Detection and Chasing
     public void PlayerUpdate(Vector2Int currentCell)
     {
-
         SpawnZombiesAroundCell(currentCell);
     }
 
@@ -128,17 +128,26 @@ public class MapZombieManager : MonoBehaviour
         Vector2 cellSize = grid.CellSize;
         Vector2 min = grid.CellToWorld(cell);
         Vector2 max = min + cellSize;
-        
+
         for (int i = 0; i < spawnRate; i++)
         {
             Vector2 spawnPos = G.RandomPosition(min, max);
             Vector3 pos = new(spawnPos.x, 0, spawnPos.y);
-            MapZombie mapZombie = Instantiate(MapZombiePrefab, pos, Quaternion.Euler(0, Random.value * 360, 0), container).GetComponent<MapZombie>();
+
+            Vector3 raycastOrigin = pos;
+            raycastOrigin.y = 200;
+            if (Physics.Raycast(raycastOrigin, Vector3.down))
+            {
+                continue;
+            }
+
+            MapZombie mapZombie = Instantiate(MapZombiePrefab, pos, Quaternion.Euler(0, UnityEngine.Random.value * 360, 0), container).GetComponent<MapZombie>();
             mapZombie.cellPos = cell;
             mapZombie.GeoLocation = G.WorldToGeo(pos);
+            mapZombie.zombiesCount = UnityEngine.Random.Range(1, Convert.ToInt32(Player.Instance.Level * 1.5f));
+
             zombies.Add(mapZombie);
         }
-
     }
 
 

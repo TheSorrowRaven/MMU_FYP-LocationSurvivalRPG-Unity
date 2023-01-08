@@ -51,6 +51,9 @@ public class GameSettings : MonoBehaviour
     [field: SerializeField] public float LootAllTime { get; private set; }
 
 
+    [field: Header("Combat")]
+    [field: SerializeField] public float MapZombieDistanceToDetectPlayerSqr { get; private set; }
+    [field: SerializeField] public float MapZombieMovementSpeed { get; private set; }
 
 
     private void OnValidate()

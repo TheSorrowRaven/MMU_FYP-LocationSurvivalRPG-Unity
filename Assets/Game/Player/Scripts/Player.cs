@@ -42,6 +42,10 @@ public class Player : MonoBehaviour, Save.ISaver
     [System.NonSerialized] private Vector2Int lastMapZombieCell;
 
 
+    [System.NonSerialized] private bool isLeavingCombat = false;
+    [System.NonSerialized] private float leavingCombatTimeCount;
+    [SerializeField] private float leavingCombatTime;
+
     public WeaponItem UsingWeapon { get; private set; }
 
 
@@ -81,6 +85,12 @@ public class Player : MonoBehaviour, Save.ISaver
     public int StaminaRestoredFromFoodPerTimePass;
     public int HungerUsedToRestoreStaminaPerTimePass;
     private float StaminaRestoreFromFoodTimePassCount;
+
+    public float StaminaUseWhileRunningTimePass;
+    public int StaminaUseWhileRunningPerTimePass;
+    private float StaminaUseWhileRunningTimePassCount;
+
+    public int StaminaUsedToSwingWeapon;
 
     [System.NonSerialized] private int health;
     [System.NonSerialized] private int hunger;
@@ -125,27 +135,27 @@ public class Player : MonoBehaviour, Save.ISaver
 
     public int MaxHealth
     {
-        get => PlayerSkillSet.Health * 20;
+        get => PlayerSkillSet.Health * 10;
     }
     public int MaxHunger
     {
-        get => PlayerSkillSet.Hunger * 20;
+        get => PlayerSkillSet.Hunger * 10;
     }
     public int MaxStamina
     {
-        get => PlayerSkillSet.Energy * 20;
+        get => PlayerSkillSet.Energy * 10;
     }
     public int MaxZombification
     {
-        get => PlayerSkillSet.Zombification * 20;
+        get => PlayerSkillSet.Zombification * 10;
     }
 
     public void UpdatePlayerStats()
     {
         StatMaxUpdated(0, MaxHealth);
-        StatMaxUpdated(0, MaxHunger);
-        StatMaxUpdated(0, MaxStamina);
-        StatMaxUpdated(0, MaxZombification);
+        StatMaxUpdated(1, MaxHunger);
+        StatMaxUpdated(2, MaxStamina);
+        StatMaxUpdated(3, MaxZombification);
         UISkills.Instance.SetSkillSet(PlayerSkillSet);
     }
 
@@ -194,6 +204,23 @@ public class Player : MonoBehaviour, Save.ISaver
         }
         // Not used if not enough stamina
         return false;
+    }
+
+    public bool TryConsumeStaminaToSwingWeapon()
+    {
+        return TryConsumeStamina(StaminaUsedToSwingWeapon);
+    }
+
+    //Calls every frame
+    public bool TryConsumeStaminaToRun()
+    {
+        StaminaUseWhileRunningTimePassCount -= Time.deltaTime;
+        if (StaminaUseWhileRunningTimePassCount < 0)
+        {
+            StaminaUseWhileRunningTimePassCount = StaminaUseWhileRunningTimePass;
+            return TryConsumeStamina(StaminaUseWhileRunningPerTimePass);
+        }
+        return true;
     }
 
     private bool TryConsumeHungerForStamina(int hunger)
@@ -346,7 +373,7 @@ public class Player : MonoBehaviour, Save.ISaver
     public void SkillIncreased(int index)
     {
         PlayerSkillSet.SetSkillValue(index, PlayerSkillSet.GetSkillValue(index) + 1);
-        UISkills.Instance.SetSkillSet(PlayerSkillSet);
+        UpdatePlayerStats();
 
         SkillPoints--;
     }
@@ -461,7 +488,7 @@ public class Player : MonoBehaviour, Save.ISaver
         StatInit();
         if (InCombatMode)
         {
-            SwitchToCombatMode();
+            SwitchToCombatMode(null);
         }
         else
         {
@@ -480,8 +507,15 @@ public class Player : MonoBehaviour, Save.ISaver
     }
 
 
-    public void SwitchToCombatMode()
+    public void SwitchToCombatMode(MapZombie zombie)
     {
+        if (zombie != null)
+        {
+            int chasingZombies = MapZombieManager.GetChasingZombiesCountWith(zombie, out int unawareZombies);
+            G.chasingZombies = chasingZombies;
+            G.unawareZombies = unawareZombies;
+        }
+
         InCombatMode = true;
         //ThisTR.SetParent(null);
         ModelObject.SetActive(false);
@@ -490,10 +524,17 @@ public class Player : MonoBehaviour, Save.ISaver
     }
     public void SwitchToMapMode()
     {
+        isLeavingCombat = false;
+
         InCombatMode = false;
         ModelObject.SetActive(true);
         POIManager.Instance.ActivateCombatMode(false);
         G.EscapeObj.SetActive(false);
+
+
+        lastMapZombieCell = new(int.MinValue, int.MinValue);
+        lastLat = double.MinValue;
+        lastLon = double.MinValue;
 
     }
 
@@ -552,6 +593,10 @@ public class Player : MonoBehaviour, Save.ISaver
     {
         if (InCombatMode)
         {
+            if (CombatPlayer == null)
+            {
+                return;
+            }
             CombatPlayer.Move(movementDelta);
             return;
         }
@@ -572,6 +617,10 @@ public class Player : MonoBehaviour, Save.ISaver
         if (!InCombatMode)
         {
             Map_Update();
+        }
+        else
+        {
+            Combat_Update();
         }
         Stats_Update();
     }
@@ -722,9 +771,17 @@ public class Player : MonoBehaviour, Save.ISaver
         }
         else if (hit.collider.TryGetComponent(out MapZombie zombie))
         {
-            SwitchToCombatMode();
+            SwitchToCombatMode(zombie);
             SwitchToCombatScene();
-            Debug.Log("Tapped on zombie");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out MapZombie zombie))
+        {
+            SwitchToCombatMode(zombie);
+            SwitchToCombatScene();
         }
     }
 
@@ -805,13 +862,28 @@ public class Player : MonoBehaviour, Save.ISaver
     {
         G.EscapeButton.interactable = active;
     }
+
     public void NoMoreZombiesLeaveCombat()
     {
-        SwitchToMapMode();
-        SwitchToMapScene();
+        isLeavingCombat = true;
+        leavingCombatTimeCount = leavingCombatTime;
     }
 
+    private void Combat_Update()
+    {
+        if (!isLeavingCombat)
+        {
+            return;
+        }
+        leavingCombatTimeCount -= Time.deltaTime;
+        if (leavingCombatTimeCount < 0)
+        {
+            isLeavingCombat = false;
 
+            SwitchToMapMode();
+            SwitchToMapScene();
+        }
+    }
 
 
 

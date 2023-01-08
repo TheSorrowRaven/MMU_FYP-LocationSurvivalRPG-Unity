@@ -56,8 +56,8 @@ public class G : MonoBehaviour
     #region Combat
 
     //Passing Data
-    public int zombiesCount;
-    public bool zombieInitiatedCombat;
+    public int chasingZombies;
+    public int unawareZombies;
 
 
     #endregion
