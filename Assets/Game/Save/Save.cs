@@ -83,6 +83,15 @@ public class Save
         SaveToFile();
     }
 
+    public void Delete()
+    {
+        if (File.Exists(savePath))
+        {
+            File.Delete(savePath);
+        }
+        LoadFromFile();
+    }
+
     private void SaveToFile()
     {
         for (int i = 0; i < savers.Count; i++)
@@ -96,14 +105,16 @@ public class Save
 
     public void LoadFromFile()
     {
+        saveData = null;
+        hasFirstLoaded = false;
         try
         {
             string text = File.ReadAllText(savePath);
             saveData = JsonConvert.DeserializeObject<Data>(text);
         }
-        catch (System.Exception e)
+        catch (Exception)
         {
-            Debug.LogError(e);
+            //Debug.LogError(e);
         }
         saveData ??= new();
 
@@ -111,6 +122,18 @@ public class Save
         {
             savers[i].LoadData(saveData);
         }
+        hasFirstLoaded = true;
+    }
+    private void LoadEmpty()
+    {
+        saveData = new();
+
+
+        for (int i = 0; i < savers.Count; i++)
+        {
+            savers[i].LoadData(saveData);
+        }
+
         hasFirstLoaded = true;
     }
 

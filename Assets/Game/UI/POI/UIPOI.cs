@@ -6,7 +6,6 @@ using UnityEngine.InputSystem.UI;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using System;
-using static UnityEditor.Progress;
 
 public class UIPOI : MonoBehaviour
 {
@@ -62,6 +61,7 @@ public class UIPOI : MonoBehaviour
             return;
         }
         instance = this;
+        UIPOIObject.SetActive(false);
     }
 
     private void Update()

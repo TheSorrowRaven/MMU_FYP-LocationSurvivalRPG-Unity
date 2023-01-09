@@ -17,4 +17,4 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 6959678797a90dd4bb6d51a59f528bda, type: 3}
   Rarity: 0
   HungerFill: 5
-  StaminaRestore: 0
+  StaminaRestore: 1

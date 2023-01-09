@@ -2309,7 +2309,7 @@ Transform:
   - {fileID: 1852306404753682610}
   - {fileID: 6687284777295544549}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6687284776703870739
 Rigidbody:
@@ -2341,6 +2341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TR: {fileID: 6687284776703870738}
   RB: {fileID: 6687284776703870739}
+  CLObj: {fileID: 6687284777295544548}
   Animator: {fileID: 8592504278861651400}
   ViewCone: 0.5
   CloseDistance: 1

@@ -10,6 +10,7 @@ public class CombatZombie : MonoBehaviour
 
     public Transform TR;
     public Rigidbody RB;
+    public GameObject CLObj;
     [SerializeField] private Animator Animator;
 
     //Relative to Dot Product
@@ -403,6 +404,8 @@ public class CombatZombie : MonoBehaviour
 
     private void EnterDyingState()
     {
+        RB.useGravity = false;
+        CLObj.SetActive(false);
         Animator.SetBool("DieForward", false);
         Animator.SetTrigger("Die");
     }

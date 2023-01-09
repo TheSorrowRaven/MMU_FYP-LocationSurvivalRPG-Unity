@@ -396,11 +396,10 @@ public class Player : MonoBehaviour, Save.ISaver
                 break;
             }
         }
-        if (Level == level)
+        if (Level != level)
         {
-            return;
+            Level = level;
         }
-        Level = level;
 
         int lvlIndex = Level - 1;
         if (lvlIndex >= ExperienceRequiredToAdvance.Length)
@@ -503,7 +502,10 @@ public class Player : MonoBehaviour, Save.ISaver
     {
         Debug.Log("PLAYER DIED!!");
         //TODO new game
-        Health = MaxHealth;
+        Save.Instance.Delete();
+        SwitchToMapMode();
+        SwitchToMapScene();
+        //Health = MaxHealth;
     }
 
 

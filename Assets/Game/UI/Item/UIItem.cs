@@ -124,20 +124,25 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    private int useableClickedFrame = -1;
     private void UseableClicked()
     {
+        if (useableClickedFrame == Time.frameCount)
+        {
+            return;
+        }
+        useableClickedFrame = Time.frameCount;
         if (itemAmt.amt == 0)
         {
             return;
         }
 
+        itemAmt.item.Use();
         if (itemAmt.item.Consumable)
         {
             itemAmt.amt--;
             UIInventory.RemoveFromInventory(itemAmt.item, 1);
         }
-
-        itemAmt.item.Use();
     }
 
 
