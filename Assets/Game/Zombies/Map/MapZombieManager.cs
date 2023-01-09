@@ -134,9 +134,13 @@ public class MapZombieManager : MonoBehaviour
             Vector2 spawnPos = G.RandomPosition(min, max);
             Vector3 pos = new(spawnPos.x, 0, spawnPos.y);
 
-            Vector3 raycastOrigin = pos;
-            raycastOrigin.y = 200;
-            if (Physics.Raycast(raycastOrigin, Vector3.down))
+            //Vector3 raycastOrigin = pos;
+            //raycastOrigin.y = 200;
+            //if (Physics.Raycast(raycastOrigin, Vector3.down))
+            //{
+            //    continue;
+            //}
+            if (spawnPos.sqrMagnitude < GameSettings.Instance.MapZombieDistanceToDetectPlayerSqr)
             {
                 continue;
             }

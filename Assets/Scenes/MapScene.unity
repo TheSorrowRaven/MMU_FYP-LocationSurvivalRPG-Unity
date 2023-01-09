@@ -1821,7 +1821,7 @@ MonoBehaviour:
   HungerUsedToRestoreStaminaPerTimePass: 1
   StaminaUseWhileRunningTimePass: 0.1
   StaminaUseWhileRunningPerTimePass: 2
-  StaminaUsedToSwingWeapon: 25
+  StaminaUsedToSwingWeapon: 15
   experienceGainPerZombie: 10
 --- !u!54 &1466076552
 Rigidbody:
@@ -2093,7 +2093,7 @@ MonoBehaviour:
           maximumHeight: 1
           extrusionScaleFactor: 1
         colliderOptions:
-          colliderType: 2
+          colliderType: 0
         materialOptions:
           style: 0
           texturingType: 2
