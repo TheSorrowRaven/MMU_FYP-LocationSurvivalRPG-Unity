@@ -393,6 +393,9 @@ public class Player : MonoBehaviour, Save.ISaver
             if (experience >= ExperienceRequiredToAdvance[i])
             {
                 level = i + 2;
+            }
+            else
+            {
                 break;
             }
         }
