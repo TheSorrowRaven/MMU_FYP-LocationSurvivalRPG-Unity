@@ -129,10 +129,11 @@ public class PlayerLocation
             }
         }
 
-        if (smoothen)
+        if (smoothen && G.Haversine(x, y, actualX, actualY) < GameSettings.LocationSnappingDistance)
         {
             x = Mathd.Lerp(x, actualX, GameSettings.LocationSmoothingTime);
             y = Mathd.Lerp(y, actualY, GameSettings.LocationSmoothingTime);
+
         }
         else
         {

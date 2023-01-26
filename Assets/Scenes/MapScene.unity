@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44566113, g: 0.4949969, b: 0.57297516, a: 1}
+  m_IndirectSpecularColor: {r: 0.4482453, g: 0.49827206, b: 0.5755818, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -997,6 +997,7 @@ MonoBehaviour:
   <LocationAccuracyInMeters>k__BackingField: 1
   <LocationUpdateDistanceInMeters>k__BackingField: 1
   <LocationSmoothingTime>k__BackingField: 0.05
+  <LocationSnappingDistance>k__BackingField: 0.00017986432118374611
   <POIRadius>k__BackingField: 20
   <DelayBeforePOIQuery>k__BackingField: 2
   <PlayerMapOrbitalCameraSpeed>k__BackingField: 1

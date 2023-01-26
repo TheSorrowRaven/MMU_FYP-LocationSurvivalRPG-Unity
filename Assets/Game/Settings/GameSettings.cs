@@ -15,6 +15,7 @@ public class GameSettings : MonoBehaviour
 
     [field: Range(0, 1f)]
     [field: SerializeField] public float LocationSmoothingTime { get; private set; } = 0.05f;
+    [field: SerializeField] public double LocationSnappingDistance { get; private set; }
 
     //In meters
     [field: SerializeField] public int POIRadius { get; private set; } = 25;
