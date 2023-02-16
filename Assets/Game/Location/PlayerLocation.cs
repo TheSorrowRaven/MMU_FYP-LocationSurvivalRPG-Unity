@@ -129,7 +129,8 @@ public class PlayerLocation
             }
         }
 
-        if (smoothen && G.Haversine(x, y, actualX, actualY) < GameSettings.LocationSnappingDistance)
+        double distanceToSmooth = G.Haversine(x, y, actualX, actualY);
+        if (smoothen && distanceToSmooth < GameSettings.LocationSnappingDistance)
         {
             x = Mathd.Lerp(x, actualX, GameSettings.LocationSmoothingTime);
             y = Mathd.Lerp(y, actualY, GameSettings.LocationSmoothingTime);

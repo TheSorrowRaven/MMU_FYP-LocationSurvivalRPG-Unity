@@ -145,6 +145,10 @@ public class PlayerAttack : MonoBehaviour
             SwipeLR.SetPosition(i, SwipeLR.GetPosition(i + 1));
         }
         SwipeLR.positionCount--;
+        if (swipeIndex > SwipeLR.positionCount)
+        {
+            swipeIndex = SwipeLR.positionCount;
+        }
     }
 
 }
