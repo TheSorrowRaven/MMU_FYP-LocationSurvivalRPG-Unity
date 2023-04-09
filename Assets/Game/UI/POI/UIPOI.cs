@@ -427,7 +427,7 @@ public class UIPOI : MonoBehaviour, Save.ISaver
 
     public void IncreaseZombieEncounter(Item item)
     {
-        ZombieEncounterSlider.value += Mathf.Pow(2, ((int)item.Rarity + 1));
+        ZombieEncounterSlider.value += Mathf.RoundToInt(((int)item.Rarity + 1) * 1.5f);
         if (ZombieEncounterSlider.value >= ZombieEncounterSlider.maxValue)
         {
             EncounterZombie();
