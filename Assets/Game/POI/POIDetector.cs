@@ -11,7 +11,7 @@ public class POIDetector : MonoBehaviour
         {
             return;
         }
-        poi.Seen();
+        poi.InRadiusCanLoot();
     }
 
     private void OnTriggerExit(Collider other)
@@ -20,7 +20,7 @@ public class POIDetector : MonoBehaviour
         {
             return;
         }
-        poi.Hidden();
+        poi.OutsideRadiusCannotLoot();
     }
 
 }

@@ -48,6 +48,11 @@ public class MapZombieManager : MonoBehaviour
         UpdateClearMapZombies();
     }
 
+    public MapZombie GetRandomZombie()
+    {
+        return zombies[UnityEngine.Random.Range(0, zombies.Count)];
+    }
+
     public int GetChasingZombiesCountWith(MapZombie tappedZombie, out int unawareZombies)
     {
         int chasingZombies = 0;

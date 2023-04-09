@@ -111,6 +111,7 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
             return;
         }
         UIInventory.AddToInventory(itemAmt.item, 1);
+        UIPOI.IncreaseZombieEncounter(itemAmt.item);
         itemAmt.amt--;
         UIPOI.UILootUpdate();
         if (itemAmt.amt == 0)

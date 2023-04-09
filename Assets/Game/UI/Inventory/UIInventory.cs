@@ -55,6 +55,7 @@ public class UIInventory : MonoBehaviour, Save.ISaver
     private void Start()
     {
         StartInit();
+        ButtonClickExitUIInventory();
     }
 
 

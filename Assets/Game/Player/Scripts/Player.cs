@@ -526,6 +526,7 @@ public class Player : MonoBehaviour, Save.ISaver
         ModelObject.SetActive(false);
         POIManager.Instance.ActivateCombatMode(true);
         G.EscapeObj.SetActive(true);
+        SwitchToCombatScene();
     }
     public void SwitchToMapMode()
     {
@@ -777,7 +778,6 @@ public class Player : MonoBehaviour, Save.ISaver
         else if (hit.collider.TryGetComponent(out MapZombie zombie))
         {
             SwitchToCombatMode(zombie);
-            SwitchToCombatScene();
         }
     }
 
@@ -786,7 +786,6 @@ public class Player : MonoBehaviour, Save.ISaver
         if (other.TryGetComponent(out MapZombie zombie))
         {
             SwitchToCombatMode(zombie);
-            SwitchToCombatScene();
         }
     }
 

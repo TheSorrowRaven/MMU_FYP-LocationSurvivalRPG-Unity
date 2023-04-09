@@ -94,6 +94,7 @@ public class UISkills : MonoBehaviour
         {
             Skills[i].index = i;
         }
+        SkillsForceDisable();
     }
 
 

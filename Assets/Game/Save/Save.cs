@@ -55,6 +55,9 @@ public class Save
         [JsonProperty("Inventory")]
         public Dictionary<string, int> Inventory { get; set; }
 
+        [JsonProperty("ZombieEncounter")]
+        public int ZombieEncounter { get; set; }
+
 
     }
 

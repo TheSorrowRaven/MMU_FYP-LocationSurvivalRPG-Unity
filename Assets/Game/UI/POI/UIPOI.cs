@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using System;
 
-public class UIPOI : MonoBehaviour
+public class UIPOI : MonoBehaviour, Save.ISaver
 {
     private class LootComparer : IComparer<ItemAmt>
     {
@@ -50,6 +50,8 @@ public class UIPOI : MonoBehaviour
     [SerializeField] private Transform UILootContainer;
     [SerializeField] private GameObject UILootPrefab;
 
+    [SerializeField] private Slider ZombieEncounterSlider;
+
     [NonSerialized] private GGoogleMapsPOI gPOI;
     [NonSerialized] private Dictionary<string, int> remainingItems;
 
@@ -62,6 +64,12 @@ public class UIPOI : MonoBehaviour
         }
         instance = this;
         UIPOIObject.SetActive(false);
+        StartInit();
+    }
+
+    public void StartInit()
+    {
+        Save.Instance.InitSaver(this);
     }
 
     private void Update()
@@ -415,7 +423,25 @@ public class UIPOI : MonoBehaviour
 
     #endregion
 
+    #region Zombie Encounter
 
+    public void IncreaseZombieEncounter(Item item)
+    {
+        ZombieEncounterSlider.value += Mathf.Pow(2, ((int)item.Rarity + 1));
+        if (ZombieEncounterSlider.value >= ZombieEncounterSlider.maxValue)
+        {
+            EncounterZombie();
+            ZombieEncounterSlider.value = 0;
+        }
+        Save.Instance.SaveRequest();
+    }
+
+    private void EncounterZombie()
+    {
+        Player.Instance.SwitchToCombatMode(MapZombieManager.Instance.GetRandomZombie());
+    }
+
+    #endregion
 
 
     public void ButtonClickExitUIPOI()
@@ -424,4 +450,13 @@ public class UIPOI : MonoBehaviour
         UIPOIObject.SetActive(false);
     }
 
+    public void SaveData(Save.Data data)
+    {
+        data.ZombieEncounter = (int)ZombieEncounterSlider.value;
+    }
+
+    public void LoadData(Save.Data data)
+    {
+        ZombieEncounterSlider.value = data.ZombieEncounter;
+    }
 }

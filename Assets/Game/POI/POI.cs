@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,12 +14,14 @@ public class POI : MonoBehaviour
     [SerializeField] private TextMeshPro NameText;
     [SerializeField] private GameObject display;
 
+    [NonSerialized] public bool insideRadius;
+
     public GGoogleMapsPOI GPOI { get; private set; }
-    [System.NonSerialized] private bool active; // Display is showing
 
     private void Awake()
     {
-        Hidden();
+        display.SetActive(true);
+        insideRadius = false;
     }
 
     public void ActivatePOI(GGoogleMapsPOI gPOI)
@@ -46,24 +49,18 @@ public class POI : MonoBehaviour
         ThisTR.localPosition = pos;
     }
 
-    public void Hidden()
+    public void InRadiusCanLoot()
     {
-        display.SetActive(false);
-        active = false;
+        insideRadius = true;
     }
-    public void Seen()
+    public void OutsideRadiusCannotLoot()
     {
-        display.SetActive(true);
-        active = true;
+        insideRadius = false;
     }
 
 
     private void Update()
     {
-        if (!active)
-        {
-            return;
-        }
         ScreenFacerTR.LookAt(G.MainCameraTR);
     }
 
