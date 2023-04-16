@@ -110,10 +110,14 @@ public class ItemManager : MonoBehaviour
         return MedicalClass.GetFromRarity(rarity);
     }
 
-    public WeaponItem GetWeaponFromRarity(Rarity rarity)
+    public MeleeItem GetMeleeFromRarity(Rarity rarity)
     {
         //TODO temporary
-        return (WeaponItem)IdentifierToItem["weapon_sledgehammer"];
+        return (MeleeItem)IdentifierToItem["melee_sledgehammer"];
+    }
+    public RangedItem GetRangedFromRarity(Rarity rarity)
+    {
+        return (RangedItem)IdentifierToItem["ranged_gun"];
     }
 
 }

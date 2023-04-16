@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponItem : Item
+public class MeleeItem : WeaponItem
 {
+    protected override string IdentifierStarter => "melee_";
 
-    public float Range;
-    public int Damage;
+    public override bool Consumable => false;
 
     public override void Use()
     {
         Player.Instance.EquipWeapon(this);
     }
-
 }

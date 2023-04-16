@@ -22,7 +22,8 @@
     "ignored": true
   },
   "airport": {
-    "weapon": 1
+    "melee": 1,
+    "ranged": 1
   },
   "amusement_park": {},
   "aquarium": {
@@ -32,11 +33,16 @@
     "ignored": true
   },
   "art_gallery": {},
-  "atm": {},
+  "atm": {
+    "melee": 1
+  },
   "bakery": {
     "food": 10
   },
-  "bank": {},
+  "bank": {
+    "melee": 1,
+    "ranged": 1
+  },
   "bar": {
     "food": 8
   },
@@ -49,23 +55,23 @@
     "food": 10
   },
   "campground": {
-    "weapon": 1
+    "melee": 1
   },
   "car_dealer": {},
   "car_rental": {},
   "car_repair": {
-    "weapon": 1
+    "melee": 1
   },
   "car_wash": {},
   "casino": {
-    "weapon": 1
+    "melee": 1
   },
   "cemetery": {},
   "church": {
     "food": 2
   },
   "city_hall": {
-    "weapon": 1
+    "melee": 1
   },
   "clothing_store": {},
   "colloquial_area": {
@@ -82,7 +88,7 @@
     "ignored": true
   },
   "courthouse": {
-    "weapon": 1
+    "melee": 1
   },
   "dentist": {
     "medical": 7
@@ -90,7 +96,7 @@
   "department_store": {
     "food": 7,
     "medical": 5,
-    "weapon": 1
+    "melee": 1
   },
   "doctor": {
     "medical": 7
@@ -99,16 +105,16 @@
     "medical": 8
   },
   "electrician": {
-    "weapon": 1
+    "melee": 1
   },
   "electronics_store": {
-    "weapon": 1
+    "melee": 1
   },
   "embassy": {},
   "establishment": {},
   "finance": {},
   "fire_station": {
-    "weapon": 1
+    "melee": 1
   },
   "floor": {},
   "florist": {},
@@ -117,10 +123,10 @@
   },
   "funeral_home": {},
   "furniture_store": {
-    "weapon": 1
+    "melee": 1
   },
   "gas_station": {
-    "weapon": 1
+    "melee": 1
   },
   "general_contractor": {},
   "geocode": {
@@ -131,7 +137,7 @@
     "medical": 1
   },
   "hardware_store": {
-    "weapon": 1
+    "melee": 1
   },
   "health": {
     "medical": 7
@@ -165,7 +171,7 @@
   },
   "locksmith": {},
   "lodging": {
-    "weapon": 1
+    "melee": 1
   },
   "meal_delivery": {
     "food": 5
@@ -200,7 +206,8 @@
   },
   "point_of_interest": {},
   "police": {
-    "weapon": 1
+    "melee": 1,
+    "ranged": 1
   },
   "political": {},
   "post_box": {},

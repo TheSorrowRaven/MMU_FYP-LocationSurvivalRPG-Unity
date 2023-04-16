@@ -283,7 +283,8 @@ public class UIPOI : MonoBehaviour, Save.ISaver
             {
                 CalculateLootFromFood(definition.Food);
                 CalculateLootFromMedical(definition.Medical);
-                CalculateLootFromWeapon(definition.Weapon);
+                CalculateLootFromMelee(definition.Melee);
+                CalculateLootFromRanged(definition.Ranged);
             }
         }
 
@@ -321,18 +322,34 @@ public class UIPOI : MonoBehaviour, Save.ISaver
         }
     }
 
-    private void CalculateLootFromWeapon(int weapon)
+    private void CalculateLootFromMelee(int melee)
     {
-        if (weapon == 0)
+        if (melee == 0)
         {
             return;
         }
 
-        for (int i = 0; i < weapon; i++)
+        for (int i = 0; i < melee; i++)
         {
             double rarityChance = LootRNG.NextDouble();
             Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
-            WeaponItem item = ItemManager.GetWeaponFromRarity(rarity);
+            MeleeItem item = ItemManager.GetMeleeFromRarity(rarity);
+            AddToLoot(item);
+        }
+    }
+
+    private void CalculateLootFromRanged(int ranged)
+    {
+        if (ranged == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < ranged; i++)
+        {
+            double rarityChance = LootRNG.NextDouble();
+            Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
+            RangedItem item = ItemManager.GetRangedFromRarity(rarity);
             AddToLoot(item);
         }
     }

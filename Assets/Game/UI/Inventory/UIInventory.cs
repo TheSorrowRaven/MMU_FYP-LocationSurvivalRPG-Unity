@@ -61,11 +61,11 @@ public class UIInventory : MonoBehaviour, Save.ISaver
 
 
 
-    public WeaponItem GetFirstWeaponItem()
+    public MeleeItem GetFirstWeaponItem()
     {
         foreach (var pair in Inventory)
         {
-            if (pair.Key is WeaponItem weapon)
+            if (pair.Key is MeleeItem weapon)
             {
                 return weapon;
             }

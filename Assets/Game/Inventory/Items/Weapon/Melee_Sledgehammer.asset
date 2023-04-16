@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b9a2c11c3a81b54aaefadefa00c313a, type: 3}
-  m_Name: Weapon_Sledgehammer
+  m_Name: Melee_Sledgehammer
   m_EditorClassIdentifier: 
-  Identifier: weapon_sledgehammer
+  Identifier: melee_sledgehammer
   Name: Sledgehammer
   Icon: {fileID: 21300000, guid: 04a523e417c989b42be02c507a3ce20d, type: 3}
   Rarity: 0
