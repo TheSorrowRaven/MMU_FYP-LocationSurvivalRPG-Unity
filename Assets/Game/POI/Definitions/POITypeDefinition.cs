@@ -23,6 +23,9 @@ public class POITypeDefinition
     [JsonProperty("ranged")]
     [DefaultValue(0)]
     public int Ranged { get; set; }
+    [JsonProperty("ammo")]
+    [DefaultValue(0)]
+    public int Ammo { get; set; }
 
 
 

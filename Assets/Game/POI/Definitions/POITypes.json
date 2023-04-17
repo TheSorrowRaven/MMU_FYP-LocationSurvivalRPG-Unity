@@ -23,9 +23,12 @@
   },
   "airport": {
     "melee": 1,
-    "ranged": 1
+    "ranged": 1,
+    "ammo": 2
   },
-  "amusement_park": {},
+  "amusement_park": {
+    "food": 3
+  },
   "aquarium": {
     "food": 4
   },
@@ -41,7 +44,8 @@
   },
   "bank": {
     "melee": 1,
-    "ranged": 1
+    "ranged": 1,
+    "ammo": 2
   },
   "bar": {
     "food": 8
@@ -55,7 +59,8 @@
     "food": 10
   },
   "campground": {
-    "melee": 1
+    "melee": 1,
+    "ammo": 1
   },
   "car_dealer": {},
   "car_rental": {},
@@ -64,7 +69,8 @@
   },
   "car_wash": {},
   "casino": {
-    "melee": 1
+    "melee": 1,
+    "ammo": 1
   },
   "cemetery": {},
   "church": {
@@ -126,13 +132,18 @@
     "melee": 1
   },
   "gas_station": {
-    "melee": 1
+    "melee": 1,
+    "ammo": 1
   },
   "general_contractor": {},
   "geocode": {
     "ignored": true
   },
-  "gym": {},
+  "gym": {
+    "food": 3,
+    "medical": 1,
+    "melee": 1
+  },
   "hair_care": {
     "medical": 1
   },
@@ -156,14 +167,22 @@
   "intersection": {
     "ignored": true
   },
-  "jewelry_store": {},
+  "jewelry_store": {
+    "ammo": 1
+  },
   "landmark": {},
   "laundry": {},
-  "lawyer": {},
+  "lawyer": {
+    "ammo": 1
+  },
   "library": {},
-  "light_rail_station": {},
+  "light_rail_station": {
+    "food": 3,
+    "medical": 1
+  },
   "liquor_store": {
-    "food": 5
+    "food": 5,
+    "ammo": 1
   },
   "local_government_office": {},
   "locality": {
@@ -171,7 +190,8 @@
   },
   "locksmith": {},
   "lodging": {
-    "melee": 1
+    "melee": 1,
+    "ammo": 1
   },
   "meal_delivery": {
     "food": 5
@@ -183,14 +203,21 @@
     "food": 2
   },
   "movie_rental": {},
-  "movie_theater": {},
+  "movie_theater": {
+    "food": 5,
+    "medical": 1
+  },
   "moving_company": {},
   "museum": {},
   "natural_feature": {},
   "neighborhood": {},
-  "night_club": {},
+  "night_club": {
+    "food": 2
+  },
   "painter": {},
-  "park": {},
+  "park": {
+    "food": 3
+  },
   "parking": {},
   "pet_store": {},
   "pharmacy": {
@@ -207,11 +234,15 @@
   "point_of_interest": {},
   "police": {
     "melee": 1,
-    "ranged": 1
+    "ranged": 1,
+    "ammo": 2
   },
   "political": {},
   "post_box": {},
-  "post_office": {},
+  "post_office": {
+    "food": 4,
+    "medical": 1
+  },
   "postal_code": {
     "ignored": true
   },
@@ -225,7 +256,10 @@
     "ignored": true
   },
   "premise": {},
-  "primary_school": {},
+  "primary_school": {
+    "food": 4,
+    "medical": 3
+  },
   "real_estate_agency": {},
   "restaurant": {
     "food": 9
@@ -240,15 +274,23 @@
     "medical": 3
   },
   "rv_park": {},
-  "school": {},
-  "secondary_school": {},
+  "school": {
+    "food": 8,
+    "medical": 4
+  },
+  "secondary_school": {
+    "food": 9,
+    "medical": 5
+  },
   "shoe_store": {},
   "shopping_mall": {
     "food": 7,
     "medical": 4
   },
   "spa": {},
-  "stadium": {},
+  "stadium": {
+    "ammo": 1
+  },
   "storage": {
     "food": 4,
     "medical": 4
@@ -282,23 +324,40 @@
     "ignored": true
   },
   "subpremise": {},
-  "subway_station": {},
+  "subway_station": {
+    "ammo": 1
+  },
   "supermarket": {
     "food": 7,
     "medical": 2
   },
   "synagogue": {},
   "taxi_stand": {},
-  "tourist_attraction": {},
-  "town_square": {},
-  "train_station": {},
-  "transit_station": {},
+  "tourist_attraction": {
+    "ammo": 1
+  },
+  "town_square": {
+    "food": 3,
+    "medical": 2
+  },
+  "train_station": {
+    "food": 4,
+    "medical": 3
+  },
+  "transit_station": {
+    "food": 4,
+    "medical": 2
+  },
   "travel_agency": {},
-  "university": {},
+  "university": {
+    "food": 7,
+    "medical": 4
+  },
   "veterinary_care": {
     "medical": 8
   },
   "zoo": {
-    "food": 4
+    "food": 4,
+    "ammo": 1
   }
 }

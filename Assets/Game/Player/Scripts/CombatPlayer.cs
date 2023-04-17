@@ -46,7 +46,11 @@ public class CombatPlayer : MonoBehaviour
     public void WeaponChanged()
     {
         //TODO set model/material, animation
-        
+        if (UsingWeaponSO is RangedItem ranged)
+        {
+            //TODO appear crosshair
+            //TODO hold to aim, release to shoot
+        }
     }
 
     public void RotateView(Vector2 delta)

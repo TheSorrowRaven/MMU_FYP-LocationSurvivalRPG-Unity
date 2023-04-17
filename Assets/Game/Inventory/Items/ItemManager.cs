@@ -119,5 +119,9 @@ public class ItemManager : MonoBehaviour
     {
         return (RangedItem)IdentifierToItem["ranged_gun"];
     }
+    public AmmoItem GetAmmoFromRarity(Rarity rarity)
+    {
+        return (AmmoItem)IdentifierToItem["ammo_gun"];
+    }
 
 }

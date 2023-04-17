@@ -285,6 +285,7 @@ public class UIPOI : MonoBehaviour, Save.ISaver
                 CalculateLootFromMedical(definition.Medical);
                 CalculateLootFromMelee(definition.Melee);
                 CalculateLootFromRanged(definition.Ranged);
+                CalculateLootFromAmmo(definition.Ammo);
             }
         }
 
@@ -350,6 +351,22 @@ public class UIPOI : MonoBehaviour, Save.ISaver
             double rarityChance = LootRNG.NextDouble();
             Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
             RangedItem item = ItemManager.GetRangedFromRarity(rarity);
+            AddToLoot(item);
+        }
+    }
+
+    private void CalculateLootFromAmmo(int ammo)
+    {
+        if (ammo == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < ammo; i++)
+        {
+            double rarityChance = LootRNG.NextDouble();
+            Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
+            AmmoItem item = ItemManager.GetAmmoFromRarity(rarity);
             AddToLoot(item);
         }
     }
