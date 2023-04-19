@@ -10,7 +10,7 @@ public abstract class WeaponItem : Item
 
     public override void Use()
     {
-        Player.Instance.EquipWeapon(this);
+
     }
 
 }

@@ -112,7 +112,7 @@ public class CombatZombie : MonoBehaviour
         }
     }
 
-    public void PlayerHit(int damage)
+    public void PlayerHit(int damage, Vector3 dir)
     {
         if (isDead)
         {
@@ -123,6 +123,10 @@ public class CombatZombie : MonoBehaviour
         {
             ChangeState(State.Dying);
             isDead = true;
+        }
+        else
+        {
+            RB.AddForce(dir * 3, ForceMode.Impulse);
         }
     }
 

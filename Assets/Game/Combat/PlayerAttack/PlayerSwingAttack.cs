@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerSwingAttack : MonoBehaviour
 {
+    private static PlayerSwingAttack instance;
+    public static PlayerSwingAttack Instance => instance;
+
     private static G G => G.Instance;
     private static CombatPlayer CombatPlayer => CombatPlayer.Instance;
 
@@ -20,7 +23,6 @@ public class PlayerAttack : MonoBehaviour
     [System.NonSerialized] private int lastFrameInput;
     [System.NonSerialized] private Vector2 screenPosition;
     [System.NonSerialized] private Vector2 lastScreenPosition;
-    [System.NonSerialized] private Vector2 delta;
     [System.NonSerialized] private bool IsNewAction;
 
     [System.NonSerialized] private CombatZombie zombieTarget;
@@ -29,8 +31,10 @@ public class PlayerAttack : MonoBehaviour
     [System.NonSerialized] private bool isAnimating;
     [System.NonSerialized] private float animationTimeCount;
 
+
     private void Awake()
     {
+        instance = this;
         SwipeLR.positionCount = 0;
     }
 
@@ -38,6 +42,7 @@ public class PlayerAttack : MonoBehaviour
     {
         G.ScreenInput.InputAction += ScreenDragInput;
     }
+
 
     private void OnDestroy()
     {
@@ -61,13 +66,19 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
+        if (!gameObject.activeSelf)
+        {
+            IsNewAction = false;
+            hasInput = false;
+            return;
+        }
         if (isAnimating)
         {
             animationTimeCount -= Time.deltaTime;
             if (animationTimeCount < 0)
             {
                 isAnimating = false;
-                CombatPlayer.HitZombieWithWeapon(zombieTarget);
+                CombatPlayer.HitZombieWithWeapon(zombieTarget, Player.Instance.MeleeDamage);
                 hitZombie = false;
                 zombieTarget = null;
             }

@@ -191,6 +191,7 @@
   "locksmith": {},
   "lodging": {
     "melee": 1,
+    "ranged": 1,
     "ammo": 1
   },
   "meal_delivery": {

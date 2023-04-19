@@ -95,7 +95,7 @@ public class CombatZombieManager : MonoBehaviour
             Vector3 playerPos = CombatPlayer.Instance.TR.localPosition;
             TR.LookAt(new Vector3(playerPos.x, pos.y, playerPos.z), Vector3.up);
 
-            combatZombie.RB.isKinematic = true;
+            //combatZombie.RB.isKinematic = true;
             combatZombie.ForceDetectPlayer();
             combatZombie.health = Random.Range(zombieBaseHealth, Player.Instance.Level * zombieScaledHealth);
 
@@ -119,7 +119,7 @@ public class CombatZombieManager : MonoBehaviour
             Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * Quaternion.Euler(0, yRot, 0);
             CombatZombie combatZombie = Instantiate(CombatZombiePrefab, pos, rotation, TR).GetComponent<CombatZombie>();
 
-            combatZombie.RB.isKinematic = true;
+            //combatZombie.RB.isKinematic = true;
             Debug.Log("No forcing to detect player");
             combatZombie.health = Random.Range(zombieBaseHealth, Player.Instance.Level * zombieScaledHealth);
 

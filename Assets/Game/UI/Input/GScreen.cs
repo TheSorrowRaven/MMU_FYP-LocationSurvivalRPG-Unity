@@ -55,7 +55,7 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
     {
         if (reportScreenPosition)
         {
-            InputAction.Invoke(currentPos);
+            InputAction?.Invoke(currentPos);
             return;
         }
         Vector2 delta = currentPos - lastPos;
@@ -65,7 +65,7 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
         {
             return;
         }
-        InputAction.Invoke(delta);
+        InputAction?.Invoke(delta);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -74,7 +74,7 @@ public class GScreen : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ID
         float dist = Vector2.Distance(currentPos, firstDownPos);
         if (dist < clickThreshold)
         {
-            ClickAction.Invoke(currentPos);
+            ClickAction?.Invoke(currentPos);
         }
     }
 }

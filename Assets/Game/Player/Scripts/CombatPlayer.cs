@@ -35,21 +35,38 @@ public class CombatPlayer : MonoBehaviour
     {
         originalRotation = CamTR.localRotation;
 
-        //TODO WEAPON TEMP
+        PlayerShootAttack.Instance.gameObject.SetActive(false);
+        PlayerSwingAttack.Instance.gameObject.SetActive(false);
         if (UsingWeaponSO == null)
         {
-            Player.Instance.EquipWeapon(UIInventory.Instance.GetFirstWeaponItem());
+            MeleeItem melee = UIInventory.Instance.GetFirstWeaponItem();
+            if (melee != null)
+            {
+                melee.Use();
+            }
+            else
+            {
+                //fists?
+            }
+        }
+        else
+        {
+            UsingWeaponSO.Use();
         }
 
     }
 
     public void WeaponChanged()
     {
-        //TODO set model/material, animation
         if (UsingWeaponSO is RangedItem ranged)
         {
-            //TODO appear crosshair
-            //TODO hold to aim, release to shoot
+            PlayerShootAttack.Instance.gameObject.SetActive(true);
+            PlayerSwingAttack.Instance.gameObject.SetActive(false);
+        }
+        else
+        {
+            PlayerShootAttack.Instance.gameObject.SetActive(false);
+            PlayerSwingAttack.Instance.gameObject.SetActive(true);
         }
     }
 
@@ -103,9 +120,9 @@ public class CombatPlayer : MonoBehaviour
         return false;
     }
 
-    public void HitZombieWithWeapon(CombatZombie zombie)
+    public void HitZombieWithWeapon(CombatZombie zombie, int damage)
     {
-        zombie.PlayerHit(UsingWeaponSO.Damage + Player.MeleeDamage);    //TODO
+        zombie.PlayerHit(UsingWeaponSO.Damage + damage, (zombie.TR.position - Player.ThisTR.position).normalized);    //TODO
     }
 
     public void HitByZombie(CombatZombie zombie)
