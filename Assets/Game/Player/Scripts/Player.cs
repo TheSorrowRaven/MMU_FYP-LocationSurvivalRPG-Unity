@@ -2,7 +2,6 @@ using Mapbox.Utils;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Player : MonoBehaviour, Save.ISaver
 {
