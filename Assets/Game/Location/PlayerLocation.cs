@@ -151,6 +151,11 @@ public class PlayerLocation
         }
         //joystickMovement.Normalize();
 
+        if (G.MainCameraTR == null)
+        {
+            return;
+        }
+
         double rotation = (G.MainCameraTR.localRotation.eulerAngles.y) * Mathf.Deg2Rad;
         //y and x is swapped because Geo coordinates start with latitude (y) then longitude (x)
         double movementSpeed = GameSettings.MovementSpeed;
@@ -179,6 +184,11 @@ public class PlayerLocation
     private void ActivateMovementJoystickObject(bool active)
     {
         G.MovementJoystick.gameObject.SetActive(active);
+    }
+
+    public void EnterCombatActivateMovementJoystick()
+    {
+        ActivateMovementJoystickObject(true);
     }
 
 

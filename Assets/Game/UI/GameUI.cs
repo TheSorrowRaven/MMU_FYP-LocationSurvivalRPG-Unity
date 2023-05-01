@@ -15,10 +15,8 @@ public class GameUI : MonoBehaviour
 
     public GScreen ScreenInput;
     public GJoystick MovementJoystick;
+    public GButton AttackButton;
     public GToggle GPSToggle;
-
-    public GameObject EscapeObject;
-    public Button EscapeButton;
 
 
     private void Awake()

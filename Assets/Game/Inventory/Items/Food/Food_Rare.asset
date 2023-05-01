@@ -16,5 +16,5 @@ MonoBehaviour:
   Name: Burger
   Icon: {fileID: 21300000, guid: c5e8ac0f320f16b4a9ae064e950bb7a3, type: 3}
   Rarity: 2
-  HungerFill: 30
-  StaminaRestore: 20
+  HungerFill: 100
+  StaminaRestore: 80

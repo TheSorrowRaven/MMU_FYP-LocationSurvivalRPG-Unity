@@ -47,9 +47,8 @@ public class G : MonoBehaviour
     #region UI
     public GScreen ScreenInput => GameUI.ScreenInput;
     public GJoystick MovementJoystick => GameUI.MovementJoystick;
+    public GButton AttackButton => GameUI.AttackButton;
     public GToggle GPSToggle => GameUI.GPSToggle;
-    public GameObject EscapeObj => GameUI.EscapeObject;
-    public Button EscapeButton => GameUI.EscapeButton;
 
     #endregion
 

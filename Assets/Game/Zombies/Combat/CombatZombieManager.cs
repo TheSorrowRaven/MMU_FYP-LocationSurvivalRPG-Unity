@@ -49,7 +49,6 @@ public class CombatZombieManager : MonoBehaviour
     public void CombatZombieDetectedPlayer(CombatZombie zombie)
     {
         ZombieChasingPlayer.Add(zombie);
-        Player.Instance.SetEscapeActive(false);
     }
 
     public void CombatZombieDied(CombatZombie zombie)
@@ -57,10 +56,6 @@ public class CombatZombieManager : MonoBehaviour
         ActiveCombatZombies.Remove(zombie);
         ZombieChasingPlayer.Remove(zombie);
 
-        if (ZombieChasingPlayer.Count == 0)
-        {
-            Player.Instance.SetEscapeActive(true);
-        }
         if (ActiveCombatZombies.Count == 0)
         {
             Player.Instance.NoMoreZombiesLeaveCombat();
@@ -73,8 +68,6 @@ public class CombatZombieManager : MonoBehaviour
     {
         ActiveCombatZombies.Clear();
         ZombieChasingPlayer.Clear();
-
-        Player.Instance.SetEscapeActive(true);
 
         for (int i = 0; i < chasingZombies; i++)
         {

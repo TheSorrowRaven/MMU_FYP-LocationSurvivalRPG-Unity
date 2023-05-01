@@ -6,6 +6,7 @@ using UnityEngine;
 public class RangedItem : WeaponItem
 {
     protected override string IdentifierStarter => "ranged_";
+    public AmmoItem Ammo;
 
     public override bool Consumable => false;
 

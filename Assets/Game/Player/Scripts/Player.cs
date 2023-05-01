@@ -496,8 +496,8 @@ public class Player : MonoBehaviour, Save.ISaver
             SwitchToMapMode();
         }
         G.MovementJoystick.InputAction += ReceiveJoystickMovement;
+        G.AttackButton.InputAction += AttackButtonPressed;
         G.ScreenInput.ClickAction += SelectPOIOrZombie;
-        G.EscapeButton.onClick.AddListener(EscapeButtonClicked);
     }
 
     public void PlayerDied()
@@ -524,7 +524,9 @@ public class Player : MonoBehaviour, Save.ISaver
         //ThisTR.SetParent(null);
         ModelObject.SetActive(false);
         POIManager.Instance.ActivateCombatMode(true);
-        G.EscapeObj.SetActive(true);
+        G.GPSToggle.gameObject.SetActive(false);
+        G.AttackButton.gameObject.SetActive(true);
+        G.Location.EnterCombatActivateMovementJoystick();
         SwitchToCombatScene();
     }
     public void SwitchToMapMode()
@@ -534,7 +536,8 @@ public class Player : MonoBehaviour, Save.ISaver
         InCombatMode = false;
         ModelObject.SetActive(true);
         POIManager.Instance.ActivateCombatMode(false);
-        G.EscapeObj.SetActive(false);
+        G.GPSToggle.gameObject.SetActive(true);
+        G.AttackButton.gameObject.SetActive(false);
 
 
         lastMapZombieCell = new(int.MinValue, int.MinValue);
@@ -556,6 +559,15 @@ public class Player : MonoBehaviour, Save.ISaver
     private void ReceiveJoystickMovement(Vector2 movementDelta)
     {
         ReportMovement(movementDelta);
+    }
+
+    private void AttackButtonPressed()
+    {
+        if (!InCombatMode)
+        {
+            return;
+        }
+        CombatPlayer.AttackButtonPressed();
     }
 
     private void WASDUpdate()
@@ -855,15 +867,10 @@ public class Player : MonoBehaviour, Save.ISaver
         G.POIManager.EndSpawningPOIs();
     }
 
-    private void EscapeButtonClicked()
+    public void ExitReachedInCombat()
     {
         SwitchToMapMode();
         SwitchToMapScene();
-    }
-
-    public void SetEscapeActive(bool active)
-    {
-        G.EscapeButton.interactable = active;
     }
 
     public void NoMoreZombiesLeaveCombat()

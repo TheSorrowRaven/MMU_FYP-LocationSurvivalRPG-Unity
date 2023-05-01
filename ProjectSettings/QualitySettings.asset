@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 0
+  m_CurrentQuality: 1
   m_QualitySettings:
   - serializedVersion: 3
     name: Performant
@@ -56,7 +56,6 @@ QualitySettings:
     terrainMaxTrees: 50
     excludedTargetPlatforms:
     - Standalone
-    - Android
   - serializedVersion: 3
     name: Balanced
     pixelLightCount: 1
@@ -73,7 +72,7 @@ QualitySettings:
     globalTextureMipmapLimit: 1
     textureMipmapLimitSettings: []
     anisotropicTextures: 1
-    antiAliasing: 0
+    antiAliasing: 2
     softParticles: 0
     softVegetation: 0
     realtimeReflectionProbes: 0
@@ -108,6 +107,7 @@ QualitySettings:
     excludedTargetPlatforms:
     - Server
     - Standalone
+    - Android
   - serializedVersion: 3
     name: High Fidelity
     pixelLightCount: 2

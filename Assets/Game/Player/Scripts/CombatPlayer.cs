@@ -47,6 +47,7 @@ public class CombatPlayer : MonoBehaviour
             else
             {
                 //fists?
+                // TODO melee, fists, null, attack
             }
         }
         else
@@ -56,9 +57,10 @@ public class CombatPlayer : MonoBehaviour
 
     }
 
+
     public void WeaponChanged()
     {
-        if (UsingWeaponSO is RangedItem ranged)
+        if (UsingWeaponSO is RangedItem)
         {
             PlayerShootAttack.Instance.gameObject.SetActive(true);
             PlayerSwingAttack.Instance.gameObject.SetActive(false);
@@ -67,6 +69,18 @@ public class CombatPlayer : MonoBehaviour
         {
             PlayerShootAttack.Instance.gameObject.SetActive(false);
             PlayerSwingAttack.Instance.gameObject.SetActive(true);
+        }
+    }
+
+    public void AttackButtonPressed()
+    {
+        if (UsingWeaponSO is RangedItem rangedItem)
+        {
+            PlayerShootAttack.Instance.TryShootWeapon(rangedItem);
+        }
+        else
+        {
+            PlayerSwingAttack.Instance.TrySwingWeapon();
         }
     }
 
@@ -95,7 +109,7 @@ public class CombatPlayer : MonoBehaviour
                 delta *= Player.CombatMovementSpeedMultiplier;
             }
         }
-        TR.localPosition += TR.forward * delta.y + TR.right * delta.x;
+        RB.MovePosition(TR.localPosition + ((TR.forward * delta.y) + (TR.right * delta.x)));
     }
 
     public bool TrySphereCastZombie(Vector2 screenPosition, out CombatZombie zombie)
@@ -122,6 +136,10 @@ public class CombatPlayer : MonoBehaviour
 
     public void HitZombieWithWeapon(CombatZombie zombie, int damage)
     {
+        if (zombie == null)
+        {
+            return;
+        }
         zombie.PlayerHit(UsingWeaponSO.Damage + damage, (zombie.TR.position - Player.ThisTR.position).normalized);    //TODO
     }
 

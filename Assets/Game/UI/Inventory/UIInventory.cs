@@ -109,6 +109,15 @@ public class UIInventory : MonoBehaviour, Save.ISaver
         UpdateUIItems();
     }
 
+    public int InventoryHasItem(Item item)
+    {
+        if (!Inventory.TryGetValue(item, out int count))
+        {
+            return 0;
+        }
+        return count;
+    }
+
     private void UpdateUIItems()
     {
         ItemAmtList.Clear();

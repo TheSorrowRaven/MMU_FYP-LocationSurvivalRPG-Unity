@@ -12,153 +12,61 @@ public class PlayerSwingAttack : MonoBehaviour
     private static CombatPlayer CombatPlayer => CombatPlayer.Instance;
 
     public Camera PACam;
-    public LineRenderer SwipeLR;
     public Animator Animator;
-
-    public int SwipePoints;
-
-    [System.NonSerialized] private int swipeIndex;
-
-    [System.NonSerialized] private bool hasInput;
-    [System.NonSerialized] private int lastFrameInput;
-    [System.NonSerialized] private Vector2 screenPosition;
-    [System.NonSerialized] private Vector2 lastScreenPosition;
-    [System.NonSerialized] private bool IsNewAction;
-
-    [System.NonSerialized] private CombatZombie zombieTarget;
-    [System.NonSerialized] private bool hitZombie;
 
     [System.NonSerialized] private bool isAnimating;
     [System.NonSerialized] private float animationTimeCount;
+
+    [SerializeField] private float cooldown;
+    [System.NonSerialized] private float cooldownCount;
 
 
     private void Awake()
     {
         instance = this;
-        SwipeLR.positionCount = 0;
-    }
-
-    private void Start()
-    {
-        G.ScreenInput.InputAction += ScreenDragInput;
-    }
-
-
-    private void OnDestroy()
-    {
-        G.ScreenInput.InputAction -= ScreenDragInput;
-    }
-
-
-    private void ScreenDragInput(Vector2 screenPosition)
-    {
-        int currentFrame = Time.frameCount;
-        if (currentFrame - 1 != lastFrameInput)
-        {
-            IsNewAction = true;
-            lastScreenPosition = screenPosition;
-        }
-        lastScreenPosition = screenPosition;
-        this.screenPosition = screenPosition;
-        lastFrameInput = currentFrame;
-        hasInput = true;
     }
 
     private void Update()
     {
         if (!gameObject.activeSelf)
         {
-            IsNewAction = false;
-            hasInput = false;
             return;
         }
+        cooldownCount += Time.deltaTime;
         if (isAnimating)
         {
             animationTimeCount -= Time.deltaTime;
             if (animationTimeCount < 0)
             {
-                isAnimating = false;
-                CombatPlayer.HitZombieWithWeapon(zombieTarget, Player.Instance.MeleeDamage);
-                hitZombie = false;
-                zombieTarget = null;
-            }
-        }
-        if (hasInput)
-        {
-
-            hasInput = false;
-            if (IsNewAction)
-            {
-                IsNewAction = false;
-                swipeIndex = 0;
-                hitZombie = false;
-                zombieTarget = null;
-            }
-
-            if (IsNewAction && lastScreenPosition == screenPosition)
-            {
-                DequeuePoint();
-            }
-            else
-            {
-                SetPoint(screenPosition);
-                if (!hitZombie)
+                if (CombatPlayer.TrySphereCastZombie(new(Screen.width / 2, Screen.height / 2), out CombatZombie zombie))
                 {
-                    bool hit;
-                    if (hit = CombatPlayer.TrySphereCastZombie(screenPosition, out CombatZombie zombie))
-                    {
-                        if (Player.Instance.TryConsumeStaminaToSwingWeapon())
-                        {
-                            hitZombie = hit;
-                            zombieTarget = zombie;
-
-                            Animator.SetTrigger("Swing");
-                            const float hitTime = 0.1333333333f;
-
-                            animationTimeCount = hitTime;
-                            isAnimating = true;
-                        }
-                    }
+                    CombatPlayer.HitZombieWithWeapon(zombie, Player.Instance.MeleeDamage);
                 }
+                isAnimating = false;
             }
         }
-        else
-        {
-            DequeuePoint();
-        }
 
     }
 
-    private void SetPoint(Vector2 screenPos)
+    public void TrySwingWeapon()
     {
-
-        if (swipeIndex >= SwipePoints)
+        if (cooldownCount >= cooldown)
         {
-            DequeuePoint();
-            swipeIndex = SwipePoints - 1;
+            SwingWeapon();
         }
-
-        SwipeLR.positionCount = swipeIndex + 1;
-        Vector3 worldPos = PACam.ScreenToWorldPoint(new(screenPos.x, screenPos.y, 1));
-        SwipeLR.SetPosition(swipeIndex, worldPos);
-        swipeIndex++;
-
     }
 
-    private void DequeuePoint()
+    private void SwingWeapon()
     {
-        if (SwipeLR.positionCount == 0)
+        if (Player.Instance.TryConsumeStaminaToSwingWeapon())
         {
-            return;
-        }
-        for (int i = 0; i < SwipeLR.positionCount - 1; i++)
-        {
-            SwipeLR.SetPosition(i, SwipeLR.GetPosition(i + 1));
-        }
-        SwipeLR.positionCount--;
-        if (swipeIndex > SwipeLR.positionCount)
-        {
-            swipeIndex = SwipeLR.positionCount;
+            const float hitTime = 0.1333333333f;
+
+            isAnimating = true;
+            animationTimeCount = hitTime;
+            Animator.SetTrigger("Swing");
+
+            cooldownCount = 0;
         }
     }
 

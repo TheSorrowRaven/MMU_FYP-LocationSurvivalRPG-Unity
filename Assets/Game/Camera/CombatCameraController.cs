@@ -16,7 +16,12 @@ public class CombatCameraController : MonoBehaviour
 
     private void Start()
     {
-        //G.ScreenInput.AddAsInputAction(ScreenDragInput);
+        G.ScreenInput.InputAction += ScreenDragInput;
+    }
+
+    private void OnDestroy()
+    {
+        G.ScreenInput.InputAction -= ScreenDragInput;
     }
 
     private void ScreenDragInput(Vector2 screenPosition)

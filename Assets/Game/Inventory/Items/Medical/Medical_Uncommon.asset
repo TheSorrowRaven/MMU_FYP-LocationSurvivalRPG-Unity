@@ -16,5 +16,5 @@ MonoBehaviour:
   Name: Bandage II
   Icon: {fileID: 21300000, guid: c79fb13ee462c784e88153a4652de75b, type: 3}
   Rarity: 1
-  HealthFill: 20
+  HealthFill: 60
   ZombificationHeal: 5
