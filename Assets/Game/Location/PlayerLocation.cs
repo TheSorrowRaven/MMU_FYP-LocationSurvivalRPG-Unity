@@ -67,7 +67,6 @@ public class PlayerLocation
     {
         UseJoystickMovement = true;
 
-        //TODO update button/indicator/toggle
         ActivateMovementJoystickObject(true);
     }
     /// <summary>
@@ -77,7 +76,6 @@ public class PlayerLocation
     {
         UseJoystickMovement = false;
 
-        //TODO Initialize LocationProvider?
         GLocationProvider.Initialize();
         ActivateMovementJoystickObject(false);
     }
@@ -124,7 +122,6 @@ public class PlayerLocation
             }
             else
             {
-                //TODO no location access
                 return false;
             }
         }

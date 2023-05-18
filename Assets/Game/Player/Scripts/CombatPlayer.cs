@@ -46,8 +46,7 @@ public class CombatPlayer : MonoBehaviour
             }
             else
             {
-                //fists?
-                // TODO melee, fists, null, attack
+                // Cannot attack
             }
         }
         else
@@ -140,7 +139,7 @@ public class CombatPlayer : MonoBehaviour
         {
             return;
         }
-        zombie.PlayerHit(UsingWeaponSO.Damage + damage, (zombie.TR.position - Player.ThisTR.position).normalized);    //TODO
+        zombie.PlayerHit(UsingWeaponSO.Damage + damage, (zombie.TR.position - Player.ThisTR.position).normalized);
     }
 
     public void HitByZombie(CombatZombie zombie)

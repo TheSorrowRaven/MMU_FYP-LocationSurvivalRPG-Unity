@@ -20,6 +20,8 @@ public class CombatZombieManager : MonoBehaviour
     public int chasingZombies;
     public int unawareZombies;
 
+    public int zombiesKilled;
+
     private readonly List<CombatZombie> ActiveCombatZombies = new();
     private readonly List<CombatZombie> ZombieChasingPlayer = new();
 
@@ -55,6 +57,8 @@ public class CombatZombieManager : MonoBehaviour
     {
         ActiveCombatZombies.Remove(zombie);
         ZombieChasingPlayer.Remove(zombie);
+
+        zombiesKilled++;
 
         if (ActiveCombatZombies.Count == 0)
         {
@@ -118,6 +122,8 @@ public class CombatZombieManager : MonoBehaviour
 
             ActiveCombatZombies.Add(combatZombie);
         }
+
+        zombiesKilled = 0;
 
     }
 

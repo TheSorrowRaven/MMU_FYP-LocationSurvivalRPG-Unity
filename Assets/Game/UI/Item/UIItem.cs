@@ -33,6 +33,11 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
     [System.NonSerialized] private float animCount;
 
 
+    public void SetNone(ItemAmt itemAmt)
+    {
+        AssignItemAmt(itemAmt);
+        CurrentInteraction = Interaction.None;
+    }
 
     public void SetLootable(ItemAmt itemAmt)
     {

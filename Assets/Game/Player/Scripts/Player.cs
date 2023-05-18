@@ -245,7 +245,6 @@ public class Player : MonoBehaviour, Save.ISaver
 
     public void TimePassedTryConvertHungerToStamina()
     {
-        //TODO require conversion rate
         if (!RequireRestoreStamina())
         {
             return;
@@ -503,7 +502,8 @@ public class Player : MonoBehaviour, Save.ISaver
     public void PlayerDied()
     {
         Debug.Log("PLAYER DIED!!");
-        //TODO new game
+
+        //New game
         Save.Instance.Delete();
         SwitchToMapMode();
         SwitchToMapScene();
@@ -871,12 +871,20 @@ public class Player : MonoBehaviour, Save.ISaver
     {
         SwitchToMapMode();
         SwitchToMapScene();
+        GiveRewardsForZombiesKilled();
     }
 
     public void NoMoreZombiesLeaveCombat()
     {
         isLeavingCombat = true;
         leavingCombatTimeCount = leavingCombatTime;
+    }
+
+    private void GiveRewardsForZombiesKilled()
+    {
+        int zombiesKilled = CombatZombieManager.Instance.zombiesKilled;
+        // TODO add rewards
+
     }
 
     private void Combat_Update()
@@ -892,6 +900,7 @@ public class Player : MonoBehaviour, Save.ISaver
 
             SwitchToMapMode();
             SwitchToMapScene();
+            GiveRewardsForZombiesKilled();
         }
     }
 

@@ -7,27 +7,28 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using System;
 
+public class LootComparer : IComparer<ItemAmt>
+{
+    public static LootComparer Shared = new();
+
+    public int Compare(ItemAmt x, ItemAmt y)
+    {
+        int val = y.item.Rarity.CompareTo(x.item.Rarity);
+        if (val != 0)
+        {
+            return val;
+        }
+        val = x.GetType().FullName.CompareTo(y.GetType().FullName);
+        if (val != 0)
+        {
+            return val;
+        }
+        return y.amt.CompareTo(x.amt);
+    }
+}
+
 public class UIPOI : MonoBehaviour, Save.ISaver
 {
-    private class LootComparer : IComparer<ItemAmt>
-    {
-        public static LootComparer Shared = new();
-
-        public int Compare(ItemAmt x, ItemAmt y)
-        {
-            int val = y.item.Rarity.CompareTo(x.item.Rarity);
-            if (val != 0)
-            {
-                return val;
-            }
-            val = x.GetType().FullName.CompareTo(y.GetType().FullName);
-            if (val != 0)
-            {
-                return val;
-            }
-            return y.amt.CompareTo(x.amt);
-        }
-    }
 
     private static UIPOI instance;
     public static UIPOI Instance => instance;

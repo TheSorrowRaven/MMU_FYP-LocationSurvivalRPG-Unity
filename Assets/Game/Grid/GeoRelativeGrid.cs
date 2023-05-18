@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: Move POI Cluster to use this instead
-
 public class GeoRelativeGrid : MonoBehaviour
 {
     private static G G => G.Instance;

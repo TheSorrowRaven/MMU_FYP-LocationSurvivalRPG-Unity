@@ -112,7 +112,6 @@ public class ItemManager : MonoBehaviour
 
     public MeleeItem GetMeleeFromRarity(Rarity rarity)
     {
-        //TODO temporary
         return (MeleeItem)IdentifierToItem["melee_sledgehammer"];
     }
     public RangedItem GetRangedFromRarity(Rarity rarity)
