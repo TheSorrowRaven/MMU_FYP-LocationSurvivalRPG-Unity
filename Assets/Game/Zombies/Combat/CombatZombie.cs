@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CombatZombie : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class CombatZombie : MonoBehaviour
     public Transform TR;
     public Rigidbody RB;
     public GameObject CLObj;
+    [SerializeField] private NavMeshAgent Agent;
     [SerializeField] private Animator Animator;
 
     //Relative to Dot Product
@@ -42,6 +44,12 @@ public class CombatZombie : MonoBehaviour
 
     public float AttackDistance;
 
+    public float SprintChaseTime;
+    public float SprintChaseCooldown;
+    private float SprintChaseCount;
+    private float SprintChaseCooldownCount;
+    private bool sprintChasing;
+
     public float AttackTotalTime;
     public float AttackCooldownTotalTime;
     private bool IsAttacking;
@@ -51,6 +59,8 @@ public class CombatZombie : MonoBehaviour
 
     private float MoveSpeed;
     private float lastMoveSpeed;
+
+    private Vector3 playerLastPos;
 
     public float AttackHitCheckTime;
     public float AttackHitCheckTime2;
@@ -156,13 +166,14 @@ public class CombatZombie : MonoBehaviour
                 // Determine wander position
                 wanderPos = G.RandomPointInBounds(WanderBounds);
                 wanderPos.y = 0;
+                MoveSpeed = WanderSpeed;
+                MoveTowards(wanderPos);
             }
-            MoveSpeed = WanderSpeed;
-            MoveTowards(wanderPos);
         }
         else
         {
             MoveSpeed = 0;
+            Agent.isStopped = true;
         }
 
         TryDetectPlayer();
@@ -171,6 +182,30 @@ public class CombatZombie : MonoBehaviour
     private void ChasingUpdate()
     {
         MoveSpeed = ChaseSpeed;//TODO Run?
+
+        if (sprintChasing)
+        {
+            SprintChaseCount -= Time.deltaTime;
+            if (SprintChaseCount < 0)
+            {
+                sprintChasing = false;
+                SprintChaseCount = SprintChaseTime;
+                SprintChaseCooldownCount = SprintChaseCooldown;
+                playerLastPos = Vector3.zero;   // Reset player last pos so it updates
+            }
+            MoveSpeed = ChaseRunSpeed;
+        }
+        else
+        {
+            SprintChaseCooldownCount -= Time.deltaTime;
+            if (SprintChaseCooldownCount < 0)
+            {
+                sprintChasing = true;
+                SprintChaseCount = SprintChaseTime;
+                SprintChaseCooldownCount = SprintChaseCooldown;
+                playerLastPos = Vector3.zero;
+            }
+        }
 
         Vector3 playerPos = CombatPlayer.TR.localPosition;
 
@@ -181,7 +216,11 @@ public class CombatZombie : MonoBehaviour
         }
         else
         {
-            MoveTowards(playerPos);
+            if (playerPos != playerLastPos)
+            {
+                playerLastPos = playerPos;
+                MoveTowards(playerPos);
+            }
         }
 
     }
@@ -250,7 +289,7 @@ public class CombatZombie : MonoBehaviour
             }
         }
 
-        RotateTowards(CombatPlayer.TR.localPosition);
+        //RotateTowards(CombatPlayer.TR.localPosition);
     }
 
     private void DyingUpdate()
@@ -264,14 +303,17 @@ public class CombatZombie : MonoBehaviour
 
     private void MoveTowards(Vector3 pos)
     {
-        Vector3 zombiePos = TR.localPosition;
-        Vector3 direction = pos - zombiePos;
-        direction.Normalize();
+        Agent.speed = MoveSpeed;
+        Agent.SetDestination(pos);
+        Agent.isStopped = false;
+        //Vector3 zombiePos = TR.localPosition;
+        //Vector3 direction = pos - zombiePos;
+        //direction.Normalize();
 
-        RotateTowards(pos);
+        //RotateTowards(pos);
 
-        Vector3 movement = TR.forward * (Time.deltaTime * MoveSpeed);
-        TR.localPosition += movement;
+        //Vector3 movement = TR.forward * (Time.deltaTime * MoveSpeed);
+        //TR.localPosition += movement;
     }
 
     private void RotateTowards(Vector3 pos)

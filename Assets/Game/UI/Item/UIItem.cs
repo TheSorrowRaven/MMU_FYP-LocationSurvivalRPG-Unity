@@ -129,6 +129,16 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
             SetAmtText();
         }
     }
+    public void LootAllAsReward()
+    {
+        if (itemAmt.amt == 0)
+        {
+            return;
+        }
+        UIInventory.AddToInventory(itemAmt.item, itemAmt.amt);
+        itemAmt.amt = 0;
+
+    }
 
     private int useableClickedFrame = -1;
     private void UseableClicked()

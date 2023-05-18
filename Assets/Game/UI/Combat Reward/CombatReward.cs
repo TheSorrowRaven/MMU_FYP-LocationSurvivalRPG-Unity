@@ -1,52 +1,67 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CombatReward : MonoBehaviour
 {
+    private static CombatReward instance;
+    public static CombatReward Instance => instance;
+
+
+
     private static ItemManager ItemManager => ItemManager.Instance;
-    private static POIManager POIManager => POIManager.Instance;
 
+    [SerializeField] private Transform UIRewardContainer;
+    [SerializeField] private GameObject UIRewardPrefab;
+    [SerializeField] private TextMeshProUGUI KillsText;
 
-    [SerializeField] private Transform UILootContainer;
-    [SerializeField] private GameObject UILootPrefab;
-
-    private System.Random LootRNG;
-    private readonly Dictionary<Item, int> LootCount = new();
+    private System.Random RewardRNG;
+    private readonly Dictionary<Item, int> RewardCount = new();
     private readonly List<ItemAmt> ItemAmtList = new();
-    private readonly List<UIItem> UILootList = new();
+    private readonly List<UIItem> RewardList = new();
 
     private void Awake()
     {
-        LootRNG = new System.Random();
+        RewardRNG = new System.Random();
     }
 
-    public void CalculateLoot(int amount)
+    private void Start()
     {
-        //TODO call calculate loot
+        if (instance == null)
+        {
+            gameObject.SetActive(false);
+            instance = this;
+        }
+    }
+
+    public void ActivateRewards(int amount)
+    {
         CalculateRandomLoot(amount);
         SpawnRewards();
+        KillsText.SetText($"Kills: {amount}");
+        gameObject.SetActive(true);
     }
 
     public void Return()
     {
         ClearLoot();
-        // TODO close UI
+        gameObject.SetActive(false);
     }
 
     public void ClearLoot()
     {
-        LootCount.Clear();
+        RewardCount.Clear();
         ItemAmtList.Clear();
-        for (int i = 0; i < UILootList.Count; i++)
+        for (int i = 0; i < RewardList.Count; i++)
         {
-            Destroy(UILootList[i]);
+            Destroy(RewardList[i]);
         }
-        UILootList.Clear();
-        for (int i = 0; i < UILootContainer.childCount; i++)
+        RewardList.Clear();
+        for (int i = 0; i < UIRewardContainer.childCount; i++)
         {
-            Destroy(UILootContainer.GetChild(i).gameObject);
+            Destroy(UIRewardContainer.GetChild(i).gameObject);
         }
     }
 
@@ -56,12 +71,12 @@ public class CombatReward : MonoBehaviour
         {
             return;
         }
-        if (LootCount.TryGetValue(item, out int count))
+        if (RewardCount.TryGetValue(item, out int count))
         {
-            LootCount[item] = count + amt;
+            RewardCount[item] = count + amt;
             return;
         }
-        LootCount.Add(item, amt);
+        RewardCount.Add(item, amt);
     }
 
     private void CalculateRandomLoot(int any)
@@ -73,15 +88,15 @@ public class CombatReward : MonoBehaviour
 
         for (int i = 0; i < any; i++)
         {
-            double rarityChance = LootRNG.NextDouble();
+            double rarityChance = RewardRNG.NextDouble();
             Rarity rarity = ItemManager.GetRarityFromChance(rarityChance);
-            double lootType = LootRNG.NextDouble();
+            double lootType = RewardRNG.NextDouble();
             Item item;
-            if (lootType < 0.6)
+            if (lootType < 0.5)
             {
                 item = ItemManager.GetFoodFromRarity(rarity);
             }
-            else if (lootType < 0.95)
+            else if (lootType < 0.85)
             {
                 item = ItemManager.GetMedicalFromRarity(rarity);
             }
@@ -96,7 +111,7 @@ public class CombatReward : MonoBehaviour
 
     private void SpawnRewards()
     {
-        foreach (var pair in LootCount)
+        foreach (var pair in RewardCount)
         {
             ItemAmt itemAmt = new(pair.Key, pair.Value);
             ItemAmtList.Add(itemAmt);
@@ -106,9 +121,10 @@ public class CombatReward : MonoBehaviour
 
         for (int i = 0; i < ItemAmtList.Count; i++)
         {
-            UIItem uiLoot = Instantiate(UILootPrefab, UILootContainer).GetComponent<UIItem>();
+            UIItem uiLoot = Instantiate(UIRewardPrefab, UIRewardContainer).GetComponent<UIItem>();
             uiLoot.SetNone(ItemAmtList[i]);
-            UILootList.Add(uiLoot);
+            uiLoot.LootAllAsReward();
+            RewardList.Add(uiLoot);
         }
     }
 

@@ -884,7 +884,7 @@ public class Player : MonoBehaviour, Save.ISaver
     {
         int zombiesKilled = CombatZombieManager.Instance.zombiesKilled;
         // TODO add rewards
-
+        CombatReward.Instance.ActivateRewards(zombiesKilled);
     }
 
     private void Combat_Update()
@@ -897,10 +897,10 @@ public class Player : MonoBehaviour, Save.ISaver
         if (leavingCombatTimeCount < 0)
         {
             isLeavingCombat = false;
+            GiveRewardsForZombiesKilled();
 
             SwitchToMapMode();
             SwitchToMapScene();
-            GiveRewardsForZombiesKilled();
         }
     }
 
