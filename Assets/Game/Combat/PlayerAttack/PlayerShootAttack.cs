@@ -13,6 +13,7 @@ public class PlayerShootAttack : MonoBehaviour
 
     public Camera PlayerCam;
     public Animator Animator;
+    public ParticleSystem ShootPS;
 
     [SerializeField] private float cooldown;
     [System.NonSerialized] private float cooldownCount;
@@ -73,6 +74,7 @@ public class PlayerShootAttack : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 1000, Color.cyan, 1);
         UIInventory.Instance.RemoveFromInventory(rangedItem.Ammo);
         Animator.SetTrigger("Shoot");
+        ShootPS.Play();
         cooldownCount = 0;
     }
 

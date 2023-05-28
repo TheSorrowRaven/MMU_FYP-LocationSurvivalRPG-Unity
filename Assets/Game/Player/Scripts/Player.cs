@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, Save.ISaver
     public Transform LookAtTR;
 
     [SerializeField] private GameObject ModelObject;
+    public Animator Animator;
     private LineRenderer RadiusLR => References.Instance.PlayerRadiusLR;
     [SerializeField] private float radius;
     [SerializeField] private int radiusDetail;
@@ -698,7 +699,13 @@ public class Player : MonoBehaviour, Save.ISaver
         if (Location.X == lastLat && Location.Y == lastLon)
         {
             //Skip Update (No change in position)
+            Animator.SetFloat("MoveSpeed", 0);
             return;
+        }
+        float dist = new Vector2((float)(lastLat - Location.X), (float)(lastLon - Location.Y)).magnitude / 1e-6f;
+        if (dist != Mathf.Infinity)
+        {
+            Animator.SetFloat("MoveSpeed", 1);
         }
         G.Coords.SetText("COORDS: " + Location);
         G.Mapbox.UpdateMap(Location);

@@ -460,6 +460,10 @@ public class CombatZombie : MonoBehaviour
     {
         CombatZombieManager.CombatZombieDied(this);
         Player.Instance.ZombieKilledGainExperience(this);
+        Agent.isStopped = true;
+        Agent.enabled = false;
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
     }
 
     private void ExitChasingState()
