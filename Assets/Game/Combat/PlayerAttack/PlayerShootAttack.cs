@@ -14,6 +14,8 @@ public class PlayerShootAttack : MonoBehaviour
     public Camera PlayerCam;
     public Animator Animator;
     public ParticleSystem ShootPS;
+    public AudioSource ShootAudio;
+
 
     [SerializeField] private float cooldown;
     [System.NonSerialized] private float cooldownCount;
@@ -75,6 +77,7 @@ public class PlayerShootAttack : MonoBehaviour
         UIInventory.Instance.RemoveFromInventory(rangedItem.Ammo);
         Animator.SetTrigger("Shoot");
         ShootPS.Play();
+        ShootAudio.Play();
         cooldownCount = 0;
     }
 

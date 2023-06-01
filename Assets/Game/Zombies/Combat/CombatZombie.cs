@@ -15,6 +15,10 @@ public class CombatZombie : MonoBehaviour
     [SerializeField] private NavMeshAgent Agent;
     [SerializeField] private Animator Animator;
 
+    public AudioSource GroanAudio;
+    public AudioSource DieAudio;
+    public AudioSource AttackAudio;
+
     //Relative to Dot Product
     [Tooltip("0 is 180 vision, 0.5 is 90 vision")]
     public float ViewCone;
@@ -131,11 +135,13 @@ public class CombatZombie : MonoBehaviour
         health -= damage;
         if (health < 0)
         {
+            DieAudio.Play();
             ChangeState(State.Dying);
             isDead = true;
         }
         else
         {
+            GroanAudio.Play();
             RB.AddForce(dir * 3, ForceMode.Impulse);
         }
     }
@@ -200,6 +206,7 @@ public class CombatZombie : MonoBehaviour
             SprintChaseCooldownCount -= Time.deltaTime;
             if (SprintChaseCooldownCount < 0)
             {
+                GroanAudio.Play();
                 sprintChasing = true;
                 SprintChaseCount = SprintChaseTime;
                 SprintChaseCooldownCount = SprintChaseCooldown;
@@ -259,6 +266,7 @@ public class CombatZombie : MonoBehaviour
 
                 if (!attackTriggerSet)
                 {
+                    AttackAudio.Play();
                     Animator.SetTrigger("Attack");
                 }
 
@@ -298,7 +306,6 @@ public class CombatZombie : MonoBehaviour
     }
     private void DeadUpdate()
     {
-
     }
 
     private void MoveTowards(Vector3 pos)
@@ -391,6 +398,7 @@ public class CombatZombie : MonoBehaviour
     {
         ChangeState(State.Wander);
         ChangeState(State.Chasing);
+        GroanAudio.Play();
     }
 
     private void ChangeState(State state)

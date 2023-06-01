@@ -128,6 +128,7 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
         {
             SetAmtText();
         }
+        UIPOI.LootAudio.Play();
     }
     public void LootAllAsReward()
     {
@@ -158,6 +159,11 @@ public class UIItem : MonoBehaviour, IPointerClickHandler
         {
             itemAmt.amt--;
             UIInventory.RemoveFromInventory(itemAmt.item, 1);
+            UIInventory.UseAudio.Play();
+        }
+        else
+        {
+            UIInventory.EquipAudio.Play();
         }
     }
 

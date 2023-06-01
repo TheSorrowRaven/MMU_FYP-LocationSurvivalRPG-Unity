@@ -13,8 +13,11 @@ public class POI : MonoBehaviour
     [SerializeField] private Transform ScreenFacerTR;
     [SerializeField] private TextMeshPro NameText;
     [SerializeField] private GameObject display;
+    public MeshRenderer PillarRenderer;
 
     [NonSerialized] public bool insideRadius;
+
+    public event Action<POI> OnExitRadius = _ => { };
 
     public GGoogleMapsPOI GPOI { get; private set; }
 
@@ -51,11 +54,14 @@ public class POI : MonoBehaviour
 
     public void InRadiusCanLoot()
     {
+        PillarRenderer.material.EnableKeyword("_EMISSION");
         insideRadius = true;
     }
     public void OutsideRadiusCannotLoot()
     {
+        PillarRenderer.material.DisableKeyword("_EMISSION");
         insideRadius = false;
+        OnExitRadius.Invoke(this);
     }
 
 

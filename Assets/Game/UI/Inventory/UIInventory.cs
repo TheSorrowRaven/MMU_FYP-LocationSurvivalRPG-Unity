@@ -34,6 +34,9 @@ public class UIInventory : MonoBehaviour, Save.ISaver
     [SerializeField] private Transform UIItemContainer;
     [SerializeField] private GameObject UIItemPrefab;
 
+    public AudioSource UseAudio;
+    public AudioSource EquipAudio;
+
     private Dictionary<Item, int> Inventory = new();
     private readonly List<ItemAmt> ItemAmtList = new();
     private readonly List<UIItem> UIItemList = new();

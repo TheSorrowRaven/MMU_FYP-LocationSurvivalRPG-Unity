@@ -13,6 +13,7 @@ public class PlayerSwingAttack : MonoBehaviour
 
     public Camera PACam;
     public Animator Animator;
+    public AudioSource SwingAudio;
 
     [System.NonSerialized] private bool isAnimating;
     [System.NonSerialized] private float animationTimeCount;
@@ -65,6 +66,7 @@ public class PlayerSwingAttack : MonoBehaviour
             isAnimating = true;
             animationTimeCount = hitTime;
             Animator.SetTrigger("Swing");
+            SwingAudio.Play();
 
             cooldownCount = 0;
         }

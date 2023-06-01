@@ -53,6 +53,9 @@ public class UIPOI : MonoBehaviour, Save.ISaver
 
     [SerializeField] private Slider ZombieEncounterSlider;
 
+    public AudioSource LootAudio;
+
+    [NonSerialized] private POI LookingPOI;
     [NonSerialized] private GGoogleMapsPOI gPOI;
     [NonSerialized] private Dictionary<string, int> remainingItems;
 
@@ -78,9 +81,25 @@ public class UIPOI : MonoBehaviour, Save.ISaver
         LootUpdate();
     }
 
-    public void SetGPOI(GGoogleMapsPOI gPOI)
+    public void SwitchedToCombat()
     {
-        this.gPOI = gPOI;
+        OutsideRadiusKickPlayer(LookingPOI);
+    }
+
+    public void SetGPOI(POI POI)
+    {
+        if (LookingPOI != null)
+        {
+            LookingPOI.OnExitRadius -= OutsideRadiusKickPlayer;
+        }
+        if (!POI.insideRadius)
+        {
+            // Not In Range!!
+            return;
+        }
+        LookingPOI = POI;
+        LookingPOI.OnExitRadius += OutsideRadiusKickPlayer;
+        gPOI = POI.GPOI;
 
         POIName.SetText(gPOI.Name);
         POITypes.SetText(BuildTypeTextFromGPOI(gPOI));
@@ -483,6 +502,20 @@ public class UIPOI : MonoBehaviour, Save.ISaver
     {
         isLootingAll = false;
         UIPOIObject.SetActive(false);
+        if (LookingPOI != null)
+        {
+            LookingPOI.OnExitRadius -= OutsideRadiusKickPlayer;
+        }
+    }
+
+    public void OutsideRadiusKickPlayer(POI POI)
+    {
+        isLootingAll = false;
+        UIPOIObject.SetActive(false);
+        if (POI != null)
+        {
+            POI.OnExitRadius -= OutsideRadiusKickPlayer;
+        }
     }
 
     public void SaveData(Save.Data data)

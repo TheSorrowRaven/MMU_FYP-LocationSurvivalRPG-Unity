@@ -528,6 +528,7 @@ public class Player : MonoBehaviour, Save.ISaver
         G.GPSToggle.gameObject.SetActive(false);
         G.AttackButton.gameObject.SetActive(true);
         G.Location.EnterCombatActivateMovementJoystick();
+        UIPOI.Instance.SwitchedToCombat();
         SwitchToCombatScene();
     }
     public void SwitchToMapMode()
@@ -790,7 +791,7 @@ public class Player : MonoBehaviour, Save.ISaver
         if (hit.collider.TryGetComponent(out POI poi))
         {
             //POI Selected
-            UIPOI.Instance.SetGPOI(poi.GPOI);
+            UIPOI.Instance.SetGPOI(poi);
             //Debug.Log(poi.GPOI.Name);
         }
         else if (hit.collider.TryGetComponent(out MapZombie zombie))

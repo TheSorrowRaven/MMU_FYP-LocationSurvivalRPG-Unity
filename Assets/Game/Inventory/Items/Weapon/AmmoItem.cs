@@ -7,6 +7,8 @@ public class AmmoItem : Item
 {
     protected override string IdentifierStarter => "ammo_";
 
+    public override bool Consumable => false;
+
     public override void Use()
     {
 
