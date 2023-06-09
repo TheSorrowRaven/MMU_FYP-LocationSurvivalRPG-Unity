@@ -697,7 +697,7 @@ public class Player : MonoBehaviour, Save.ISaver
         }
         Location.Update();
 
-        if (Location.X == lastLat && Location.Y == lastLon)
+        if (System.Math.Abs(Location.X - lastLat) < 1e-8 && System.Math.Abs(Location.Y - lastLon) < 1e-8)
         {
             //Skip Update (No change in position)
             Animator.SetFloat("MoveSpeed", 0);
@@ -706,7 +706,7 @@ public class Player : MonoBehaviour, Save.ISaver
         float dist = new Vector2((float)(lastLat - Location.X), (float)(lastLon - Location.Y)).magnitude / 1e-6f;
         if (dist != Mathf.Infinity)
         {
-            Animator.SetFloat("MoveSpeed", 1);
+            Animator.SetFloat("MoveSpeed", dist);
         }
         G.Coords.SetText("COORDS: " + Location);
         G.Mapbox.UpdateMap(Location);

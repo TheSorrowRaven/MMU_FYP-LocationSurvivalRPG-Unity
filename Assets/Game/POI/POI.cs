@@ -24,7 +24,7 @@ public class POI : MonoBehaviour
     private void Awake()
     {
         display.SetActive(true);
-        insideRadius = false;
+        OutsideRadiusCannotLoot();
     }
 
     public void ActivatePOI(GGoogleMapsPOI gPOI)

@@ -3,23 +3,11 @@
     "m_SelectedPackage": {
         "deviceId": "R58M422T2MB",
         "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
-        "processId": 8209,
+        "processId": 24666,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
-        {
-            "deviceId": "R58M422T2MB",
-            "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
-            "processId": 28958,
-            "exited": true
-        },
-        {
-            "deviceId": "R58M422T2MB",
-            "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
-            "processId": 32179,
-            "exited": true
-        },
         {
             "deviceId": "R58M422T2MB",
             "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
@@ -36,6 +24,18 @@
             "deviceId": "R58M422T2MB",
             "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
             "processId": 8209,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M422T2MB",
+            "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
+            "processId": 20856,
+            "exited": true
+        },
+        {
+            "deviceId": "R58M422T2MB",
+            "name": "com.DefaultCompany.FYPLocationSurvivalRPG",
+            "processId": 24666,
             "exited": false
         }
     ],
