@@ -175,7 +175,11 @@
   "lawyer": {
     "ammo": 1
   },
-  "library": {},
+  "library": {
+    "melee": 1,
+    "ranged": 1,
+    "ammo": 6
+  },
   "light_rail_station": {
     "food": 3,
     "medical": 1
@@ -192,7 +196,7 @@
   "lodging": {
     "melee": 1,
     "ranged": 1,
-    "ammo": 1
+    "ammo": 4
   },
   "meal_delivery": {
     "food": 5

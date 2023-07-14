@@ -78,7 +78,7 @@ public class G : MonoBehaviour
 
         Application.targetFrameRate = 60;
 
-        Location = new(2.923140, 101.639631);
+        Location = new(2.92744271435779, 101.641572617419);
         //Location = new(64.140965, -21.912568);
         //Location = new(72.536582, 92.650241);
         //Location = new(0, 0);
