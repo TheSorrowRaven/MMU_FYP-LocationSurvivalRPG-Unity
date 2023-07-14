@@ -12,7 +12,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 
 using static GGoogleMapsResponses;
-using System.Runtime.InteropServices.WindowsRuntime;
 using static GGoogleMapsPOI;
 
 public class GGoogleMapsService

@@ -313,14 +313,6 @@ public class CombatZombie : MonoBehaviour
         Agent.speed = MoveSpeed;
         Agent.SetDestination(pos);
         Agent.isStopped = false;
-        //Vector3 zombiePos = TR.localPosition;
-        //Vector3 direction = pos - zombiePos;
-        //direction.Normalize();
-
-        //RotateTowards(pos);
-
-        //Vector3 movement = TR.forward * (Time.deltaTime * MoveSpeed);
-        //TR.localPosition += movement;
     }
 
     private void RotateTowards(Vector3 pos)
